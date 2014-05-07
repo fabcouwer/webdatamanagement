@@ -2,9 +2,10 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class TPEStack {
-	PatternNode p;
-	Stack<Match> matches;
-	TPEStack spar;
+	private PatternNode patternNode;
+
+	private Stack<Match> matches;
+	private TPEStack spar;
 
 	ArrayList<TPEStack> getDescendantStacks() {
 		return new ArrayList<TPEStack>();
@@ -22,4 +23,18 @@ public class TPEStack {
 	public Match pop() {
 		return matches.pop();
 	}
+
+	// Getters
+	public PatternNode getPatternNode() {
+		return patternNode;
+	}
+
+	public Stack<Match> getMatches() {
+		return matches;
+	}
+
+	public TPEStack getSpar() {
+		return spar;
+	}
+
 }

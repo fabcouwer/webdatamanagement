@@ -1,10 +1,23 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class PatternNode {
 
-	public String name;
+	private String name;
 
-	public ArrayList<PatternNode> getChildren() {
+	private ArrayList<PatternNode> children;
+
+	public PatternNode(String name) {
+		this.name = name;
+		this.children = new ArrayList<PatternNode>();
+	}
+
+	public List<PatternNode> getChildren() {
 		return new ArrayList<PatternNode>();
 	}
+
+	public String getName() {
+		return name;
+	}
+
 }
