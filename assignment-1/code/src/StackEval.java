@@ -10,8 +10,8 @@ public class StackEval implements ContentHandler {
 	// TreePattern q;
 	TPEStack rootStack; // stack for the root of q
 
-	// pre number of the last element which has started:
-	int currentPre = 0; // TODO what is the correct starting pre? 0? 1?
+	// Pre number of the last element which has started. Starts at 0
+	int currentPre = 0; 
 
 	// pre numbers for all elements having started but not ended yet:
 	Stack<Integer> preOfOpenNodes;
@@ -103,44 +103,38 @@ public class StackEval implements ContentHandler {
 
 	}
 
-	// Unused methods from ContentHandler
+	// BELOW: Unused methods from ContentHandler
 
 	@Override
 	public void endPrefixMapping(String arg0) throws SAXException {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void ignorableWhitespace(char[] arg0, int arg1, int arg2)
 			throws SAXException {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void processingInstruction(String arg0, String arg1)
 			throws SAXException {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void setDocumentLocator(Locator arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void skippedEntity(String arg0) throws SAXException {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void startPrefixMapping(String arg0, String arg1)
 			throws SAXException {
-		// TODO Auto-generated method stub
 
 	}
 

@@ -1,28 +1,54 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Match {
 
 	private int start;
-	private int state;
+	private int state; // 0 = closed, 1 = open
 	private int pre;
 	private Match parent;
 	private Map<PatternNode, ArrayList<Match>> children;
 	private TPEStack st;
 
-	public Match(int i, Match p, TPEStack s) {
-		start = i;
-		parent = p;
-		st = s;
-		// NYF
+	// Match constructor: sets status to open
+	public Match(int currentPre, Match p, TPEStack s) {
+		this.start = 0; // TODO implement start
+
+		this.pre = currentPre;
+		this.parent = p;
+		this.st = s;
+		this.state = 1;
+
+		this.children = new HashMap<PatternNode, ArrayList<Match>>();
 	}
 
 	int getStatus() {
-		return 0;
+		return state;
 	}
 
+	// Sets Match status to closed
 	public void close() {
-		// TODO
+		this.state = 0;
+	}
+
+	// Add child
+	public void addChild(PatternNode childNode, Match childMatch) {
+		// Make record if it does not exist yet
+		if (!children.containsKey(childNode)) {
+			children.put(childNode, new ArrayList<Match>());
+		}
+		//
+		children.get(childNode).add(childMatch);
+
+	}
+
+	// Remove child
+	public void removeChild(PatternNode childNode, Match m) {
+		ArrayList<Match> values = children.get(childNode);
+		if (values != null && values.contains(m)) {
+			values.remove(m);
+		}
 	}
 
 	// Getters
