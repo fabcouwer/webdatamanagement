@@ -19,11 +19,11 @@ public class StackEval implements ContentHandler {
 	@Override
 	public void startElement(String nameSpaceURI, String localName,
 			String rawName, Attributes attributes) {
-
+		System.out.println("startElement()");
 		for (TPEStack s : rootStack.getDescendantStacks()) {
 			PatternNode p = s.getPatternNode();
 			TPEStack spar = s.getSpar();
-			if (localName == p.getName() && spar.top().getState() == 1) {
+			if (localName.equals(p.getName()) && spar.top().getState() == 1) {
 				Match m = new Match(currentPre, spar.top(), s);
 				// create a match satisfying the ancestor conditions
 				// of query node s.p
@@ -38,7 +38,7 @@ public class StackEval implements ContentHandler {
 			for (TPEStack s : rootStack.getDescendantStacks()) {
 				PatternNode p = s.getPatternNode();
 				TPEStack spar = s.getSpar();
-				if (attributes.getLocalName(i) == p.getName()
+				if (attributes.getLocalName(i).equals(p.getName())
 						&& spar.top().getState() == 1) {
 					Match ma = new Match(currentPre, spar.top(), s);
 					s.push(ma);
@@ -50,6 +50,7 @@ public class StackEval implements ContentHandler {
 
 	@Override
 	public void endElement(String nameSpaceURI, String localName, String rawName) {
+		System.out.println("endElement()");
 		// we need to find out if the element ending now corresponded
 		// to matches in some stacks
 		// first, get the pre number of the element that ends now:
@@ -57,7 +58,7 @@ public class StackEval implements ContentHandler {
 		// now look for Match objects having this pre number:
 		for (TPEStack s : rootStack.getDescendantStacks()) {
 			PatternNode p = s.getPatternNode();
-			if (p.getName() == localName && s.top().getState() == 1
+			if (p.getName().equals(localName) && s.top().getState() == 1//really should be equals instead of ==
 					&& s.top().getPre() == preOflastOpen) {
 				// all descendants of this Match have been traversed by now.
 				Match m = s.pop();
@@ -82,25 +83,29 @@ public class StackEval implements ContentHandler {
 
 	@Override
 	public void startDocument() throws SAXException {
+		System.out.println("startDocument()");
+		rootStack = new TPEStack(null, null);//TODO ???
+		preOfOpenNodes = new Stack<Integer>();//TODO ???
 		// TODO initialize stuff???
 	}
 
 	@Override
 	public void endDocument() throws SAXException {
+		System.out.println("endDocument()");
 		// TODO Handle closing of document (print results)
 
 	}
 
 	// Methods used in processing elements (TODO)
-
 	public void remove(Match m, TPEStack s) {
+		System.out.println("remove()");
 		// TODO
 	}
 
 	@Override
-	public void characters(char[] arg0, int arg1, int arg2) throws SAXException {
-		// TODO Auto-generated method stub
-
+	public void characters(char[] ch, int start, int length) throws SAXException {
+		String str = new String(ch, start, length);
+		System.out.println("characters: " + str);
 	}
 
 	// BELOW: Unused methods from ContentHandler
@@ -113,6 +118,7 @@ public class StackEval implements ContentHandler {
 	@Override
 	public void ignorableWhitespace(char[] arg0, int arg1, int arg2)
 			throws SAXException {
+		System.out.println("ignore");
 
 	}
 

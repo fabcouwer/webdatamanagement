@@ -24,7 +24,8 @@ public class TPEStack {
 	}
 
 	ArrayList<TPEStack> getDescendantStacks() {
-		return childStacks;
+		return childStacks;//TODO childstacks and descendantstack not the same
+		
 	}
 
 	// gets the stacks for all descendants of p
