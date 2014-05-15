@@ -8,27 +8,44 @@ public class TPEStack {
 	private ArrayList<TPEStack> childStacks;
 
 	// Constructor for TPEStack with given set of Matches
-	public TPEStack(PatternNode p, Stack<Match> matchStack, TPEStack par) {
+	public TPEStack(PatternNode p, Stack<Match> matchStack, TPEStack parent) {
 		this.patternNode = p;
-		this.spar = par;
+		this.spar = parent;
 		this.matches = matchStack;
 		this.childStacks = new ArrayList<TPEStack>();
 	}
 
 	// Constructor without set of Matches
-	public TPEStack(PatternNode p, TPEStack par) {
+	public TPEStack(PatternNode p, TPEStack parent) {
 		this.patternNode = p;
-		this.spar = par;
+		this.spar = parent;
 		this.matches = new Stack<Match>();
 		this.childStacks = new ArrayList<TPEStack>();
 	}
 
+	// Construct descendant stacks
 	ArrayList<TPEStack> getDescendantStacks() {
-		return childStacks;//TODO childstacks and descendantstack not the same
-		
+		ArrayList<TPEStack> descendants = new ArrayList<TPEStack>();
+		descendants.add(this);
+		for (TPEStack s : childStacks) {
+			ArrayList<TPEStack> list = s.getDescendantStacks();
+			for (TPEStack t : list)
+				descendants.add(t);
+		}
+		return descendants;
+
 	}
 
-	// gets the stacks for all descendants of p
+	// Add child stack
+	public void addChildStack(TPEStack child) {
+		childStacks.add(child);
+	}
+
+	public void addChildStack(PatternNode node) {
+		childStacks.add(new TPEStack(node, this));
+	}
+
+	// Stack operations
 	public void push(Match m) {
 		matches.push(m);
 	}

@@ -11,10 +11,14 @@ public class StackEval implements ContentHandler {
 	TPEStack rootStack; // stack for the root of q
 
 	// Pre number of the last element which has started. Starts at 0
-	int currentPre = 0; 
+	int currentPre = 0;
 
 	// pre numbers for all elements having started but not ended yet:
-	Stack<Integer> preOfOpenNodes;
+	Stack<Integer> preOfOpenNodes = new Stack<Integer>();
+
+	public StackEval(PatternNode root) {
+		this.rootStack = new TPEStack(root, null);
+	}
 
 	@Override
 	public void startElement(String nameSpaceURI, String localName,
@@ -58,7 +62,12 @@ public class StackEval implements ContentHandler {
 		// now look for Match objects having this pre number:
 		for (TPEStack s : rootStack.getDescendantStacks()) {
 			PatternNode p = s.getPatternNode();
-			if (p.getName().equals(localName) && s.top().getState() == 1//really should be equals instead of ==
+			if (p.getName().equals(localName) && s.top().getState() == 1// really
+																		// should
+																		// be
+																		// equals
+																		// instead
+																		// of ==
 					&& s.top().getPre() == preOflastOpen) {
 				// all descendants of this Match have been traversed by now.
 				Match m = s.pop();
@@ -84,8 +93,8 @@ public class StackEval implements ContentHandler {
 	@Override
 	public void startDocument() throws SAXException {
 		System.out.println("startDocument()");
-		rootStack = new TPEStack(null, null);//TODO ???
-		preOfOpenNodes = new Stack<Integer>();//TODO ???
+		rootStack = new TPEStack(null, null);// TODO ???
+		preOfOpenNodes = new Stack<Integer>();// TODO ???
 		// TODO initialize stuff???
 	}
 
@@ -103,7 +112,8 @@ public class StackEval implements ContentHandler {
 	}
 
 	@Override
-	public void characters(char[] ch, int start, int length) throws SAXException {
+	public void characters(char[] ch, int start, int length)
+			throws SAXException {
 		String str = new String(ch, start, length);
 		System.out.println("characters: " + str);
 	}

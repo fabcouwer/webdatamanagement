@@ -3,14 +3,23 @@ import java.util.List;
 
 public class PatternNode {
 
-	private String name;
+	private String name; // The label (for example 'firstname')
+	private String value; // The value (for example 'Bob'), null if N/A
 
 	// TODO keep track of node ID's to link to Match objects
 	private int id;
 	private ArrayList<PatternNode> children;
 
+	// Constructor without value given
 	public PatternNode(String name) {
 		this.name = name;
+		this.children = new ArrayList<PatternNode>();
+	}
+
+	// Constructor with value given
+	public PatternNode(String name, String value) {
+		this.name = name;
+		this.value = value;
 		this.children = new ArrayList<PatternNode>();
 	}
 
@@ -28,6 +37,10 @@ public class PatternNode {
 
 	public String getName() {
 		return name;
+	}
+
+	public String getValue() {
+		return value;
 	}
 
 	public int getId() {
