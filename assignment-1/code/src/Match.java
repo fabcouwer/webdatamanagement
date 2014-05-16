@@ -76,4 +76,10 @@ public class Match {
 		return st;
 	}
 
+	@Override
+	public String toString() {
+		return "Match [start=" + start + ", state=" + state + ", pre=" + pre
+				+ ", parent=" + parent + ", children=" + children + ", st="
+				+ st + "]";
+	}
 }

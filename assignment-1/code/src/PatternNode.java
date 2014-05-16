@@ -71,4 +71,10 @@ public class PatternNode {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "PatternNode [name=" + name + ", value=" + value + ", id=" + id
+				+ ", children=" + children + "]";
+	}
 }

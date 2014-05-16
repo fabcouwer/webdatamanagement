@@ -27,8 +27,11 @@ public class StackEval implements ContentHandler {
 		for (TPEStack s : rootStack.getDescendantStacks()) {
 			PatternNode p = s.getPatternNode();
 			TPEStack spar = s.getSpar();
+			System.out.println("localname: " + localName + " p.getname: " + p.getName());//TEST
+			//System.out.println("spar: " + spar.toString());
 			if (localName.equals(p.getName()) && spar.top().getState() == 1) {
 				Match m = new Match(currentPre, spar.top(), s);
+				System.out.println("new Match created");
 				// create a match satisfying the ancestor conditions
 				// of query node s.p
 				s.push(m);
@@ -40,6 +43,7 @@ public class StackEval implements ContentHandler {
 			// similarly look for query nodes possibly matched
 			// by the attributes of the currently started element
 			for (TPEStack s : rootStack.getDescendantStacks()) {
+				System.out.println("*");//TEST
 				PatternNode p = s.getPatternNode();
 				TPEStack spar = s.getSpar();
 				if (attributes.getLocalName(i).equals(p.getName())
@@ -60,14 +64,11 @@ public class StackEval implements ContentHandler {
 		// first, get the pre number of the element that ends now:
 		int preOflastOpen = preOfOpenNodes.pop();
 		// now look for Match objects having this pre number:
+		System.out.println("size: "+ rootStack.getDescendantStacks().size());
 		for (TPEStack s : rootStack.getDescendantStacks()) {
+			System.out.println("+");//TEST
 			PatternNode p = s.getPatternNode();
-			if (p.getName().equals(localName) && s.top().getState() == 1// really
-																		// should
-																		// be
-																		// equals
-																		// instead
-																		// of ==
+			if (p.getName().equals(localName) && s.top().getState() == 1
 					&& s.top().getPre() == preOflastOpen) {
 				// all descendants of this Match have been traversed by now.
 				Match m = s.pop();
@@ -93,9 +94,6 @@ public class StackEval implements ContentHandler {
 	@Override
 	public void startDocument() throws SAXException {
 		System.out.println("startDocument()");
-		rootStack = new TPEStack(null, null);// TODO ???
-		preOfOpenNodes = new Stack<Integer>();// TODO ???
-		// TODO initialize stuff???
 	}
 
 	@Override

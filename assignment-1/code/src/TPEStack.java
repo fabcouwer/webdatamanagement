@@ -72,4 +72,9 @@ public class TPEStack {
 		return spar;
 	}
 
+	@Override
+	public String toString() {
+		return "TPEStack [patternNode=" + patternNode + ", spar=" + spar
+				+ ", matches=" + matches + ", childStacks=" + childStacks + "]";
+	}
 }
