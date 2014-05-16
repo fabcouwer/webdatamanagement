@@ -35,6 +35,8 @@ public class TPEStack {
 		return descendants;
 
 	}
+	
+	
 
 	// Add child stack
 	public void addChildStack(TPEStack child) {

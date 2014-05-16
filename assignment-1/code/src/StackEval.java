@@ -23,27 +23,38 @@ public class StackEval implements ContentHandler {
 	@Override
 	public void startElement(String nameSpaceURI, String localName,
 			String rawName, Attributes attributes) {
-		System.out.println("startElement()");
+		System.out.println("startElement() -> " + rawName);
+
 		for (TPEStack s : rootStack.getDescendantStacks()) {
 			PatternNode p = s.getPatternNode();
 			TPEStack spar = s.getSpar();
-			System.out.println("localname: " + localName + " p.getname: " + p.getName());//TEST
-			//System.out.println("spar: " + spar.toString());
-			if (localName.equals(p.getName()) && spar.top().getState() == 1) {
-				Match m = new Match(currentPre, spar.top(), s);
-				System.out.println("new Match created");
-				// create a match satisfying the ancestor conditions
-				// of query node s.p
-				s.push(m);
-				preOfOpenNodes.push(currentPre);
+
+			System.out.println("rawName: " + rawName + " p.getname: "
+					+ p.getName());// TEST
+
+			// NB used rawName instead of localname, switch back later?
+			if (rawName.equals(p.getName())) {
+				if (spar == null) {
+					Match m = new Match(currentPre, null, s);
+					System.out.println("new Match created");
+					s.push(m);
+				} else if (spar.top() != null && spar.top().getState() == 1) {
+					Match m = new Match(currentPre, spar.top(), s);
+					System.out.println("new Match created");
+					spar.top().addChild(s.getPatternNode(), m);
+					// create a match satisfying the ancestor conditions of
+					// query node s.p
+					s.push(m);
+				}
 			}
-			currentPre++;
 		}
+
+		//TODO fix this part
 		for (int i = 0; i < attributes.getLength(); i++) {
 			// similarly look for query nodes possibly matched
 			// by the attributes of the currently started element
 			for (TPEStack s : rootStack.getDescendantStacks()) {
-				System.out.println("*");//TEST
+				System.out.println("*");// TEST
 				PatternNode p = s.getPatternNode();
 				TPEStack spar = s.getSpar();
 				if (attributes.getLocalName(i).equals(p.getName())
@@ -52,26 +63,31 @@ public class StackEval implements ContentHandler {
 					s.push(ma);
 				}
 			}
-			currentPre++;
 		}
+
+		preOfOpenNodes.push(currentPre);
+		currentPre++;
 	}
 
 	@Override
 	public void endElement(String nameSpaceURI, String localName, String rawName) {
-		System.out.println("endElement()");
+		System.out.println("endElement() -> " + rawName);
 		// we need to find out if the element ending now corresponded
 		// to matches in some stacks
 		// first, get the pre number of the element that ends now:
 		int preOflastOpen = preOfOpenNodes.pop();
 		// now look for Match objects having this pre number:
-		System.out.println("size: "+ rootStack.getDescendantStacks().size());
+		System.out.println("size: " + rootStack.getDescendantStacks().size());
 		for (TPEStack s : rootStack.getDescendantStacks()) {
-			System.out.println("+");//TEST
+			System.out.println("+");// TEST
 			PatternNode p = s.getPatternNode();
-			if (p.getName().equals(localName) && s.top().getState() == 1
-					&& s.top().getPre() == preOflastOpen) {
+			
+			//Only check last 2 if s.top() is not null
+			if (p.getName().equals(localName) && s.top() == null || (s.top().getState() == 1
+					&& s.top().getPre() == preOflastOpen)) {
 				// all descendants of this Match have been traversed by now.
 				Match m = s.pop();
+				m.close();
 
 				// check if m has child matches for all children of its pattern
 				// node
