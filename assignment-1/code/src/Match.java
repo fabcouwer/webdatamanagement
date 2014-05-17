@@ -38,9 +38,7 @@ public class Match {
 		if (!children.containsKey(childNode)) {
 			children.put(childNode, new ArrayList<Match>());
 		}
-		//
 		children.get(childNode).add(childMatch);
-
 	}
 
 	// Remove child

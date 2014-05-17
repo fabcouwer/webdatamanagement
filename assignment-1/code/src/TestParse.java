@@ -14,8 +14,7 @@ public class TestParse {
 
 			// Link StackEval to that reader and read the xml file
 			TPEStack tpe = testStack();
-			StackEval eval = new StackEval(tpe.getPatternNode()); // TODO insert root node based
-													// on query
+			StackEval eval = new StackEval(tpe.getPatternNode());
 			reader.setContentHandler(eval);
 			reader.parse("test.xml");
 

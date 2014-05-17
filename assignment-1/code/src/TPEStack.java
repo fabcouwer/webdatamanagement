@@ -24,7 +24,7 @@ public class TPEStack {
 	}
 
 	// Construct descendant stacks
-	ArrayList<TPEStack> getDescendantStacks() {
+	public ArrayList<TPEStack> getDescendantStacks() {
 		ArrayList<TPEStack> descendants = new ArrayList<TPEStack>();
 		descendants.add(this);
 		for (TPEStack s : childStacks) {
