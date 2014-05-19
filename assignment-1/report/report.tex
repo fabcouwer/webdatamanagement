@@ -1,0 +1,72 @@
+\documentclass[12pt]{article}
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{fullpage}
+
+\usepackage{listings}
+\usepackage{color}
+\usepackage{courier}
+\usepackage{caption}
+\usepackage{todonotes}
+
+\title{Tree Pattern Evaluation using SAX}
+\author{Friso Abcouwer \and Matthijs van Dorth}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+  
+\lstset{
+       basicstyle=\footnotesize\ttfamily,
+       numberstyle=\tiny,
+       stepnumber=1,
+       numbersep=5pt,
+       tabsize=2,
+       extendedchars=true,
+       breaklines=true,
+       keywordstyle=\color{red},
+       frame=b,         
+       stringstyle=\color{white}\ttfamily,
+       showspaces=false,
+       showtabs=false,
+       xleftmargin=17pt,
+       framexleftmargin=17pt,
+       framexrightmargin=5pt,
+       framexbottommargin=4pt,
+       %backgroundcolor=\color{lightgray},
+       showstringspaces=false   
+}
+\lstloadlanguages{
+        Java
+}
+\DeclareCaptionFont{blue}{\color{blue}} 
+\captionsetup[lstlisting]{singlelinecheck=false, labelfont={blue}, textfont={blue}}
+  
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35,0.01}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+In this report we will show how we implemented an algorithm for evaluating tree-pattern queries using SAX. SAX (Simple API for XML) is a way to parse XML document using a stream of data in contrast to DOM (Document Object Model) which is a complete representation of the XML file as a tree.
+
+We will use the C-TP dialect
+
+\section{The Basic Algorithm}
+The basic algorithm 
+
+\todo{explain basic datastructures}
+\begin{lstlisting}[language=java, caption=Match.java]
+class Match {
+    int start, state;
+    
+}
+\end{lstlisting}
+
+\section{The Extended Algorithm}
+
+
+\end{document}
