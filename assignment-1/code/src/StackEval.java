@@ -140,10 +140,12 @@ public class StackEval implements ContentHandler {
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
 		String str = new String(ch, start, length).trim();
-		System.out.println("characters: " + str);
-		results.put(currentPre, str);
-		results2.add("<" + preOfOpenNodes.peek() + ">" + str + "</"
-				+ preOfOpenNodes.peek() + ">");
+		if(str.length()>0){
+			System.out.println("characters: " + str);
+			results.put(currentPre, str);
+			results2.add("<" + preOfOpenNodes.peek() + ">" + str + "</"
+					+ preOfOpenNodes.peek() + ">");
+		}
 	}
 
 	// BELOW: Unused methods from ContentHandler

@@ -13,11 +13,17 @@ public class TestParse {
 			XMLReader reader = parser.getXMLReader();
 
 			// Link StackEval to that reader and read the xml file
+			System.out.println("---first test---");
 			TPEStack tpe = testStack();
 			StackEval eval = new StackEval(tpe.getPatternNode());
 			reader.setContentHandler(eval);
 			reader.parse("test.xml");
-
+			
+			System.out.println("---second test---");
+			TPEStack tpe2 = personStack();
+			eval = new StackEval(tpe2.getPatternNode());
+			reader.setContentHandler(eval);
+			reader.parse("people.xml");	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -44,6 +50,19 @@ public class TestParse {
 		//actorStack.addChildStack(birthDate);
 		//actorStack.addChildStack(role);
 
-		return new TPEStack(actor, null);
+		//return new TPEStack(actor, null);
+		return actorStack;
+	}
+	
+	public static TPEStack personStack(){
+		PatternNode person = new PatternNode("person");
+		TPEStack personStack = new TPEStack(person, null);
+		
+		personStack.addChildStack(new PatternNode("email"));
+		PatternNode name = new PatternNode("name");
+		personStack.addChildStack(name);
+		name.addChild(new PatternNode("last"));
+		
+		return personStack;
 	}
 }

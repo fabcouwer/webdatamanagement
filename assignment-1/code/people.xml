@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<people>
+	<person>
+		<email>m@home</email>
+		<name>
+			<first>Mary</first>
+			<last>Jones</last>
+		</name>
+	</person>
+	<person>
+		<name>
+			<first>Bob</first>
+			<last>Lang</last>
+		</name>
+	</person>
+	<person>
+		<email>@home</email>
+		<email>@work</email>
+		<name>
+			<first>Al</first>
+			<last>Hart</last>
+		</name>
+	</person>
+</people>
