@@ -35,8 +35,6 @@ public class TPEStack {
 		return descendants;
 
 	}
-	
-	
 
 	// Add child stack
 	public void addChildStack(TPEStack child) {
@@ -54,7 +52,18 @@ public class TPEStack {
 
 	// Returns the top element of the Matches stack
 	public Match top() {
-		return matches.peek();
+		if (!matches.isEmpty()) {
+			return matches.peek();
+		} else
+			return null;
+	}
+
+	// Returns true if the top match in matches is not null and open
+	public boolean verifyTopMatch() {
+		if (!matches.isEmpty())
+			return (matches.peek().getState() == 1);
+		else
+			return false;
 	}
 
 	public Match pop() {

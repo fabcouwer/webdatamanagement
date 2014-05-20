@@ -41,11 +41,11 @@ public class StackEval implements ContentHandler {
 			if (rawName.equals(p.getName())) {
 				if (spar == null) {
 					Match m = new Match(currentPre, null, s);
-					//System.out.println("new Match created");
+					// System.out.println("new Match created");
 					s.push(m);
 				} else if (spar.top() != null && spar.top().getState() == 1) {
 					Match m = new Match(currentPre, spar.top(), s);
-					//System.out.println("new Match created");
+					// System.out.println("new Match created");
 					spar.top().addChild(s.getPatternNode(), m);
 					// create a match satisfying the ancestor conditions of
 					// query node s.p
@@ -61,13 +61,13 @@ public class StackEval implements ContentHandler {
 			for (TPEStack s : rootStack.getDescendantStacks()) {
 				PatternNode p = s.getPatternNode();
 				TPEStack spar = s.getSpar();
-				//System.out.println("+");
-				//System.out.println(attributes.getLocalName(i));
-				//System.out.println(p.getName());
+				// System.out.println("+");
+				// System.out.println(attributes.getLocalName(i));
+				// System.out.println(p.getName());
 				if (attributes.getLocalName(i).equals(p.getName())
 						&& spar.top().getState() == 1) {
 					Match ma = new Match(currentPre, spar.top(), s);
-					//System.out.println("new Match created");
+					// System.out.println("new Match created");
 					results.put(currentPre, attributes.getValue(i));
 					results2.add("<" + attributes.getLocalName(i) + ">"
 							+ attributes.getValue(i) + "</"
@@ -91,9 +91,8 @@ public class StackEval implements ContentHandler {
 		for (TPEStack s : rootStack.getDescendantStacks()) {
 			PatternNode p = s.getPatternNode();
 			// Only check last 2 if s.top() is not null
-			if (p.getName().equals(rawName)
-					&& s.top() == null
-					|| (s.top().getState() == 1 && s.top().getPre() == preOflastOpen)) {
+			if (p.getName().equals(rawName) && s.verifyTopMatch()
+					&& s.top().getPre() == preOflastOpen) {
 				// System.out.println("local: "+ localName);
 				// System.out.println("raw: "+rawName);
 				// all descendants of this Match have been traversed by now.
@@ -140,7 +139,7 @@ public class StackEval implements ContentHandler {
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
 		String str = new String(ch, start, length).trim();
-		if(str.length()>0){
+		if (str.length() > 0) {
 			System.out.println("characters: " + str);
 			results.put(currentPre, str);
 			results2.add("<" + preOfOpenNodes.peek() + ">" + str + "</"
