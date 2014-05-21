@@ -22,8 +22,10 @@ public class StackEval implements ContentHandler {
 
 	// Map of pre number to value
 	Map<Integer, String> nodeStrings = new HashMap<Integer, String>(23);
-	List<String> results2 = new ArrayList<String>();
+	//List<String> results2 = new ArrayList<String>();
 	List<Integer> results3 = new ArrayList<Integer>();
+	
+	ResultList results = new ResultList();
 
 	public StackEval(PatternNode root) {
 		this.rootStack = new TPEStack(root, null);
@@ -40,12 +42,10 @@ public class StackEval implements ContentHandler {
 			if (rawName.equals(p.getName())) {
 				if (spar == null) {
 					Match m = new Match(currentPre, null, s);
-					// System.out.println("new Match created");
 					results3.add(currentPre);
 					s.push(m);
 				} else if (spar.top() != null && spar.top().getState() == 1) {
 					Match m = new Match(currentPre, spar.top(), s);
-					// System.out.println("new Match created");
 					spar.top().addChild(s.getPatternNode(), m);
 					// create a match satisfying the ancestor conditions of
 					// query node s.p
@@ -55,24 +55,19 @@ public class StackEval implements ContentHandler {
 			}
 		}
 		// Attributes part
-		// TODO fix this part
 		for (int i = 0; i < attributes.getLength(); i++) {
 			// similarly look for query nodes possibly matched
 			// by the attributes of the currently started element
 			for (TPEStack s : rootStack.getDescendantStacks()) {
 				PatternNode p = s.getPatternNode();
 				TPEStack spar = s.getSpar();
-				// System.out.println("+");
-				// System.out.println(attributes.getLocalName(i));
-				// System.out.println(p.getName());
 				if (attributes.getLocalName(i).equals(p.getName())
 						&& spar.top().getState() == 1) {
 					Match ma = new Match(currentPre, spar.top(), s);
-					// System.out.println("new Match created");
 					nodeStrings.put(currentPre, attributes.getValue(i));
-					results2.add("<" + attributes.getLocalName(i) + ">"
-							+ attributes.getValue(i) + "</"
-							+ attributes.getLocalName(i) + ">");
+					//results2.add("<" + attributes.getLocalName(i) + ">"
+							// + attributes.getValue(i) + "</"
+							// + attributes.getLocalName(i) + ">");
 					s.push(ma);
 				}
 			}
@@ -83,7 +78,7 @@ public class StackEval implements ContentHandler {
 
 	@Override
 	public void endElement(String nameSpaceURI, String localName, String rawName) {
-		System.out.println("endElement() -> " + rawName);
+		//System.out.println("endElement() -> " + rawName);
 		// we need to find out if the element ending now corresponded
 		// to matches in some stacks
 		// first, get the pre number of the element that ends now:
@@ -94,11 +89,13 @@ public class StackEval implements ContentHandler {
 			// Only check last 2 if s.top() is not null
 			if (p.getName().equals(rawName) && s.verifyTopMatch()
 					&& s.top().getPre() == preOflastOpen) {
-				// System.out.println("local: "+ localName);
-				// System.out.println("raw: "+rawName);
 				// all descendants of this Match have been traversed by now.
 				Match m = s.pop();
-				System.out.println(m.getPre() + " " + p.getName());
+				System.out.println("id: " + m.getPre() + " elem: " + p.getName() + " depth: " + preOfOpenNodes.size());
+				Result r1 = results.getResult(m.getPre());
+				if(r1!=null){
+					r1.setName(p.getName());
+				}
 				m.close();
 
 				// Check for the value of the node
@@ -115,8 +112,6 @@ public class StackEval implements ContentHandler {
 				for (PatternNode pChild : p.getChildren()) {
 					// pChild is a child of the query node for which m was
 					// created
-					System.out.println("name" + pChild.getName() + "id: "
-							+ currentPre);
 					if (m.getChildren().get(pChild) == null
 							|| m.getChildren().get(pChild).size() == 0) {
 						// m lacks a child Match for the pattern node pChild
@@ -142,15 +137,13 @@ public class StackEval implements ContentHandler {
 	@Override
 	public void endDocument() throws SAXException {
 		System.out.println("endDocument()");
-		// TODO Handle closing of document (print results)
 		System.out.println(nodeStrings.toString());
-		System.out.println(results2.toString());
-
 		for (Integer i : results3) {
 			if (nodeStrings.get(i) != null)
 				System.out.println(nodeStrings.get(i).toString());
 		}
-
+		System.out.println("---");
+		results.printResultList(results3);
 	}
 
 	// Methods used in processing elements (TODO)
@@ -165,17 +158,19 @@ public class StackEval implements ContentHandler {
 		String str = new String(ch, start, length).trim();
 
 		int last = preOfOpenNodes.lastElement();
-
-		if (str.length() > 0) {
-			System.out.println("characters: " + str);
-
+		Result r1 = results.getResult(last);
+		if(r1!=null){
+			r1.setValue(str);
+		}
+		else{
+			r1 = new Result(last, null, str, preOfOpenNodes.size());
+			results.add(r1);
+		}
+		if (str.length() > 0) {		
 			if (nodeStrings.containsKey(last))
 				nodeStrings.put(last, nodeStrings.get(last) + " " + str);
 			else
 				nodeStrings.put(last, str);
-
-			results2.add("<" + preOfOpenNodes.peek() + ">" + str + "</"
-					+ preOfOpenNodes.peek() + ">");
 		}
 	}
 
