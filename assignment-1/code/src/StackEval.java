@@ -15,13 +15,13 @@ public class StackEval implements ContentHandler {
 	TPEStack rootStack; // stack for the root of q
 
 	// Pre number of the last element which has started. Starts at 0
-	int currentPre = 0;
+	int currentPre = 1;
 
 	// Pre numbers for all elements having started but not ended yet:
 	Stack<Integer> preOfOpenNodes = new Stack<Integer>();
 
-	// Results
-	Map<Integer, String> results = new HashMap<Integer, String>();
+	// Map of pre number to value
+	Map<Integer, String> nodeStrings = new HashMap<Integer, String>();
 	List<String> results2 = new ArrayList<String>();
 
 	public StackEval(PatternNode root) {
@@ -68,7 +68,7 @@ public class StackEval implements ContentHandler {
 						&& spar.top().getState() == 1) {
 					Match ma = new Match(currentPre, spar.top(), s);
 					// System.out.println("new Match created");
-					results.put(currentPre, attributes.getValue(i));
+					nodeStrings.put(currentPre, attributes.getValue(i));
 					results2.add("<" + attributes.getLocalName(i) + ">"
 							+ attributes.getValue(i) + "</"
 							+ attributes.getLocalName(i) + ">");
@@ -98,15 +98,29 @@ public class StackEval implements ContentHandler {
 				// all descendants of this Match have been traversed by now.
 				Match m = s.pop();
 				m.close();
+
+				// Check for the value of the node
+				String value = m.getSt().getPatternNode().getValue();
+				if (value != null && !value.equals(nodeStrings.get(m.getPre()))) {
+					remove(m, s);
+					if (m.getParent() != null) {
+						m.getParent().removeChild(s.getPatternNode(), m);
+					}
+				}
+
 				// check if m has child matches for all children of its pattern
 				// node
 				for (PatternNode pChild : p.getChildren()) {
 					// pChild is a child of the query node for which m was
 					// created
-					if (m.getChildren().get(pChild) == null) {
+					if (m.getChildren().get(pChild) == null
+							|| m.getChildren().get(pChild).size() == 0) {
 						// m lacks a child Match for the pattern node pChild
 						// we remove m from its Stack, detach it from its parent
 						remove(m, s);
+						if (m.getParent() != null) {
+							m.getParent().removeChild(s.getPatternNode(), m);
+						}
 					}
 				}
 				m.close();
@@ -125,23 +139,31 @@ public class StackEval implements ContentHandler {
 	public void endDocument() throws SAXException {
 		System.out.println("endDocument()");
 		// TODO Handle closing of document (print results)
-		System.out.println(results.toString());
+		System.out.println(nodeStrings.toString());
 		System.out.println(results2.toString());
 	}
 
 	// Methods used in processing elements (TODO)
 	public void remove(Match m, TPEStack s) {
 		// System.out.println("remove()");
-		// TODO
+		s.getMatches().remove(m);
 	}
 
 	@Override
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
 		String str = new String(ch, start, length).trim();
+
+		int last = preOfOpenNodes.lastElement();
+
 		if (str.length() > 0) {
 			System.out.println("characters: " + str);
-			results.put(currentPre, str);
+
+			if (nodeStrings.containsKey(last))
+				nodeStrings.put(last, nodeStrings.get(last) + " " + str);
+			else
+				nodeStrings.put(last, str);
+
 			results2.add("<" + preOfOpenNodes.peek() + ">" + str + "</"
 					+ preOfOpenNodes.peek() + ">");
 		}
