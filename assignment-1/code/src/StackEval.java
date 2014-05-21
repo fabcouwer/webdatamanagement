@@ -21,8 +21,9 @@ public class StackEval implements ContentHandler {
 	Stack<Integer> preOfOpenNodes = new Stack<Integer>();
 
 	// Map of pre number to value
-	Map<Integer, String> nodeStrings = new HashMap<Integer, String>();
+	Map<Integer, String> nodeStrings = new HashMap<Integer, String>(23);
 	List<String> results2 = new ArrayList<String>();
+	List<String> results3 = new ArrayList<String>();
 
 	public StackEval(PatternNode root) {
 		this.rootStack = new TPEStack(root, null);
@@ -35,13 +36,14 @@ public class StackEval implements ContentHandler {
 		for (TPEStack s : rootStack.getDescendantStacks()) {
 			PatternNode p = s.getPatternNode();
 			TPEStack spar = s.getSpar();
-			// System.out.println("rawName: " + rawName + " p.getname: "
-			// + p.getName());// TEST
+			System.out.println("rawName: " + rawName + " p.getname: "
+			 + p.getName());// TEST
 			// NB used rawName instead of localname, switch back later?
 			if (rawName.equals(p.getName())) {
 				if (spar == null) {
 					Match m = new Match(currentPre, null, s);
 					// System.out.println("new Match created");
+					results3.add(currentPre + " " + p.getName());
 					s.push(m);
 				} else if (spar.top() != null && spar.top().getState() == 1) {
 					Match m = new Match(currentPre, spar.top(), s);
@@ -49,6 +51,7 @@ public class StackEval implements ContentHandler {
 					spar.top().addChild(s.getPatternNode(), m);
 					// create a match satisfying the ancestor conditions of
 					// query node s.p
+					results3.add(currentPre + " " + p.getName());
 					s.push(m);
 				}
 			}
@@ -90,6 +93,7 @@ public class StackEval implements ContentHandler {
 		// now look for Match objects having this pre number:
 		for (TPEStack s : rootStack.getDescendantStacks()) {
 			PatternNode p = s.getPatternNode();
+			System.out.println("end p.getname: " + p.getName());
 			// Only check last 2 if s.top() is not null
 			if (p.getName().equals(rawName) && s.verifyTopMatch()
 					&& s.top().getPre() == preOflastOpen) {
@@ -97,6 +101,7 @@ public class StackEval implements ContentHandler {
 				// System.out.println("raw: "+rawName);
 				// all descendants of this Match have been traversed by now.
 				Match m = s.pop();
+				System.out.println(m.getPre() + " " + p.getName());
 				m.close();
 
 				// Check for the value of the node
@@ -113,6 +118,7 @@ public class StackEval implements ContentHandler {
 				for (PatternNode pChild : p.getChildren()) {
 					// pChild is a child of the query node for which m was
 					// created
+					System.out.println("name"+ pChild.getName() + "id: " + currentPre);
 					if (m.getChildren().get(pChild) == null
 							|| m.getChildren().get(pChild).size() == 0) {
 						// m lacks a child Match for the pattern node pChild
@@ -141,6 +147,7 @@ public class StackEval implements ContentHandler {
 		// TODO Handle closing of document (print results)
 		System.out.println(nodeStrings.toString());
 		System.out.println(results2.toString());
+		System.out.println(results3.toString());
 	}
 
 	// Methods used in processing elements (TODO)
