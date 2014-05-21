@@ -18,12 +18,12 @@ public class TestParse {
 			StackEval eval = new StackEval(tpe.getPatternNode());
 			reader.setContentHandler(eval);
 			reader.parse("test.xml");
-			
+
 			System.out.println("---second test---");
 			TPEStack tpe2 = personStack();
 			eval = new StackEval(tpe2.getPatternNode());
 			reader.setContentHandler(eval);
-			reader.parse("people.xml");	
+			reader.parse("people.xml");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -37,32 +37,40 @@ public class TestParse {
 
 		PatternNode firstName = new PatternNode("first_name", "Viggo");
 		PatternNode lastName = new PatternNode("last_name", "Mortensen");
-		//PatternNode birthDate = new PatternNode("birth_date", "1958");
-		//PatternNode role = new PatternNode("role", "Tom Stall");
+		// PatternNode birthDate = new PatternNode("birth_date", "1958");
+		// PatternNode role = new PatternNode("role", "Tom Stall");
 
 		actor.addChild(firstName);
 		actor.addChild(lastName);
-		//actor.addChild(birthDate);
-		//actor.addChild(role);
+		// actor.addChild(birthDate);
+		// actor.addChild(role);
 
 		actorStack.addChildStack(firstName);
 		actorStack.addChildStack(lastName);
-		//actorStack.addChildStack(birthDate);
-		//actorStack.addChildStack(role);
+		// actorStack.addChildStack(birthDate);
+		// actorStack.addChildStack(role);
 
-		//return new TPEStack(actor, null);
+		// return new TPEStack(actor, null);
 		return actorStack;
 	}
-	
-	public static TPEStack personStack(){
+
+	public static TPEStack personStack() {
 		PatternNode person = new PatternNode("person");
-		TPEStack personStack = new TPEStack(person, null);
-		
-		personStack.addChildStack(new PatternNode("email"));
+		PatternNode email = new PatternNode("email");
 		PatternNode name = new PatternNode("name");
+		PatternNode last = new PatternNode("last");
+
+		TPEStack personStack = new TPEStack(person, null);
+		TPEStack nameStack = new TPEStack(name, personStack);
+
+		personStack.addChildStack(email);
 		personStack.addChildStack(name);
-		name.addChild(new PatternNode("last"));
-		
+		nameStack.addChildStack(last);
+
+		person.addChild(name);
+		person.addChild(email);
+		name.addChild(last);
+
 		return personStack;
 	}
 }

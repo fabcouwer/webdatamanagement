@@ -36,6 +36,20 @@ public class TPEStack {
 
 	}
 
+	public void initializeTree() {
+		// TODO reformat
+
+		if (patternNode.getChildren().size() != 0) {
+
+			for (PatternNode child : patternNode.getChildren()) {
+				System.out.println("CHILD : " + child.toString());
+				TPEStack stack = new TPEStack(child, this);
+				stack.initializeTree();
+				childStacks.add(stack);
+			}
+		}
+	}
+
 	// Add child stack
 	public void addChildStack(TPEStack child) {
 		childStacks.add(child);
@@ -85,7 +99,8 @@ public class TPEStack {
 
 	@Override
 	public String toString() {
-		return "TPEStack [patternNode=" + patternNode + ", spar=" + spar
-				+ ", matches=" + matches + ", childStacks=" + childStacks + "]";
+		return "TPEStack [patternNode=" + patternNode.toString() + ", spar="
+				+ spar.toString() + ", matches=" + "TODO" + ", childStacks="
+				+ "TODO" + "]";
 	}
 }

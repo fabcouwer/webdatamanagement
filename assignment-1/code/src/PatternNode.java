@@ -13,6 +13,7 @@ public class PatternNode {
 	// Constructor without value given
 	public PatternNode(String name) {
 		this.name = name;
+		this.value = "";
 		this.children = new ArrayList<PatternNode>();
 	}
 
@@ -75,6 +76,6 @@ public class PatternNode {
 	@Override
 	public String toString() {
 		return "PatternNode [name=" + name + ", value=" + value + ", id=" + id
-				+ ", children=" + children + "]";
+				+ ", children=" + "TODO" + "]";
 	}
 }
