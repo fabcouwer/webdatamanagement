@@ -15,7 +15,7 @@ public class StackEval implements ContentHandler {
 	TPEStack rootStack; // stack for the root of q
 
 	// Pre number of the last element which has started. Starts at 0
-	int currentPre = 1;
+	int currentPre = 0;
 
 	// Pre numbers for all elements having started but not ended yet:
 	Stack<Integer> preOfOpenNodes = new Stack<Integer>();
@@ -101,7 +101,14 @@ public class StackEval implements ContentHandler {
 				// Check for the value of the node
 				String value = m.getSt().getPatternNode().getValue();
 
-				if (value != null && !value.equals(nodeStrings.get(m.getPre()))) {
+				System.out.println("Value: " + value + ", nodeStrings get: "
+						+ nodeStrings.get(m.getPre()));
+
+				if (!value.isEmpty()
+						&& !value.equals(nodeStrings.get(m.getPre()))) {
+					System.out
+							.println(results.getResult(m.getPre()).toString());
+					results3.remove(m.getPre());
 					remove(m, s);
 					if (m.getParent() != null) {
 						m.getParent().removeChild(s.getPatternNode(), m);
@@ -118,6 +125,7 @@ public class StackEval implements ContentHandler {
 						// m lacks a child Match for the pattern node pChild
 						// we remove m from its Stack, detach it from its parent
 						remove(m, s);
+						results3.remove(m.getPre());
 						if (m.getParent() != null) {
 							m.getParent().removeChild(s.getPatternNode(), m);
 						}

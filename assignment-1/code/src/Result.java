@@ -3,22 +3,12 @@ public class Result {
 	String name;
 	String value;
 	int depth;
-	boolean queried;
 
 	public Result(int id, String name, String value, int depth) {
 		this.id = id;
 		this.name = name;
 		this.value = value;
 		this.depth = depth;
-		this.queried = false;
-	}
-
-	public void setQueried(boolean bool) {
-		this.queried = bool;
-	}
-
-	public boolean getQueried() {
-		return queried;
 	}
 
 	public int getId() {
@@ -58,4 +48,42 @@ public class Result {
 		return "Result [id=" + id + ", name=" + name + ", value=" + value
 				+ ", depth=" + depth + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + depth;
+		result = prime * result + id;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Result other = (Result) obj;
+		if (depth != other.depth)
+			return false;
+		if (id != other.id)
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (value == null) {
+			if (other.value != null)
+				return false;
+		} else if (!value.equals(other.value))
+			return false;
+		return true;
+	}
+
 }
