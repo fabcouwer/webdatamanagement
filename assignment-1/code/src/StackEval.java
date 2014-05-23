@@ -147,12 +147,21 @@ public class StackEval implements ContentHandler {
 	public void endDocument() throws SAXException {
 		System.out.println("endDocument()");
 		System.out.println(nodeStrings.toString());
+		ResultList finalResults = new ResultList();
 		for (Integer i : results3) {
 			if (nodeStrings.get(i) != null)
 				System.out.println(nodeStrings.get(i).toString());
+
+			Result addToFinal = results.getResult(i);
+			if (addToFinal != null) {
+				finalResults.add(addToFinal);
+			}
+
 		}
 		System.out.println("---");
 		results.print();
+		System.out.println();
+		finalResults.print();
 	}
 
 	// Methods used in processing elements (TODO)
