@@ -42,7 +42,6 @@ public class TPEStack {
 		if (patternNode.getChildren().size() != 0) {
 
 			for (PatternNode child : patternNode.getChildren()) {
-				System.out.println("CHILD : " + child.toString());
 				TPEStack stack = new TPEStack(child, this);
 				stack.initializeTree();
 				childStacks.add(stack);

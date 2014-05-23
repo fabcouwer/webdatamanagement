@@ -21,10 +21,10 @@ public class StackEval implements ContentHandler {
 	Stack<Integer> preOfOpenNodes = new Stack<Integer>();
 
 	// Map of pre number to value
-	Map<Integer, String> nodeStrings = new HashMap<Integer, String>(23);
-	//List<String> results2 = new ArrayList<String>();
+	Map<Integer, String> nodeStrings = new HashMap<Integer, String>();
+
 	List<Integer> results3 = new ArrayList<Integer>();
-	
+
 	ResultList results = new ResultList();
 
 	public StackEval(PatternNode root) {
@@ -65,9 +65,6 @@ public class StackEval implements ContentHandler {
 						&& spar.top().getState() == 1) {
 					Match ma = new Match(currentPre, spar.top(), s);
 					nodeStrings.put(currentPre, attributes.getValue(i));
-					//results2.add("<" + attributes.getLocalName(i) + ">"
-							// + attributes.getValue(i) + "</"
-							// + attributes.getLocalName(i) + ">");
 					s.push(ma);
 				}
 			}
@@ -78,7 +75,7 @@ public class StackEval implements ContentHandler {
 
 	@Override
 	public void endElement(String nameSpaceURI, String localName, String rawName) {
-		//System.out.println("endElement() -> " + rawName);
+		// System.out.println("endElement() -> " + rawName);
 		// we need to find out if the element ending now corresponded
 		// to matches in some stacks
 		// first, get the pre number of the element that ends now:
@@ -90,16 +87,20 @@ public class StackEval implements ContentHandler {
 			if (p.getName().equals(rawName) && s.verifyTopMatch()
 					&& s.top().getPre() == preOflastOpen) {
 				// all descendants of this Match have been traversed by now.
-				Match m = s.pop();
-				System.out.println("id: " + m.getPre() + " elem: " + p.getName() + " depth: " + preOfOpenNodes.size());
+				Match m = s.top();
+
+				System.out.println("id: " + m.getPre() + " elem: "
+						+ p.getName() + " depth: " + preOfOpenNodes.size());
+
 				Result r1 = results.getResult(m.getPre());
-				if(r1!=null){
+				if (r1 != null) {
 					r1.setName(p.getName());
 				}
 				m.close();
 
 				// Check for the value of the node
 				String value = m.getSt().getPatternNode().getValue();
+
 				if (value != null && !value.equals(nodeStrings.get(m.getPre()))) {
 					remove(m, s);
 					if (m.getParent() != null) {
@@ -143,7 +144,7 @@ public class StackEval implements ContentHandler {
 				System.out.println(nodeStrings.get(i).toString());
 		}
 		System.out.println("---");
-		results.printResultList(results3);
+		results.print();
 	}
 
 	// Methods used in processing elements (TODO)
@@ -159,14 +160,13 @@ public class StackEval implements ContentHandler {
 
 		int last = preOfOpenNodes.lastElement();
 		Result r1 = results.getResult(last);
-		if(r1!=null){
+		if (r1 != null) {
 			r1.setValue(str);
-		}
-		else{
+		} else {
 			r1 = new Result(last, null, str, preOfOpenNodes.size());
 			results.add(r1);
 		}
-		if (str.length() > 0) {		
+		if (str.length() > 0) {
 			if (nodeStrings.containsKey(last))
 				nodeStrings.put(last, nodeStrings.get(last) + " " + str);
 			else

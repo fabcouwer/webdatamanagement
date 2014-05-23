@@ -49,6 +49,20 @@ public class Match {
 		}
 	}
 
+	public boolean childMatches(PatternNode p) {
+		for (PatternNode node : p.getChildren()) {
+			ArrayList<Match> nodeChildren = children.get(node);
+			if (nodeChildren.size() == 0) {
+				if (parent != null) {
+					parent.removeChild(node, this);
+					parent = null;
+				}
+				return false;
+			}
+		}
+		return true;
+	}
+
 	// Getters
 	public int getStart() {
 		return start;
