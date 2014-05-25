@@ -5,6 +5,8 @@ public class PatternNode {
 
 	private String name; // The label (for example 'firstname')
 	private String value; // The value (for example 'Bob'), null if N/A
+	private boolean wildcard = false;
+	private boolean optional = false;
 
 	// TODO keep track of node ID's to link to Match objects
 	private int id;
@@ -34,6 +36,22 @@ public class PatternNode {
 
 	public List<PatternNode> getChildren() {
 		return children;
+	}
+
+	public boolean isWildcard() {
+		return wildcard;
+	}
+
+	public void setWildcard(boolean bool) {
+		this.wildcard = bool;
+	}
+
+	public void setOptional(boolean bool) {
+		this.optional = bool;
+	}
+
+	public boolean isOptional() {
+		return optional;
 	}
 
 	public String getName() {

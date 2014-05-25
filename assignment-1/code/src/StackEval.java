@@ -39,7 +39,7 @@ public class StackEval implements ContentHandler {
 		for (TPEStack s : rootStack.getDescendantStacks()) {
 			PatternNode p = s.getPatternNode();
 			TPEStack spar = s.getSpar();
-			if (rawName.equals(p.getName())) {
+			if (rawName.equals(p.getName()) || p.isWildcard()) {
 				if (spar == null) {
 					Match m = new Match(currentPre, null, s);
 					results3.add(currentPre);
@@ -84,8 +84,8 @@ public class StackEval implements ContentHandler {
 		for (TPEStack s : rootStack.getDescendantStacks()) {
 			PatternNode p = s.getPatternNode();
 			// Only check last 2 if s.top() is not null
-			if (p.getName().equals(rawName) && s.verifyTopMatch()
-					&& s.top().getPre() == preOflastOpen) {
+			if ((p.getName().equals(rawName) || p.isWildcard())
+					&& s.verifyTopMatch() && s.top().getPre() == preOflastOpen) {
 				// all descendants of this Match have been traversed by now.
 				Match m = s.top();
 
@@ -120,7 +120,8 @@ public class StackEval implements ContentHandler {
 				for (PatternNode pChild : p.getChildren()) {
 					// pChild is a child of the query node for which m was
 					// created
-					if (m.getChildren().get(pChild) == null
+					if (!pChild.isOptional()
+							&& m.getChildren().get(pChild) == null
 							|| m.getChildren().get(pChild).size() == 0) {
 						// m lacks a child Match for the pattern node pChild
 						// we remove m from its Stack, detach it from its parent
