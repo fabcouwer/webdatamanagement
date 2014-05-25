@@ -62,9 +62,16 @@ public class StackEval implements ContentHandler {
 				PatternNode p = s.getPatternNode();
 				TPEStack spar = s.getSpar();
 				if (attributes.getLocalName(i).equals(p.getName())
-						&& spar.top().getState() == 1) {
-					Match ma = new Match(currentPre, spar.top(), s);
+						&& (spar == null || spar.verifyTopMatch())) {
+					Match ma;
+					if (spar == null) {
+						ma = new Match(currentPre, null, s);
+					} else {
+						ma = new Match(currentPre, spar.top(), s);
+						spar.top().addChild(p, ma);
+					}
 					nodeStrings.put(currentPre, attributes.getValue(i));
+					ma.close();
 					s.push(ma);
 				}
 			}
