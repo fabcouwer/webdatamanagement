@@ -1,11 +1,13 @@
 public class Result {
 	int id;
+	int parentId;
 	String name;
 	String value;
 	int depth;
 
-	public Result(int id, String name, String value, int depth) {
+	public Result(int id, int parentId, String name, String value, int depth) {
 		this.id = id;
+		this.parentId = parentId;
 		this.name = name;
 		this.value = value;
 		this.depth = depth;
@@ -17,6 +19,14 @@ public class Result {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(int i) {
+		this.parentId = i;
 	}
 
 	public String getName() {
@@ -45,8 +55,8 @@ public class Result {
 
 	@Override
 	public String toString() {
-		return "Result [id=" + id + ", name=" + name + ", value=" + value
-				+ ", depth=" + depth + "]";
+		return "Result [id=" + id + ", parentId=" + parentId + ", name=" + name
+				+ ", value=" + value + ", depth=" + depth + "]";
 	}
 
 	@Override

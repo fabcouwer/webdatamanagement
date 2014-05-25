@@ -8,8 +8,8 @@ public class ResultList {
 		results = new ArrayList<Result>();
 	}
 
-	public void add(int id, String name, String value, int depth) {
-		Result r = new Result(id, name, value, depth);
+	public void add(int id, int parentID, String name, String value, int depth) {
+		Result r = new Result(id, parentID, name, value, depth);
 		results.add(r);
 	}
 

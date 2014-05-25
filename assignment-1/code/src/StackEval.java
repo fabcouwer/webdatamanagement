@@ -80,6 +80,12 @@ public class StackEval implements ContentHandler {
 		// to matches in some stacks
 		// first, get the pre number of the element that ends now:
 		int preOflastOpen = preOfOpenNodes.pop();
+
+		// set this element's parent
+		if (!preOfOpenNodes.isEmpty()) {
+			results.getResult(preOflastOpen).setParentId(preOfOpenNodes.peek());
+		}
+
 		// now look for Match objects having this pre number:
 		for (TPEStack s : rootStack.getDescendantStacks()) {
 			PatternNode p = s.getPatternNode();
@@ -181,7 +187,7 @@ public class StackEval implements ContentHandler {
 		if (r1 != null) {
 			r1.setValue(str);
 		} else {
-			r1 = new Result(last, null, str, preOfOpenNodes.size());
+			r1 = new Result(last, -1, null, str, preOfOpenNodes.size());
 			results.add(r1);
 		}
 		if (str.length() > 0) {
