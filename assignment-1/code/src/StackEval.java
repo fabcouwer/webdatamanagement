@@ -1,6 +1,4 @@
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -15,7 +13,7 @@ public class StackEval implements ContentHandler {
 	TPEStack rootStack; // stack for the root of q
 
 	// Pre number of the last element which has started. Starts at 0
-	int currentPre = 0;
+	int currentPre = 1;
 
 	// Pre numbers for all elements having started but not ended yet:
 	Stack<Integer> preOfOpenNodes = new Stack<Integer>();
@@ -23,7 +21,7 @@ public class StackEval implements ContentHandler {
 	// Map of pre number to value
 	Map<Integer, String> nodeStrings = new HashMap<Integer, String>();
 
-	List<Integer> results3 = new ArrayList<Integer>();
+	Map<Integer, Match> resultsMap = new HashMap<Integer, Match>();
 
 	ResultList results = new ResultList();
 
@@ -42,14 +40,14 @@ public class StackEval implements ContentHandler {
 			if (rawName.equals(p.getName()) || p.isWildcard()) {
 				if (spar == null) {
 					Match m = new Match(currentPre, null, s);
-					results3.add(currentPre);
+					resultsMap.put(currentPre, m);
 					s.push(m);
 				} else if (spar.top() != null && spar.top().getState() == 1) {
 					Match m = new Match(currentPre, spar.top(), s);
 					spar.top().addChild(s.getPatternNode(), m);
 					// create a match satisfying the ancestor conditions of
 					// query node s.p
-					results3.add(currentPre);
+					resultsMap.put(currentPre, m);
 					s.push(m);
 				}
 			}
@@ -121,7 +119,7 @@ public class StackEval implements ContentHandler {
 						&& !value.equals(nodeStrings.get(m.getPre()))) {
 					System.out
 							.println(results.getResult(m.getPre()).toString());
-					results3.remove(m.getPre());
+					resultsMap.remove(m.getPre());
 					remove(m, s);
 					if (m.getParent() != null) {
 						m.getParent().removeChild(s.getPatternNode(), m);
@@ -139,7 +137,7 @@ public class StackEval implements ContentHandler {
 						// m lacks a child Match for the pattern node pChild
 						// we remove m from its Stack, detach it from its parent
 						remove(m, s);
-						results3.remove(m.getPre());
+						resultsMap.remove(m.getPre());
 						if (m.getParent() != null) {
 							m.getParent().removeChild(s.getPatternNode(), m);
 						}
@@ -162,7 +160,7 @@ public class StackEval implements ContentHandler {
 		System.out.println("endDocument()");
 		System.out.println(nodeStrings.toString());
 		ResultList finalResults = new ResultList();
-		for (Integer i : results3) {
+		for (Integer i : resultsMap.keySet()) {
 			if (nodeStrings.get(i) != null)
 				System.out.println(nodeStrings.get(i).toString());
 
@@ -173,9 +171,12 @@ public class StackEval implements ContentHandler {
 
 		}
 		System.out.println("---");
-		results.print();
-		System.out.println();
+		//results.print();
+		//System.out.println();
 		finalResults.print();
+		
+		finalResults.printFullTable(rootStack);//prints result as a table
+		finalResults.printXMLFullTable(rootStack);//print result as XML
 	}
 
 	// Methods used in processing elements (TODO)

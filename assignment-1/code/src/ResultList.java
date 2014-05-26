@@ -51,4 +51,41 @@ public class ResultList {
 		return null;
 	}
 
+	public void printFullTable(TPEStack rootStack) {
+		System.out.println(printFullHeader(rootStack.getPatternNode()));
+		System.out.println(printFullTableContent(rootStack));
+	}
+	
+	private String printFullHeader(PatternNode p){
+		StringBuilder sb = new StringBuilder();
+		sb.append(p.getName() + "\t|");
+		for(PatternNode p1 : p.getChildren()){
+			if(p1.getChildren()!=null){
+				sb.append(printFullHeader(p1));
+			}
+		}
+		return sb.toString();
+	}
+	
+	private String printFullTableContent(TPEStack t){
+		StringBuilder sb = new StringBuilder();
+		for(Match m : t.getMatches()){
+			//System.out.print(m.getPre() + "| ");
+			sb.append(m.getPre() + "\t");
+			for(PatternNode p : m.getSt().getPatternNode().getChildren()){
+				for(Match m2 : m.getChildren().get(p)){
+					System.out.println(sb.toString());
+					sb.setLength(0);
+					//TODO print childmatches in same row
+				}
+			}
+		}
+		return sb.toString();
+	}
+
+	public void printXMLFullTable(TPEStack rootStack) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
