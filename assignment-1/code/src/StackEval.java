@@ -8,21 +8,11 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 
 public class StackEval implements ContentHandler {
-
-	// TreePattern q;
-	TPEStack rootStack; // stack for the root of q
-
-	// Pre number of the last element which has started. Starts at 0
-	int currentPre = 1;
-
-	// Pre numbers for all elements having started but not ended yet:
-	Stack<Integer> preOfOpenNodes = new Stack<Integer>();
-
-	// Map of pre number to value
+	TPEStack rootStack;// stack for the root of q
+	int currentPre = 1;// Pre numbers for all elements having started but not ended yet
+	Stack<Integer> preOfOpenNodes = new Stack<Integer>();// Map of pre number to value
 	Map<Integer, String> nodeStrings = new HashMap<Integer, String>();
-
 	Map<Integer, Match> resultsMap = new HashMap<Integer, Match>();
-
 	ResultList results = new ResultList();
 
 	public StackEval(PatternNode root) {
@@ -33,7 +23,7 @@ public class StackEval implements ContentHandler {
 	@Override
 	public void startElement(String nameSpaceURI, String localName,
 			String rawName, Attributes attributes) {
-		System.out.println("startElement() -> " + rawName);
+		//System.out.println("startElement() -> " + rawName);
 		for (TPEStack s : rootStack.getDescendantStacks()) {
 			PatternNode p = s.getPatternNode();
 			TPEStack spar = s.getSpar();
@@ -100,8 +90,7 @@ public class StackEval implements ContentHandler {
 				// all descendants of this Match have been traversed by now.
 				Match m = s.top();
 
-				System.out.println("id: " + m.getPre() + " elem: "
-						+ p.getName() + " depth: " + preOfOpenNodes.size());
+				//System.out.println("id: " + m.getPre() + " elem: " + p.getName() + " depth: " + preOfOpenNodes.size());
 
 				Result r1 = results.getResult(m.getPre());
 				if (r1 != null) {
@@ -112,13 +101,11 @@ public class StackEval implements ContentHandler {
 				// Check for the value of the node
 				String value = m.getSt().getPatternNode().getValue();
 
-				System.out.println("Value: " + value + ", nodeStrings get: "
-						+ nodeStrings.get(m.getPre()));
+				//System.out.println("Value: " + value + ", nodeStrings get: " + nodeStrings.get(m.getPre()));
 
 				if (!value.isEmpty()
 						&& !value.equals(nodeStrings.get(m.getPre()))) {
-					System.out
-							.println(results.getResult(m.getPre()).toString());
+					//System.out.println(results.getResult(m.getPre()).toString());
 					resultsMap.remove(m.getPre());
 					remove(m, s);
 					if (m.getParent() != null) {
@@ -152,31 +139,31 @@ public class StackEval implements ContentHandler {
 
 	@Override
 	public void startDocument() throws SAXException {
-		System.out.println("startDocument()");
+		//System.out.println("startDocument()");
 	}
 
 	@Override
 	public void endDocument() throws SAXException {
-		System.out.println("endDocument()");
-		System.out.println(nodeStrings.toString());
+		//System.out.println("endDocument()");
+		//System.out.println(nodeStrings.toString());
 		ResultList finalResults = new ResultList();
 		for (Integer i : resultsMap.keySet()) {
-			if (nodeStrings.get(i) != null)
-				System.out.println(nodeStrings.get(i).toString());
-
+			//if (nodeStrings.get(i) != null){
+				//System.out.println(nodeStrings.get(i).toString());
+			//}
 			Result addToFinal = results.getResult(i);
 			if (addToFinal != null) {
 				finalResults.add(addToFinal);
 			}
 
 		}
-		System.out.println("---");
+		//System.out.println("---");
 		//results.print();
 		//System.out.println();
-		finalResults.print();
+		//finalResults.print();
 		
 		finalResults.printFullTable(rootStack);//prints result as a table
-		finalResults.printXMLFullTable(rootStack);//print result as XML
+		//finalResults.printXMLFullTable(rootStack);//print result as XML
 	}
 
 	// Methods used in processing elements (TODO)

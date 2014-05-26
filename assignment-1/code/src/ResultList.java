@@ -67,25 +67,51 @@ public class ResultList {
 		return sb.toString();
 	}
 	
+	/**
+	 * person 	email 	name 	last
+	 * 2	 	3 		4 		6
+	 * 11 		12 		14 		16
+	 * 11 		13 		14 		16
+	 * 
+	 */
 	private String printFullTableContent(TPEStack t){
 		StringBuilder sb = new StringBuilder();
 		for(Match m : t.getMatches()){
-			//System.out.print(m.getPre() + "| ");
-			sb.append(m.getPre() + "\t");
+			sb.append(m.getPre() + "\t|");
 			for(PatternNode p : m.getSt().getPatternNode().getChildren()){
 				for(Match m2 : m.getChildren().get(p)){
+					sb.append(printRecursiveTableContent(m2));
 					System.out.println(sb.toString());
 					sb.setLength(0);
-					//TODO print childmatches in same row
 				}
 			}
 		}
 		return sb.toString();
 	}
-
+	
+	private String printRecursiveTableContent(Match m){
+		StringBuilder sb = new StringBuilder();
+		sb.append(m.getPre() + "\t|");
+		for(PatternNode p : m.getSt().getPatternNode().getChildren()){
+			for(Match m2 : m.getChildren().get(p)){
+				sb.append(printRecursiveTableContent(m2));
+				//TODO Fix double rows
+			}
+		}
+		return sb.toString();
+	}
+	
+	
 	public void printXMLFullTable(TPEStack rootStack) {
-		// TODO Auto-generated method stub
+		System.out.println(printFullHeader(rootStack.getPatternNode()));
+		System.out.println(printXMLTableContent(rootStack));
 		
+	}
+	
+	public String printXMLTableContent(TPEStack t){
+		StringBuilder sb = new StringBuilder();
+		// TODO should be almost the same as printFullTableContent but with values from resultMap instead of getPre()
+		return sb.toString();
 	}
 
 }
