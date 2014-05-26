@@ -50,12 +50,20 @@ public class ResultList {
 		}
 		return null;
 	}
-
+	/**
+	 * public method of printing the header and the contents of the Full table
+	 * @param rootStack
+	 */
 	public void printFullTable(TPEStack rootStack) {
 		System.out.println(printFullHeader(rootStack.getPatternNode()));
 		System.out.println(printFullTableContent(rootStack));
 	}
 	
+	/**
+	 * prints first line of table
+	 * @param p
+	 * @return
+	 */
 	private String printFullHeader(PatternNode p){
 		StringBuilder sb = new StringBuilder();
 		sb.append(p.getName() + "\t|");
@@ -72,19 +80,14 @@ public class ResultList {
 	 * 2	 	3 		4 		6
 	 * 11 		12 		14 		16
 	 * 11 		13 		14 		16
-	 * 
+	 * Is now printing in order of: person, name, last, email 
 	 */
 	private String printFullTableContent(TPEStack t){
 		StringBuilder sb = new StringBuilder();
 		for(Match m : t.getMatches()){
-			sb.append(m.getPre() + "\t|");
-			for(PatternNode p : m.getSt().getPatternNode().getChildren()){
-				for(Match m2 : m.getChildren().get(p)){
-					sb.append(printRecursiveTableContent(m2));
-					System.out.println(sb.toString());
-					sb.setLength(0);
-				}
-			}
+			sb.append(printRecursiveTableContent(m));
+			System.out.println(sb.toString());
+			sb.setLength(0);
 		}
 		return sb.toString();
 	}
@@ -94,14 +97,15 @@ public class ResultList {
 		sb.append(m.getPre() + "\t|");
 		for(PatternNode p : m.getSt().getPatternNode().getChildren()){
 			for(Match m2 : m.getChildren().get(p)){
-				sb.append(printRecursiveTableContent(m2));
-				//TODO Fix double rows
+				sb.append("*" + printRecursiveTableContent(m2));
+				//TODO Fix double rows when two email adresses for example
+				//TODO remove last entry and concat next one
 			}
 		}
 		return sb.toString();
 	}
 	
-	
+	/*
 	public void printXMLFullTable(TPEStack rootStack) {
 		System.out.println(printFullHeader(rootStack.getPatternNode()));
 		System.out.println(printXMLTableContent(rootStack));
@@ -113,5 +117,5 @@ public class ResultList {
 		// TODO should be almost the same as printFullTableContent but with values from resultMap instead of getPre()
 		return sb.toString();
 	}
-
+	*/
 }
