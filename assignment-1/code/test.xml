@@ -1,1 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><actor><first_name attr="hello">Viggo</first_name><last_name>Mortensen</last_name><birth_date>1958</birth_date><role>Tom Stall</role></actor>
+<?xml version="1.0" encoding="UTF-8"?>
+<actor>
+	<first_name attr="hello">Viggo</first_name>
+	<last_name>Mortensen</last_name>
+	<birth_date>1958</birth_date>
+	<role>Tom Stall</role>
+</actor>

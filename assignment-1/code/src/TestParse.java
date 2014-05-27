@@ -24,6 +24,12 @@ public class TestParse {
 			eval = new StackEval(tpe2.getPatternNode());
 			reader.setContentHandler(eval);
 			reader.parse("people.xml");
+			
+			System.out.println("---third test---");
+			TPEStack tpe3 = movieStack();
+			eval = new StackEval(tpe3.getPatternNode());
+			reader.setContentHandler(eval);
+			reader.parse("movies.xml");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -72,5 +78,23 @@ public class TestParse {
 		name.addChild(last);
 
 		return personStack;
+	}
+	
+	public static TPEStack movieStack(){
+		PatternNode movie = new PatternNode("movie");
+		PatternNode title = new PatternNode("title");
+		PatternNode year = new PatternNode("year", "2002");
+		
+		TPEStack movieStack = new TPEStack(movie, null);
+		TPEStack titleStack = new TPEStack(title, movieStack);
+		TPEStack yearStack = new TPEStack(year, movieStack);
+		
+		movieStack.addChildStack(title);
+		movieStack.addChildStack(year);
+		
+		movie.addChild(title);
+		movie.addChild(year);
+		
+		return movieStack;
 	}
 }
