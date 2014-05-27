@@ -163,7 +163,8 @@ public class StackEval implements ContentHandler {
 		//finalResults.print();
 		
 		finalResults.printFullTable(rootStack);//prints result as a table
-		finalResults.printNameFullTable(rootStack);//print result as XML
+		finalResults.printNameFullTable(rootStack);//print result with names
+		System.out.println(finalResults.printXML(rootStack));
 	}
 
 	// Methods used in processing elements (TODO)

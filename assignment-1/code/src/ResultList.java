@@ -25,7 +25,7 @@ public class ResultList {
 				continue;
 			}
 		}
-		if (pos >= 0){
+		if (pos >= 0) {
 			results.remove(pos);
 		}
 	}
@@ -50,8 +50,10 @@ public class ResultList {
 		}
 		return null;
 	}
+
 	/**
 	 * public method of printing the header and the contents of the Full table
+	 * 
 	 * @param rootStack
 	 */
 	public void printFullTable(TPEStack rootStack) {
@@ -59,17 +61,18 @@ public class ResultList {
 		System.out.println(printFullHeader(rootStack.getPatternNode()));
 		System.out.println(printFullTableContent(rootStack));
 	}
-	
+
 	/**
 	 * prints first line of table
+	 * 
 	 * @param p
 	 * @return
 	 */
-	private String printFullHeader(PatternNode p){
+	private String printFullHeader(PatternNode p) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(p.getName() + "\t|");
-		for(PatternNode p1 : p.getChildren()){
-			if(p1.getChildren()!=null){
+		for (PatternNode p1 : p.getChildren()) {
+			if (p1.getChildren() != null) {
 				sb.append(printFullHeader(p1));
 			}
 		}
@@ -83,40 +86,38 @@ public class ResultList {
 	 * 11 		13 		14 		16
 	 * Is now printing in order of: person, name, last, email 
 	 */
-	private String printFullTableContent(TPEStack t){
+	private String printFullTableContent(TPEStack t) {
 		StringBuilder sb = new StringBuilder();
-		for(Match m : t.getMatches()){
+		for (Match m : t.getMatches()) {
 			sb.append(printRecursiveTableContent(m));// recursively print each row for all matches
 			System.out.println(sb.toString());// print it out
 			sb.setLength(0);// reset the stringBuffer
 		}
 		return sb.toString();
 	}
-	
-	private String printRecursiveTableContent(Match m){
+
+	private String printRecursiveTableContent(Match m) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(m.getPre() + "\t|"); //print the number
-		for(PatternNode p : m.getSt().getPatternNode().getChildren()){
-			for(Match m2 : m.getChildren().get(p)){// get the child matches that match the patternNode
-				sb.append("*" + printRecursiveTableContent(m2));// call recursively
-				//TODO Fix double rows when there are two email adresses for example
-				//TODO remove last entry and concat next one
+		sb.append(m.getPre() + "\t|"); // print the number
+		for (PatternNode p : m.getSt().getPatternNode().getChildren()) {
+			for (Match m2 : m.getChildren().get(p)) {// get the child matches that match the patternNode
+				sb.append(printRecursiveTableContent(m2));// call recursively
+				// TODO Fix double rows when there are two email adresses for example
+				// TODO remove last entry and concat next one
 			}
 		}
 		return sb.toString();
 	}
-	
-	
+
 	public void printNameFullTable(TPEStack rootStack) {
 		System.out.println("Table with Names");
 		System.out.println(printFullHeader(rootStack.getPatternNode()));
 		System.out.println(printNameTableContent(rootStack));
-		
 	}
-	
-	public String printNameTableContent(TPEStack t){
+
+	public String printNameTableContent(TPEStack t) {
 		StringBuilder sb = new StringBuilder();
-		for(Match m : t.getMatches()){
+		for (Match m : t.getMatches()) {
 			sb.append(printNameRecursiveTableContent(m));
 			System.out.println(sb.toString());
 			sb.setLength(0);
@@ -126,15 +127,62 @@ public class ResultList {
 
 	private String printNameRecursiveTableContent(Match m) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(m.getPre()+ "\t|");//TODO change to value of the id
-		for(PatternNode p : m.getSt().getPatternNode().getChildren()){
-			for(Match m2 : m.getChildren().get(p)){
-				sb.append("*" + printNameRecursiveTableContent(m2));
-				//TODO Fix double rows when two email adresses for example
-				//TODO remove last entry and concat next one
+		Result r = this.getResult(m.getPre());
+		String name = "" + m.getPre();
+		if (r != null && r.getValue().length() > 0) {
+			name = r.getValue();
+		}
+		sb.append(name + "\t|");
+		for (PatternNode p : m.getSt().getPatternNode().getChildren()) {
+			for (Match m2 : m.getChildren().get(p)) {
+				sb.append(printNameRecursiveTableContent(m2));
+				// TODO Fix double rows when two email adresses for example
+				// TODO remove last entry and concat next one
 			}
 		}
 		return sb.toString();
 	}
-	
+
+	public String printXML(TPEStack t) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+		sb.append("<results>\n");// enclose results in results node
+		for (Match m : t.getMatches()) {
+			sb.append(printXMLrecursively(m));
+		}
+		sb.append("<\\results>\n");
+		return sb.toString();
+	}
+
+	private String printXMLrecursively(Match m) {
+		StringBuilder sb = new StringBuilder();
+		Result r = this.getResult(m.getPre());
+		if (r != null) {
+			sb.append(printIndent(r.getDepth()) + "<" + r.getName() + ">"); // print opening tag
+			if (r.getValue().length() > 0) {
+				sb.append(r.getValue());
+			} else {
+				sb.append("\n");
+			}
+			for (PatternNode p : m.getSt().getPatternNode().getChildren()) {
+				for (Match m2 : m.getChildren().get(p)) {// get the child matches that match the patternNode
+					sb.append(printXMLrecursively(m2));// call recursively on children
+				}
+			}
+			if (r.getValue().length() == 0) {
+				sb.append(printIndent(r.getDepth()));
+			}
+			sb.append("<\\" + r.getName() + ">\n"); // print closing tag
+		}
+		return sb.toString();
+	}
+
+	private static String printIndent(int depth) {
+		String str = "";
+		for (int i = 0; i < depth; i++) {
+			str += "\t";
+		}
+		return str;
+	}
+
 }
