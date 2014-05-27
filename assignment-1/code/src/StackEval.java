@@ -177,11 +177,10 @@ public class StackEval implements ContentHandler {
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
 		String str = new String(ch, start, length).trim();
-
 		int last = preOfOpenNodes.lastElement();
 		Result r1 = results.getResult(last);
 		if (r1 != null) {
-			r1.setValue(str);
+			r1.setValue(r1.getValue() + str); //Append in case of multiple calls to characters
 		} else {
 			r1 = new Result(last, -1, null, str, preOfOpenNodes.size());
 			results.add(r1);

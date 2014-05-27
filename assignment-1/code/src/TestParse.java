@@ -13,6 +13,7 @@ public class TestParse {
 			XMLReader reader = parser.getXMLReader();
 
 			// Link StackEval to that reader and read the xml file
+			/*
 			System.out.println("---first test---");
 			TPEStack tpe = testStack();
 			StackEval eval = new StackEval(tpe.getPatternNode());
@@ -24,10 +25,11 @@ public class TestParse {
 			eval = new StackEval(tpe2.getPatternNode());
 			reader.setContentHandler(eval);
 			reader.parse("people.xml");
+			*/
 			
 			System.out.println("---third test---");
 			TPEStack tpe3 = movieStack();
-			eval = new StackEval(tpe3.getPatternNode());
+			StackEval eval = new StackEval(tpe3.getPatternNode());
 			reader.setContentHandler(eval);
 			reader.parse("movies.xml");
 		} catch (Exception e) {
@@ -83,17 +85,22 @@ public class TestParse {
 	public static TPEStack movieStack(){
 		PatternNode movie = new PatternNode("movie");
 		PatternNode title = new PatternNode("title");
-		PatternNode year = new PatternNode("year", "2002");
+		PatternNode year = new PatternNode("year");
+		PatternNode summary = new PatternNode("summary");
+		//summary.isOptional();
 		
 		TPEStack movieStack = new TPEStack(movie, null);
 		TPEStack titleStack = new TPEStack(title, movieStack);
 		TPEStack yearStack = new TPEStack(year, movieStack);
+		TPEStack summaryStack = new TPEStack(summary, movieStack);
 		
 		movieStack.addChildStack(title);
 		movieStack.addChildStack(year);
+		movieStack.addChildStack(summary);
 		
 		movie.addChild(title);
 		movie.addChild(year);
+		movie.addChild(summary);
 		
 		return movieStack;
 	}
