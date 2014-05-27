@@ -1,5 +1,8 @@
+import java.util.Stack;
+
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
 import org.xml.sax.XMLReader;
 
 public class TestParse {
@@ -19,19 +22,20 @@ public class TestParse {
 			StackEval eval = new StackEval(tpe.getPatternNode());
 			reader.setContentHandler(eval);
 			reader.parse("test.xml");
-
+			*/
 			System.out.println("---second test---");
 			TPEStack tpe2 = personStack();
-			eval = new StackEval(tpe2.getPatternNode());
+			StackEval eval = new StackEval(tpe2.getPatternNode());
 			reader.setContentHandler(eval);
 			reader.parse("people.xml");
-			*/
 			
+			/*
 			System.out.println("---third test---");
 			TPEStack tpe3 = movieStack();
 			StackEval eval = new StackEval(tpe3.getPatternNode());
 			reader.setContentHandler(eval);
 			reader.parse("movies.xml");
+			*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -67,6 +71,7 @@ public class TestParse {
 		PatternNode email = new PatternNode("email");
 		PatternNode name = new PatternNode("name");
 		PatternNode last = new PatternNode("last");
+		email.setOptional(true);
 
 		TPEStack personStack = new TPEStack(person, null);
 		TPEStack nameStack = new TPEStack(name, personStack);
@@ -85,9 +90,9 @@ public class TestParse {
 	public static TPEStack movieStack(){
 		PatternNode movie = new PatternNode("movie");
 		PatternNode title = new PatternNode("title");
-		PatternNode year = new PatternNode("year");
+		PatternNode year = new PatternNode("year", "2003");
 		PatternNode summary = new PatternNode("summary");
-		//summary.isOptional();
+		summary.setOptional(true);
 		
 		TPEStack movieStack = new TPEStack(movie, null);
 		TPEStack titleStack = new TPEStack(title, movieStack);

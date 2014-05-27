@@ -78,13 +78,9 @@ public class ResultList {
 		}
 		return sb.toString();
 	}
-	
+
 	/**
-	 * person 	email 	name 	last
-	 * 2	 	3 		4 		6
-	 * 11 		12 		14 		16
-	 * 11 		13 		14 		16
-	 * Is now printing in order of: person, name, last, email 
+	 * person email name last 2 3 4 6 11 12 14 16 11 13 14 16 Is now printing in order of: person, name, last, email
 	 */
 	private String printFullTableContent(TPEStack t) {
 		StringBuilder sb = new StringBuilder();
@@ -100,10 +96,14 @@ public class ResultList {
 		StringBuilder sb = new StringBuilder();
 		sb.append(m.getPre() + "\t|"); // print the number
 		for (PatternNode p : m.getSt().getPatternNode().getChildren()) {
-			for (Match m2 : m.getChildren().get(p)) {// get the child matches that match the patternNode
-				sb.append(printRecursiveTableContent(m2));// call recursively
-				// TODO Fix double rows when there are two email adresses for example
-				// TODO remove last entry and concat next one
+			if (m.getChildren().get(p) != null) {
+				for (Match m2 : m.getChildren().get(p)) {// get the child matches that match the patternNode
+					sb.append(printRecursiveTableContent(m2));// call recursively
+					// TODO Fix double rows when there are two email adresses for example
+					// TODO remove last entry and concat next one
+				}
+			} else {
+				sb.append("null\t|");
 			}
 		}
 		return sb.toString();
@@ -134,10 +134,14 @@ public class ResultList {
 		}
 		sb.append(name + "\t|");
 		for (PatternNode p : m.getSt().getPatternNode().getChildren()) {
-			for (Match m2 : m.getChildren().get(p)) {
-				sb.append(printNameRecursiveTableContent(m2));
-				// TODO Fix double rows when two email adresses for example
-				// TODO remove last entry and concat next one
+			if (m.getChildren().get(p) != null) {
+				for (Match m2 : m.getChildren().get(p)) {
+					sb.append(printNameRecursiveTableContent(m2));
+					// TODO Fix double rows when two email adresses for example
+					// TODO remove last entry and concat next one
+				}
+			} else {
+				sb.append("null\t|");
 			}
 		}
 		return sb.toString();
@@ -150,7 +154,7 @@ public class ResultList {
 		for (Match m : t.getMatches()) {
 			sb.append(printXMLrecursively(m));
 		}
-		sb.append("<\\results>\n");
+		sb.append("</results>\n");
 		return sb.toString();
 	}
 
@@ -165,14 +169,16 @@ public class ResultList {
 				sb.append("\n");
 			}
 			for (PatternNode p : m.getSt().getPatternNode().getChildren()) {
+				if(m.getChildren().get(p)!=null){
 				for (Match m2 : m.getChildren().get(p)) {// get the child matches that match the patternNode
 					sb.append(printXMLrecursively(m2));// call recursively on children
+				}
 				}
 			}
 			if (r.getValue().length() == 0) {
 				sb.append(printIndent(r.getDepth()));
 			}
-			sb.append("<\\" + r.getName() + ">\n"); // print closing tag
+			sb.append("</" + r.getName() + ">\n"); // print closing tag
 		}
 		return sb.toString();
 	}

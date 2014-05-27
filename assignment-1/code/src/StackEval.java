@@ -119,8 +119,8 @@ public class StackEval implements ContentHandler {
 					// pChild is a child of the query node for which m was
 					// created
 					if (!pChild.isOptional()
-							&& m.getChildren().get(pChild) == null
-							|| m.getChildren().get(pChild).size() == 0) {
+							&& (m.getChildren().get(pChild) == null
+							|| m.getChildren().get(pChild).size() == 0)) {
 						// m lacks a child Match for the pattern node pChild
 						// we remove m from its Stack, detach it from its parent
 						remove(m, s);
