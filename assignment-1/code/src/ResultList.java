@@ -96,7 +96,7 @@ public class ResultList {
 		StringBuilder sb = new StringBuilder();
 		sb.append(m.getPre() + "\t|"); // print the number
 		for (PatternNode p : m.getSt().getPatternNode().getChildren()) {
-			if (m.getChildren().get(p) != null) {
+			if (m.getChildren().get(p) != null || p.isWildcard()) {
 				for (Match m2 : m.getChildren().get(p)) {// get the child matches that match the patternNode
 					sb.append(printRecursiveTableContent(m2));// call recursively
 					// TODO Fix double rows when there are two email adresses for example
@@ -169,10 +169,10 @@ public class ResultList {
 				sb.append("\n");
 			}
 			for (PatternNode p : m.getSt().getPatternNode().getChildren()) {
-				if(m.getChildren().get(p)!=null){
-				for (Match m2 : m.getChildren().get(p)) {// get the child matches that match the patternNode
-					sb.append(printXMLrecursively(m2));// call recursively on children
-				}
+				if (m.getChildren().get(p) != null) {
+					for (Match m2 : m.getChildren().get(p)) {// get the child matches that match the patternNode
+						sb.append(printXMLrecursively(m2));// call recursively on children
+					}
 				}
 			}
 			if (r.getValue().length() == 0) {

@@ -1,5 +1,3 @@
-import java.util.Stack;
-
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -68,21 +66,25 @@ public class TestParse {
 
 	public static TPEStack personStack() {
 		PatternNode person = new PatternNode("person");
-		PatternNode email = new PatternNode("email");
+		//PatternNode email = new PatternNode("email");
 		PatternNode name = new PatternNode("name");
-		PatternNode last = new PatternNode("last");
-		email.setOptional(true);
+		PatternNode all = new PatternNode("*");
+		//PatternNode last = new PatternNode("last");
+		//email.setOptional(true);
+		all.setWildcard(true);
 
 		TPEStack personStack = new TPEStack(person, null);
 		TPEStack nameStack = new TPEStack(name, personStack);
+		TPEStack allStack = new TPEStack(all, nameStack);
 
-		personStack.addChildStack(email);
-		personStack.addChildStack(name);
-		nameStack.addChildStack(last);
+		personStack.addChildStack(nameStack);
+		nameStack.addChildStack(allStack);
+		//personStack.addChildStack(name);
+		//nameStack.addChildStack(last);
 
 		person.addChild(name);
-		person.addChild(email);
-		name.addChild(last);
+		name.addChild(all);
+		//name.addChild(last);
 
 		return personStack;
 	}
@@ -99,9 +101,9 @@ public class TestParse {
 		TPEStack yearStack = new TPEStack(year, movieStack);
 		TPEStack summaryStack = new TPEStack(summary, movieStack);
 		
-		movieStack.addChildStack(title);
-		movieStack.addChildStack(year);
-		movieStack.addChildStack(summary);
+		movieStack.addChildStack(titleStack);
+		movieStack.addChildStack(yearStack);
+		movieStack.addChildStack(summaryStack);
 		
 		movie.addChild(title);
 		movie.addChild(year);

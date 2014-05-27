@@ -79,6 +79,7 @@ public class StackEval implements ContentHandler {
 		// set this element's parent
 		if (!preOfOpenNodes.isEmpty()) {
 			results.getResult(preOflastOpen).setParentId(preOfOpenNodes.peek());
+			results.getResult(preOflastOpen).setName(rawName);
 		}
 
 		// now look for Match objects having this pre number:
@@ -160,7 +161,7 @@ public class StackEval implements ContentHandler {
 		//System.out.println("---");
 		//results.print();
 		//System.out.println();
-		//finalResults.print();
+		finalResults.print();
 		
 		finalResults.printFullTable(rootStack);//prints result as a table
 		finalResults.printNameFullTable(rootStack);//print result with names
