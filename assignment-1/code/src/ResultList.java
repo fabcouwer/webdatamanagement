@@ -103,8 +103,9 @@ public class ResultList {
 															// matches that
 															// match the
 															// patternNode
-					sb.append(printRecursiveTableContent(m2));// call
-																// recursively
+					if (m2.getPre() != m.getPre())
+						sb.append(printRecursiveTableContent(m2));// call
+																	// recursively
 					// TODO Fix double rows when there are two email adresses
 					// for example
 					// TODO remove last entry and concat next one
@@ -143,7 +144,8 @@ public class ResultList {
 		for (PatternNode p : m.getSt().getPatternNode().getChildren()) {
 			if (m.getChildren().get(p) != null) {
 				for (Match m2 : m.getChildren().get(p)) {
-					sb.append(printNameRecursiveTableContent(m2));
+					if (m2.getPre() != m.getPre())
+						sb.append(printNameRecursiveTableContent(m2));
 					// TODO Fix double rows when two email adresses for example
 					// TODO remove last entry and concat next one
 				}
@@ -168,7 +170,8 @@ public class ResultList {
 	private String printXMLrecursively(Match m) {
 		StringBuilder sb = new StringBuilder();
 		Result r = this.getResult(m.getPre());
-		if (r != null) {
+
+		if (r != null && r.getName() != null) {
 			sb.append(printIndent(r.getDepth()) + "<" + r.getName() + ">"); // print
 																			// opening
 																			// tag
@@ -183,8 +186,10 @@ public class ResultList {
 																// matches that
 																// match the
 																// patternNode
-						sb.append(printXMLrecursively(m2));// call recursively
-															// on children
+						if (m2.getPre() != m.getPre())
+							sb.append(printXMLrecursively(m2));// call
+																// recursively
+																// on children
 					}
 				}
 			}

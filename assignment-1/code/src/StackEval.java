@@ -78,7 +78,6 @@ public class StackEval implements ContentHandler {
 
 		// set this element's parent
 		if (!preOfOpenNodes.isEmpty()) {
-			System.out.println("rawname: " + rawName);
 			results.getResult(preOflastOpen).setParentId(preOfOpenNodes.peek());
 			results.getResult(preOflastOpen).setName(rawName);
 		}
