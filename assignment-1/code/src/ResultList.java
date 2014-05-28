@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 public class ResultList {
 	private ArrayList<Result> results;
@@ -201,12 +203,24 @@ public class ResultList {
 		return sb.toString();
 	}
 
+	private String printXMLfromResultList() {
+		StringBuilder sb = new StringBuilder();
+		Stack<String> tagStack = new Stack<String>();
+
+		return "";
+	}
+
 	private static String printIndent(int depth) {
 		String str = "";
 		for (int i = 0; i < depth; i++) {
 			str += "\t";
 		}
 		return str;
+	}
+
+	// Sorts the results arraylist by ascending ID
+	public void sortByID() {
+		Collections.sort(results);
 	}
 
 }

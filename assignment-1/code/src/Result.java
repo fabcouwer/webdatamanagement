@@ -1,4 +1,4 @@
-public class Result {
+public class Result implements Comparable<Result>{
 	int id;
 	int parentId;
 	String name;
@@ -94,6 +94,12 @@ public class Result {
 		} else if (!value.equals(other.value))
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Result other) {
+		//Sort Results in order of ascending ID
+		return (this.getId() - other.getId());
 	}
 
 }

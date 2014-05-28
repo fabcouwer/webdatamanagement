@@ -9,8 +9,10 @@ import org.xml.sax.SAXException;
 
 public class StackEval implements ContentHandler {
 	TPEStack rootStack;// stack for the root of q
-	int currentPre = 1;// Pre numbers for all elements having started but not ended yet
-	Stack<Integer> preOfOpenNodes = new Stack<Integer>();// Map of pre number to value
+	int currentPre = 1;// Pre numbers for all elements having started but not
+						// ended yet
+	Stack<Integer> preOfOpenNodes = new Stack<Integer>();// Map of pre number to
+															// value
 	Map<Integer, String> nodeStrings = new HashMap<Integer, String>();
 	Map<Integer, Match> resultsMap = new HashMap<Integer, Match>();
 	ResultList results = new ResultList();
@@ -23,7 +25,7 @@ public class StackEval implements ContentHandler {
 	@Override
 	public void startElement(String nameSpaceURI, String localName,
 			String rawName, Attributes attributes) {
-		//System.out.println("startElement() -> " + rawName);
+		// System.out.println("startElement() -> " + rawName);
 		for (TPEStack s : rootStack.getDescendantStacks()) {
 			PatternNode p = s.getPatternNode();
 			TPEStack spar = s.getSpar();
@@ -91,7 +93,8 @@ public class StackEval implements ContentHandler {
 				// all descendants of this Match have been traversed by now.
 				Match m = s.top();
 
-				//System.out.println("id: " + m.getPre() + " elem: " + p.getName() + " depth: " + preOfOpenNodes.size());
+				// System.out.println("id: " + m.getPre() + " elem: " +
+				// p.getName() + " depth: " + preOfOpenNodes.size());
 
 				Result r1 = results.getResult(m.getPre());
 				if (r1 != null) {
@@ -102,11 +105,12 @@ public class StackEval implements ContentHandler {
 				// Check for the value of the node
 				String value = m.getSt().getPatternNode().getValue();
 
-				//System.out.println("Value: " + value + ", nodeStrings get: " + nodeStrings.get(m.getPre()));
+				// System.out.println("Value: " + value + ", nodeStrings get: "
+				// + nodeStrings.get(m.getPre()));
 
 				if (!value.isEmpty()
 						&& !value.equals(nodeStrings.get(m.getPre()))) {
-					//System.out.println(results.getResult(m.getPre()).toString());
+					// System.out.println(results.getResult(m.getPre()).toString());
 					resultsMap.remove(m.getPre());
 					remove(m, s);
 					if (m.getParent() != null) {
@@ -120,8 +124,8 @@ public class StackEval implements ContentHandler {
 					// pChild is a child of the query node for which m was
 					// created
 					if (!pChild.isOptional()
-							&& (m.getChildren().get(pChild) == null
-							|| m.getChildren().get(pChild).size() == 0)) {
+							&& (m.getChildren().get(pChild) == null || m
+									.getChildren().get(pChild).size() == 0)) {
 						// m lacks a child Match for the pattern node pChild
 						// we remove m from its Stack, detach it from its parent
 						remove(m, s);
@@ -140,31 +144,32 @@ public class StackEval implements ContentHandler {
 
 	@Override
 	public void startDocument() throws SAXException {
-		//System.out.println("startDocument()");
+		// System.out.println("startDocument()");
 	}
 
 	@Override
 	public void endDocument() throws SAXException {
-		//System.out.println("endDocument()");
-		//System.out.println(nodeStrings.toString());
+		// System.out.println("endDocument()");
+		// System.out.println(nodeStrings.toString());
 		ResultList finalResults = new ResultList();
 		for (Integer i : resultsMap.keySet()) {
-			//if (nodeStrings.get(i) != null){
-				//System.out.println(nodeStrings.get(i).toString());
-			//}
+			// if (nodeStrings.get(i) != null){
+			// System.out.println(nodeStrings.get(i).toString());
+			// }
 			Result addToFinal = results.getResult(i);
 			if (addToFinal != null) {
 				finalResults.add(addToFinal);
 			}
 
 		}
-		//System.out.println("---");
-		//results.print();
-		//System.out.println();
+		// System.out.println("---");
+		// results.print();
+		// System.out.println();
+		finalResults.sortByID();
 		finalResults.print();
-		
-		finalResults.printFullTable(rootStack);//prints result as a table
-		finalResults.printNameFullTable(rootStack);//print result with names
+
+		finalResults.printFullTable(rootStack);// prints result as a table
+		finalResults.printNameFullTable(rootStack);// print result with names
 		System.out.println(finalResults.printXML(rootStack));
 	}
 
@@ -181,7 +186,8 @@ public class StackEval implements ContentHandler {
 		int last = preOfOpenNodes.lastElement();
 		Result r1 = results.getResult(last);
 		if (r1 != null) {
-			r1.setValue(r1.getValue() + str); //Append in case of multiple calls to characters
+			r1.setValue(r1.getValue() + str); // Append in case of multiple
+												// calls to characters
 		} else {
 			r1 = new Result(last, -1, null, str, preOfOpenNodes.size());
 			results.add(r1);
