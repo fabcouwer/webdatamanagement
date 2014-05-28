@@ -165,12 +165,13 @@ public class StackEval implements ContentHandler {
 		// System.out.println("---");
 		// results.print();
 		// System.out.println();
-		finalResults.sortByID();
+		finalResults.sortByID(); //PRINTING XML FROM RESULTLIST DOES NOT WORK IF IT IS NOT SORTED
 		finalResults.print();
-
+		
 		finalResults.printFullTable(rootStack);// prints result as a table
 		finalResults.printNameFullTable(rootStack);// print result with names
-		System.out.println(finalResults.printXML(rootStack));
+		//System.out.println(finalResults.printXML(rootStack));
+		System.out.println(finalResults.printXMLfromResultList());
 	}
 
 	// Methods used in processing elements (TODO)

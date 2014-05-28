@@ -203,11 +203,51 @@ public class ResultList {
 		return sb.toString();
 	}
 
-	private String printXMLfromResultList() {
+	//Prints out a result list in XML format
+	public String printXMLfromResultList() {
 		StringBuilder sb = new StringBuilder();
 		Stack<String> tagStack = new Stack<String>();
+		int currentDepth = -1;
+		int diff = 0;
+		Result r;
 
-		return "";
+		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+		sb.append("<results>\n");// enclose results in results node)
+
+		// Print every tag
+		for (int i = 0; i < results.size(); i++) {
+			r = results.get(i);
+
+			// Print closing tags for elements that are now finished
+			diff = currentDepth - r.getDepth();
+			if (diff > 0) {
+				for (int j = 0; j < diff; j++) {
+					sb.append(tagStack.pop());
+				}
+			}
+			currentDepth = r.getDepth();
+
+			// Print <name>value</name> if value exists
+			// Else open a tag and put the closing tag on the stack for later
+			if (r.getValue().length() > 0) {
+				sb.append(printIndent(r.getDepth()) + "<" + r.getName() + ">"
+						+ r.getValue() + "</" + r.getName() + ">\n");
+			} else {
+				sb.append(printIndent(r.getDepth()) + "<" + r.getName() + ">\n");
+				tagStack.push(printIndent(r.getDepth()) + "</" + r.getName()
+						+ ">\n");
+			}
+
+		}
+		
+		//Empty out tagstack after last element
+		while(!tagStack.isEmpty()){
+			sb.append(tagStack.pop());
+		}
+
+		sb.append("</results>\n");
+
+		return sb.toString();
 	}
 
 	private static String printIndent(int depth) {
