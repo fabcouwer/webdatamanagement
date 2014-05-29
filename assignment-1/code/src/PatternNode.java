@@ -4,7 +4,7 @@ import java.util.List;
 public class PatternNode {
 
 	private String name; // The label (for example 'firstname')
-	private String value; // The value (for example 'Bob'), null if N/A
+	private String value; // The value (for example 'Bob'), empty if N/A
 	private boolean wildcard = false;
 	private boolean optional = false;
 
