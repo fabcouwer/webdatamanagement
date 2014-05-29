@@ -8,6 +8,7 @@ public class PatternNode {
 	private String fullName; // The full name (for example 'person/name/first')
 	private boolean wildcard = false;
 	private boolean optional = false;
+	private boolean queried = false;
 
 	// TODO keep track of node ID's to link to Match objects
 	private int id;
@@ -51,6 +52,14 @@ public class PatternNode {
 
 	public void setOptional(boolean bool) {
 		this.optional = bool;
+	}
+
+	public boolean isQueried() {
+		return queried;
+	}
+
+	public void setQueried(boolean bool) {
+		this.queried = bool;
 	}
 
 	public boolean isOptional() {

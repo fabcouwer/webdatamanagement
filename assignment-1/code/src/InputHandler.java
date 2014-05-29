@@ -149,7 +149,11 @@ public class InputHandler {
 		if (remainingPath.isEmpty()) {
 			parent.setValue(conditionValue);
 		} else {
-			String nextPart = remainingPath.split("/")[1];
+			String nextPart = remainingPath;
+			if (remainingPath.contains("/")) {
+				nextPart = remainingPath.split("/")[1];
+			}
+
 			String nextNode = parent.getFullName() + "/" + nextPart;
 			if (nodes.containsKey(nextNode)) {
 				insertConditions(nodes.get(nextNode),
@@ -167,6 +171,9 @@ public class InputHandler {
 				stacks.get(parent.getFullName()).addChildStack(nodeStack);
 				parent.addChild(newNode);
 
+				if (newNode.getName().equals("*"))
+					newNode.setWildcard(true);
+
 				insertConditions(newNode,
 						remainingPath.substring(nextPart.length() + 1),
 						conditionValue);
@@ -175,20 +182,61 @@ public class InputHandler {
 	}
 
 	private void parseReturn() {
-		// TODO Auto-generated method stub
+		// Remove "return (" and ")"
+		qReturn = qReturn.substring(8, qReturn.length() - 1);
+
+		String[] returns = qReturn.split(",");
+		for (int i = 0; i < returns.length; i++) {
+			returns[i] = returns[i].trim();
+
+			if (returns[i].startsWith(qFor + "//")) {
+				// TODO ancestor
+			} else {
+				insertReturns(root, returns[i].substring(qFor.length()));
+			}
+		}
 
 	}
 
+	private void insertReturns(PatternNode parent, String remainingPath) {
+		if (remainingPath.isEmpty()) {
+			parent.setQueried(true);
+		} else {
+			String nextPart = remainingPath;
+			if (remainingPath.contains("/")) {
+				nextPart = remainingPath.split("/")[1];
+			}
+			String nextNode = parent.getFullName() + "/" + nextPart;
+			if (nodes.containsKey(nextNode)) {
+				insertReturns(nodes.get(nextNode),
+						remainingPath.substring(nextPart.length() + 1));
+			} else {
+				PatternNode newNode = new PatternNode(nextPart);
+				newNode.setFullName(parent.getFullName() + "/" + nextPart);
+
+				nodes.put(newNode.getFullName(), newNode);
+
+				TPEStack nodeStack = new TPEStack(newNode, stacks.get(parent
+						.getFullName()));
+				stacks.put(newNode.getFullName(), nodeStack);
+				stacks.get(parent.getFullName()).addChildStack(nodeStack);
+				parent.addChild(newNode);
+
+				if (newNode.getName().equals("*"))
+					newNode.setWildcard(true);
+
+				insertReturns(newNode,
+						remainingPath.substring(nextPart.length() + 1));
+			}
+		}
+	}
+
 	public static void main(String[] args) {
-		String testQ = "for $p in //person[name/last] where $p/email='m@home' , $p//last='Johnson' return ($p//first, $p//last)";
+		String testQ = "for $p in //person[name/last] where $p/email='m@home' , $p//last='Jones' return ($p/name/first, $p/name/last)";
 
 		InputHandler ih = new InputHandler(testQ);
-		System.out.println(ih.qFor);
-		System.out.println(ih.qIn);
-		System.out.println(ih.qWhere);
-		System.out.println(ih.qReturn);
-		System.out.println();
 		ih.parseQuery();
+		//TODO link this to stackeval
 	}
 
 }
