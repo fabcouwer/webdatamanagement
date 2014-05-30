@@ -37,8 +37,6 @@ public class TPEStack {
 	}
 
 	public void initializeTree() {
-		// TODO reformat
-
 		if (patternNode.getChildren().size() != 0) {
 
 			for (PatternNode child : patternNode.getChildren()) {
@@ -99,7 +97,6 @@ public class TPEStack {
 	@Override
 	public String toString() {
 		return "TPEStack [patternNode=" + patternNode.toString() + ", spar="
-				+ spar.toString() + ", matches=" + "TODO" + ", childStacks="
-				+ "TODO" + "]";
+				+ spar.toString() + "]";
 	}
 }

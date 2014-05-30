@@ -4,7 +4,6 @@ import java.util.Map;
 
 public class Match {
 
-	private int start;
 	private int state; // 0 = closed, 1 = open
 	private int pre;
 	private Match parent;
@@ -13,8 +12,6 @@ public class Match {
 
 	// Match constructor: sets status to open
 	public Match(int currentPre, Match p, TPEStack s) {
-		this.start = 0; // TODO implement start
-
 		this.pre = currentPre;
 		this.parent = p;
 		this.st = s;
@@ -63,11 +60,6 @@ public class Match {
 		return true;
 	}
 
-	// Getters
-	public int getStart() {
-		return start;
-	}
-
 	public int getState() {
 		return state;
 	}
@@ -90,7 +82,7 @@ public class Match {
 
 	@Override
 	public String toString() {
-		return "Match [start=" + start + ", state=" + state + ", pre=" + pre
+		return "Match [state=" + state + ", pre=" + pre
 				+ ", parent=" + parent + ", children=" + children + ", st="
 				+ st + "]";
 	}
