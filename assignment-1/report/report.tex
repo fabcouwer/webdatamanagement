@@ -1,50 +1,9 @@
-\documentclass[12pt]{article}
-\usepackage[english]{babel}
-\usepackage[utf8x]{inputenc}
-\usepackage{fullpage}
+\documentclass[11pt]{article}
+\input{preamble.tex}
 
-\usepackage{listings}
-\usepackage{color}
-\usepackage{courier}
-\usepackage{caption}
-\usepackage{todonotes}
 
 \title{Tree Pattern Evaluation using SAX}
 \author{Friso Abcouwer \and Matthijs van Dorth}
-
-\definecolor{mygreen}{rgb}{0,0.6,0}
-\definecolor{mygray}{rgb}{0.5,0.5,0.5}
-\definecolor{mymauve}{rgb}{0.58,0,0.82}
-  
-\lstset{
-       basicstyle=\footnotesize\ttfamily,
-       numberstyle=\tiny,
-       stepnumber=1,
-       numbersep=5pt,
-       tabsize=2,
-       extendedchars=true,
-       breaklines=true,
-       keywordstyle=\color{red},
-       frame=b,         
-       stringstyle=\color{white}\ttfamily,
-       showspaces=false,
-       showtabs=false,
-       xleftmargin=17pt,
-       framexleftmargin=17pt,
-       framexrightmargin=5pt,
-       framexbottommargin=4pt,
-       %backgroundcolor=\color{lightgray},
-       showstringspaces=false   
-}
-\lstloadlanguages{
-        Java
-}
-\DeclareCaptionFont{blue}{\color{blue}} 
-\captionsetup[lstlisting]{singlelinecheck=false, labelfont={blue}, textfont={blue}}
-  
-\DeclareCaptionFont{white}{\color{white}}
-\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35,0.01}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
-\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
 
 \begin{document}
 
@@ -53,20 +12,44 @@
 \section{Introduction}
 In this report we will show how we implemented an algorithm for evaluating tree-pattern queries using SAX. SAX (Simple API for XML) is a way to parse XML document using a stream of data in contrast to DOM (Document Object Model) which is a complete representation of the XML file as a tree.
 
-We will use the C-TP dialect
+The parser we created reads a query and an xml file and can display the result of the query in various formats. An example query is given in Listing \ref{lst:query1}
 
-\section{The Basic Algorithm}
-The basic algorithm 
+\lstinputlisting[label=lst:query1,caption=Query 1,float=h]{query1.xquery}
 
-\todo{explain basic datastructures}
-\begin{lstlisting}[language=java, caption=Match.java]
-class Match {
-    int start, state;
-    
-}
-\end{lstlisting}
+Given an XML file such as the one given in the book and in figure \ref{lst:people}, the query will return all email and last name nodes of the person nodes that have a email and last name node.
+The result is a table or an XML file with these values.
 
+\lstinputlisting[label=lst:people,caption=people.xml,float=h]{people.xml}
+
+\newpage
+\section{The structure of the algorithm}
+The algorithm that we created has several parts. First there is the PatternNode class that represents a single node in a xml document, such as the node with a name "email". Each node can have a value such as "a@work".
+When executing a query a TPEStack is created. A TPEStack consists of a PatternNode and a list of child TPEStacks. The TPEStack for Listing \ref{lst:query1} can be constructed with the Java code shown in Listing \ref{lst:tpestackexample}. 
+
+\lstinputlisting[label=lst:tpestackexample,caption=Construction of a TPEStack for Query 1,float=h]{personstack.java}
+
+The TPEStack is used by the StackEval algorithm to create a Match object when a elementname matches the
+name of the PatternNode. The most important methods of this StackEval algorithm are \lstinline{startElement}; which is called everytime a opening tag is encountered, \lstinline{endElement}; which is called everytime a closing tag is found and \lstinline{characters}; which is called when text nodes are found. 
+
+These Match objects keep a record of the TPEStack that was matched against this object and all the child Match object children that still need to get Matched agains a PatternNode. 
+
+Once Matches are found, the result is saved into a Result object. This result object has an id, parentId, name, value and depth at which the match was found. This Object is Comparable so that we can sort them on their id. All these results are saved into a ResultList object that is able to print out the results as a table or as XML. 
+
+\lstinputlisting[label=lst:result,caption=Fields of the Result object,float=h]{Result.java}
+
+\newpage
 \section{The Extended Algorithm}
+\subsection{Wildcards}
+We proceeded with extending the algorithm further by allowing wildcards into the queries. We gave the PatternNode an extra boolean field wildcard which can be set to true or false. In the StackEval algorithm we had to adopt the \lstinline{startElement} and \lstinline{endElement} methods to also match when a wildcard was found, this was a minor change. The way the results had to be printed had to be altered though since we needed to retrieve the name of the node in case of printing it as XML or print it with a wildcard symbol *, when printing it in a table.
 
+\subsection{Printing the result as XML}
+The result of the query can be printed out as valid XML. This is done by a method in the ResultList class, that encloses the result in results tags and then prints the opening tags in order and puts the closing stacks on a stack for later printing. When there are no more results the closing tags are popped from the stack and printed. The depth of each result is used to indent the text.
+
+\subsection{Creating a TPEStack from a query}
+\todo{TODO: explain how the InputParser works}
+
+\newpage
+\section{Testing the parser}
+Using several different XML files we tested the parser with different queries.
 
 \end{document}
