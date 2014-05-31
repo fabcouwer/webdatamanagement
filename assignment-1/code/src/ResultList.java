@@ -55,7 +55,7 @@ public class ResultList {
 
 	/**
 	 * public method of printing the header and the contents of the Full table
-	 * 
+	 * TODO: only print queried results
 	 * @param rootStack
 	 */
 	public void printFullTable(TPEStack rootStack) {
@@ -102,6 +102,7 @@ public class ResultList {
 		return sb.toString();
 	}
 
+	//TODO: only print queried results
 	public void printNameFullTable(TPEStack rootStack) {
 		System.out.println("Table with Names");
 		System.out.println(printFullHeader(rootStack.getPatternNode()));
@@ -196,6 +197,9 @@ public class ResultList {
 			diff = currentDepth - r.getDepth();
 			if (diff > 0) {
 				for (int j = 0; j < diff; j++) {
+					if(tagStack.isEmpty())
+						break;
+					else
 					sb.append(tagStack.pop());
 				}
 			}

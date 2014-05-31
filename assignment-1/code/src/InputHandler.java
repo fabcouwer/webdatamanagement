@@ -162,7 +162,7 @@ public class InputHandler {
 			} else {
 				PatternNode newNode = new PatternNode(nextPart);
 				newNode.setFullName(parent.getFullName() + "/" + nextPart);
-
+				
 				nodes.put(newNode.getFullName(), newNode);
 
 				TPEStack nodeStack = new TPEStack(newNode, stacks.get(parent
@@ -185,6 +185,8 @@ public class InputHandler {
 		// Remove "return (" and ")"
 		qReturn = qReturn.substring(8, qReturn.length() - 1);
 
+		//TODO handle <res></res> tags
+		
 		String[] returns = qReturn.split(",");
 		for (int i = 0; i < returns.length; i++) {
 			returns[i] = returns[i].trim();
@@ -208,11 +210,16 @@ public class InputHandler {
 			}
 			String nextNode = parent.getFullName() + "/" + nextPart;
 			if (nodes.containsKey(nextNode)) {
+				//TODO setqueried
 				insertReturns(nodes.get(nextNode),
 						remainingPath.substring(nextPart.length() + 1));
 			} else {
 				PatternNode newNode = new PatternNode(nextPart);
 				newNode.setFullName(parent.getFullName() + "/" + nextPart);
+				//Since the node has not been made yet, it is optional
+				newNode.setOptional(true);
+				
+				//TODO setqueried
 
 				nodes.put(newNode.getFullName(), newNode);
 
@@ -235,7 +242,7 @@ public class InputHandler {
 		String testQ = "for $p in //person[name/last] where $p/email='m@home' , $p//last='Jones' return ($p/name/first, $p/name/last)";
 
 		InputHandler ih = new InputHandler(testQ);
-		ih.parseQuery();
+		PatternNode root = ih.parseQuery();
 		//TODO link this to stackeval
 	}
 

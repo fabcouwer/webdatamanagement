@@ -29,14 +29,14 @@ public class StackEval implements ContentHandler {
 			if (rawName.equals(p.getName()) || p.isWildcard()) {
 				if (spar == null) {
 					Match m = new Match(currentPre, null, s);
-					resultsMap.put(currentPre, m);
+					resultsMap.put(currentPre, m); 
 					s.push(m);
 				} else if (spar.top() != null && spar.top().getState() == 1) {
 					Match m = new Match(currentPre, spar.top(), s);
 					spar.top().addChild(s.getPatternNode(), m);
 					// create a match satisfying the ancestor conditions of
 					// query node s.p
-					resultsMap.put(currentPre, m);
+					resultsMap.put(currentPre, m); 
 					s.push(m);
 				}
 			}
@@ -91,6 +91,7 @@ public class StackEval implements ContentHandler {
 				Result r1 = results.getResult(m.getPre());
 				if (r1 != null) {
 					r1.setName(rawName);
+					//TODO: set result as queried
 				}
 				m.close();
 

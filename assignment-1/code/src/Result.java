@@ -4,6 +4,7 @@ public class Result implements Comparable<Result>{
 	String name;
 	String value;
 	int depth;
+	//TODO keep track of whether related node was queried
 
 	public Result(int id, int parentId, String name, String value, int depth) {
 		this.id = id;

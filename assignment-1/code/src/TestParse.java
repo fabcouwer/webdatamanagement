@@ -72,21 +72,24 @@ public class TestParse {
 		PatternNode person = new PatternNode("person");
 		// PatternNode email = new PatternNode("email");
 		//PatternNode name = new PatternNode("name");
-		PatternNode all = new PatternNode("*");
-		// PatternNode last = new PatternNode("last");
+		//PatternNode all = new PatternNode("*");
+		 PatternNode last = new PatternNode("last");
 		// email.setOptional(true);
-		all.setWildcard(true);
+		//all.setWildcard(true);
 
 		TPEStack personStack = new TPEStack(person, null);
 		//TPEStack nameStack = new TPEStack(name, personStack);
-		TPEStack allStack = new TPEStack(all, personStack);
+		//TPEStack allStack = new TPEStack(all, personStack);
+		TPEStack lastStack = new TPEStack(last, personStack);
 
-		personStack.addChildStack(allStack);
+		//personStack.addChildStack(allStack);
+		personStack.addChildStack(lastStack);
 		//nameStack.addChildStack(allStack);
 		// personStack.addChildStack(name);
 		// nameStack.addChildStack(last);
 
-		person.addChild(all);
+		//person.addChild(all);
+		person.addChild(last);
 		//name.addChild(all);
 		// name.addChild(last);
 
