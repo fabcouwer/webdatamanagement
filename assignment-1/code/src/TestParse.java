@@ -21,7 +21,8 @@ public class TestParse {
 			 * reader.parse("test.xml");
 			 */
 			System.out.println("---second test---");
-			TPEStack tpe2 = personStack();
+			TPEStack tpe2 = person2Stack();
+			System.out.println(tpe2.getPatternNode().toXMLString());
 			StackEval eval = new StackEval(tpe2.getPatternNode());
 			reader.setContentHandler(eval);
 			reader.parse("people.xml");
@@ -92,6 +93,29 @@ public class TestParse {
 		person.addChild(last);
 		//name.addChild(all);
 		// name.addChild(last);
+
+		return personStack;
+	}
+	
+	public static TPEStack person2Stack() {
+		PatternNode person = new PatternNode("person");
+		PatternNode email = new PatternNode("email");
+		PatternNode name = new PatternNode("name");
+		PatternNode last = new PatternNode("last");
+
+		TPEStack personStack = new TPEStack(person, null);
+		TPEStack nameStack = new TPEStack(name, personStack);
+		TPEStack lastStack = new TPEStack(last, personStack);
+		TPEStack emailStack = new TPEStack(email, personStack);
+
+		personStack.addChildStack(nameStack);
+		personStack.addChildStack(emailStack);
+		personStack.addChildStack(nameStack);
+		nameStack.addChildStack(lastStack);
+
+		person.addChild(name);
+		person.addChild(email);
+		name.addChild(last);
 
 		return personStack;
 	}

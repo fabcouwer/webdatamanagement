@@ -95,6 +95,15 @@ public class PatternNode {
 	@Override
 	public String toString() {
 		return "PatternNode [name=" + name + ", value=" + value + ", id=" + id
-				+ ", children=" + "TODO" + "]";
+				+ ", children=" + children.toString() + "]";
+	}
+	
+	public String toXMLString(){
+		String str =  "<"+ name + ">\n" + value;
+		for(PatternNode p : children){
+			str += p.toXMLString();
+		}
+		str += "</" + name + ">";
+		return str;
 	}
 }

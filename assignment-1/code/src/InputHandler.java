@@ -1,4 +1,12 @@
+import java.io.IOException;
 import java.util.HashMap;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
 //InputHandler: construct tree from a given query
 public class InputHandler {
@@ -238,12 +246,23 @@ public class InputHandler {
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
 		String testQ = "for $p in //person[name/last] where $p/email='m@home' , $p//last='Jones' return ($p/name/first, $p/name/last)";
-
+		
 		InputHandler ih = new InputHandler(testQ);
 		PatternNode root = ih.parseQuery();
-		//TODO link this to stackeval
+		TPEStack t = new TPEStack(root, null);
+		System.out.println(root.toString());
+		System.out.println(root.toXMLString());
+		System.out.println();
+		
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		SAXParser parser = factory.newSAXParser();
+		XMLReader reader = parser.getXMLReader();
+		
+		StackEval eval = new StackEval(t.getPatternNode());
+		reader.setContentHandler(eval);
+		reader.parse("people.xml");
 	}
 
 }
