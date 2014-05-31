@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results>
+		<person>
+			<email>m@home</email>
+			<name>
+				<last>Jones</last>
+			</name>
+			<name>
+				<last>Lang</last>
+			</name>
+		</person>
+		<person>
+			<email>@home</email>
+			<email>@work</email>
+			<name>
+				<last>Hart</last>
+			</name>
+		</person>
+</results>

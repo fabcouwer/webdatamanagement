@@ -35,7 +35,7 @@ These Match objects keep a record of the TPEStack that was matched against this 
 
 Once Matches are found, the result is saved into a Result object. This result object has an id, parentId, name, value and depth at which the match was found. This Object is Comparable so that we can sort them on their id. All these results are saved into a ResultList object that is able to print out the results as a table or as XML. 
 
-\lstinputlisting[label=lst:result,caption=Fields of the Result object,float=h]{Result.java}
+%\lstinputlisting[label=lst:result,caption=Fields of the Result object,float=h]{Result.java}
 
 \newpage
 \section{The Extended Algorithm}
@@ -45,11 +45,21 @@ We proceeded with extending the algorithm further by allowing wildcards into the
 \subsection{Printing the result as XML}
 The result of the query can be printed out as valid XML. This is done by a method in the ResultList class, that encloses the result in results tags and then prints the opening tags in order and puts the closing stacks on a stack for later printing. When there are no more results the closing tags are popped from the stack and printed. The depth of each result is used to indent the text.
 
-\subsection{Creating a TPEStack from a query}
+\subsection{Creating a TPEStack from a Query}
 \todo{TODO: explain how the InputParser works}
 
 \newpage
 \section{Testing the parser}
-Using several different XML files we tested the parser with different queries.
+Using several different XML files we tested the parser with different queries. The query which we showed in Listing \ref{lst:query1} and was tested against the XML file shown in Listing \ref{lst:people}. The result can be shown using a table as was done in the book \cite{abiteboul2012web} or as valid XML as will be shown in Listing \ref{lst:resultxml}.
+
+\lstinputlisting[label=lst:resultxml, caption=The result of running Query 1 on people.xml,float=h]{result.xml}
+
+As can be seen, only the values of email and last are printed out. Because the person with the last name "Lang" does not have a email adress, only his last name is printed out. In the table this would have resulted in a \lstinline{null} value. 
+
+\newpage
+\lstlistoflistings
+
+\bibliographystyle{plain}
+\bibliography{references}
 
 \end{document}
