@@ -237,4 +237,17 @@ public class StackEval implements ContentHandler {
 	public void startPrefixMapping(String arg0, String arg1)
 			throws SAXException {
 	}
+	
+	public static void main(String[] args) throws Exception{
+		if(args.length>0 && args[0].equals("testrun")){
+			TestQueries.main(null);
+		}
+		else if(args.length==2){
+			InputHandler.main(null);
+		}
+		else{
+			System.out.println("To do a testrun call:\nStackEval testrun");
+			System.out.println("otherwise call:\nStackEval <xquery file> <xml file>");
+		}
+	}
 }

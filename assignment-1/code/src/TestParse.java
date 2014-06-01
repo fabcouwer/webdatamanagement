@@ -5,6 +5,8 @@ import org.xml.sax.XMLReader;
 
 // TestParse: Class with several premade tree patterns to test StackEval
 // Reminder:  Perform setQueried(true) on the nodes to be returned, otherwise result will be empty
+// This class was used during development to perform various tests, it is not used anymore
+@Deprecated
 public class TestParse {
 
 	public static void main(String[] args) {
