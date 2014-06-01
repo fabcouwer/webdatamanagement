@@ -194,6 +194,12 @@ public class InputHandler {
 		qReturn = qReturn.replace(")", "");
 		qReturn = qReturn.replace("(", "");
 		// TODO handle <res></res> tags
+		if (qReturn.contains("{") && qReturn.contains("}")) {
+			String[] split = qReturn.split("[{}]");
+			qReturn = split[1];
+			String name = split[0].replaceAll("[{}<>]", "");// the string of the enclosing result such as return
+															// <res>{$p/*/last}</res>
+		}
 
 		String[] returns = qReturn.split(",");
 		for (int i = 0; i < returns.length; i++) {
