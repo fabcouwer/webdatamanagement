@@ -8,15 +8,25 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 
 public class StackEval implements ContentHandler {
-	TPEStack rootStack;// stack for the root of q
-	int currentPre = 1;// Pre numbers for all elements having started but not
-						// ended yet
-	Stack<Integer> preOfOpenNodes = new Stack<Integer>();// Map of pre number to
-															// value
+
+	// stack for the root of the tree pattern
+	TPEStack rootStack;
+
+	int currentPre = 1;
+
+	// Pre numbers for all open elements
+	Stack<Integer> preOfOpenNodes = new Stack<Integer>();
+
+	// Map of pre numbers to String values
 	Map<Integer, String> nodeStrings = new HashMap<Integer, String>();
+
+	// Map of pre numbers to Matches
 	Map<Integer, Match> resultsMap = new HashMap<Integer, Match>();
+
+	// ResultList for all nodes traversed by the algorithm
 	ResultList results = new ResultList();
 
+	// Set root and initialize stacks for the nodes in the tree pattern
 	public StackEval(PatternNode root) {
 		this.rootStack = new TPEStack(root, null);
 		rootStack.initializeTree();
@@ -143,7 +153,8 @@ public class StackEval implements ContentHandler {
 
 	@Override
 	public void startDocument() throws SAXException {
-
+		// EMPTY: initializing the necessary stacks is performed in the
+		// constructor
 	}
 
 	@Override
@@ -157,20 +168,18 @@ public class StackEval implements ContentHandler {
 
 		}
 		finalResults.sortByID();
-		//System.out.println("print:");
-		//finalResults.print();
-		
-		//System.out.println("table:");
-		finalResults.printFullTable(rootStack);// prints result as a table
-		finalResults.printNameFullTable(rootStack);// print result with names
-		//System.out.println(finalResults.printXMLfromResultList());// print
-																	// result as
-																	// XML
-		System.out.println(results.printXML(rootStack));// print result as
-																// XML
+
+		// Print results:
+		// Table with numbers, table with names and XML
+		finalResults.printFullTable(rootStack);
+		finalResults.printNameFullTable(rootStack);
+		System.out.println(results.printXML(rootStack));
+
 	}
 
-	// Methods used in processing elements
+	// Below: Methods used in processing elements
+
+	// Remove m from given stack's matches
 	public void remove(Match m, TPEStack s) {
 		s.getMatches().remove(m);
 	}
@@ -180,6 +189,8 @@ public class StackEval implements ContentHandler {
 			throws SAXException {
 		String str = new String(ch, start, length).trim();
 		int last = preOfOpenNodes.lastElement();
+
+		// Update result's value if applicable
 		Result r1 = results.getResult(last);
 		if (r1 != null) {
 			r1.setValue(r1.getValue() + str); // Append in case of multiple
@@ -188,6 +199,8 @@ public class StackEval implements ContentHandler {
 			r1 = new Result(last, -1, null, str, preOfOpenNodes.size());
 			results.add(r1);
 		}
+
+		// Update nodeStrings if applicable
 		if (str.length() > 0) {
 			if (nodeStrings.containsKey(last))
 				nodeStrings.put(last, nodeStrings.get(last) + " " + str);
@@ -195,6 +208,8 @@ public class StackEval implements ContentHandler {
 				nodeStrings.put(last, str);
 		}
 	}
+
+	// Below: unused methods from the ContentHandler interface
 
 	@Override
 	public void endPrefixMapping(String arg0) throws SAXException {

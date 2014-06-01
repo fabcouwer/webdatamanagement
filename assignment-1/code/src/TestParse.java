@@ -3,6 +3,8 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.XMLReader;
 
+// TestParse: Class with several premade tree patterns to test StackEval
+// Reminder:  Perform setQueried(true) on the nodes to be returned, otherwise result will be empty
 public class TestParse {
 
 	public static void main(String[] args) {
@@ -46,20 +48,11 @@ public class TestParse {
 
 		PatternNode firstName = new PatternNode("first_name", "Viggo");
 		PatternNode lastName = new PatternNode("last_name", "Mortensen");
-		// PatternNode birthDate = new PatternNode("birth_date", "1958");
-		// PatternNode role = new PatternNode("role", "Tom Stall");
-
 		actor.addChild(firstName);
 		actor.addChild(lastName);
-		// actor.addChild(birthDate);
-		// actor.addChild(role);
 
 		actorStack.addChildStack(firstName);
 		actorStack.addChildStack(lastName);
-		// actorStack.addChildStack(birthDate);
-		// actorStack.addChildStack(role);
-
-		// return new TPEStack(actor, null);
 		return actorStack;
 	}
 
@@ -72,32 +65,18 @@ public class TestParse {
 
 	public static TPEStack personStack() {
 		PatternNode person = new PatternNode("person");
-		// PatternNode email = new PatternNode("email");
-		//PatternNode name = new PatternNode("name");
-		//PatternNode all = new PatternNode("*");
-		 PatternNode last = new PatternNode("last");
-		// email.setOptional(true);
-		//all.setWildcard(true);
+		PatternNode last = new PatternNode("last");
 
 		TPEStack personStack = new TPEStack(person, null);
-		//TPEStack nameStack = new TPEStack(name, personStack);
-		//TPEStack allStack = new TPEStack(all, personStack);
 		TPEStack lastStack = new TPEStack(last, personStack);
 
-		//personStack.addChildStack(allStack);
 		personStack.addChildStack(lastStack);
-		//nameStack.addChildStack(allStack);
-		// personStack.addChildStack(name);
-		// nameStack.addChildStack(last);
 
-		//person.addChild(all);
 		person.addChild(last);
-		//name.addChild(all);
-		// name.addChild(last);
 
 		return personStack;
 	}
-	
+
 	public static TPEStack person2Stack() {
 		PatternNode person = new PatternNode("person");
 		PatternNode email = new PatternNode("email");

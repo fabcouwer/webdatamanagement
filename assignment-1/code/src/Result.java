@@ -1,3 +1,4 @@
+// Result class: corresponds to a node from the tree pattern
 public class Result implements Comparable<Result> {
 	int id;
 	int parentId;

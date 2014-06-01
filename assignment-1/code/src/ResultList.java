@@ -10,15 +10,18 @@ public class ResultList {
 		results = new ArrayList<Result>();
 	}
 
+	// Add new Result to this ResultList based on values
 	public void add(int id, int parentID, String name, String value, int depth) {
 		Result r = new Result(id, parentID, name, value, depth);
 		results.add(r);
 	}
 
+	// Add existing Result object to this ResultList
 	public void add(Result r) {
 		results.add(r);
 	}
 
+	// Remove Result with given id from this ResultList
 	public void removeResult(int id) {
 		int pos = -1;
 		for (int i = 0; i < results.size(); i++) {
@@ -32,18 +35,21 @@ public class ResultList {
 		}
 	}
 
+	// Print Results corresponding to the id's in list
 	public void printResultList(List<Integer> list) {
 		for (int i : list) {
 			System.out.println(getResult(i));
 		}
 	}
 
+	// Print every result in this list
 	public void print() {
 		for (Result r : results) {
 			System.out.println(r.toString());
 		}
 	}
 
+	// Retrieve a Result by id
 	public Result getResult(int id) {
 		for (Result r : results) {
 			if (r.getId() == id) {
@@ -55,6 +61,7 @@ public class ResultList {
 
 	/**
 	 * public method of printing the header and the contents of the Full table
+	 * 
 	 * @param rootStack
 	 */
 	public void printFullTable(TPEStack rootStack) {
@@ -62,7 +69,7 @@ public class ResultList {
 		System.out.println(printFullHeader(rootStack.getPatternNode()));
 		System.out.println(printFullTableContent(rootStack));
 	}
-	
+
 	private String printFullHeader(PatternNode p) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(p.getName() + "\t|");
@@ -73,7 +80,7 @@ public class ResultList {
 		}
 		return sb.toString();
 	}
-	
+
 	private String printFullTableContent(TPEStack t) {
 		StringBuilder sb = new StringBuilder();
 		for (Match m : t.getMatches()) {
@@ -89,11 +96,13 @@ public class ResultList {
 		StringBuilder sb = new StringBuilder();
 		sb.append(m.getPre() + "\t|"); // print the number
 		for (PatternNode p : m.getSt().getPatternNode().getChildren()) {
-			if(p.isQueried()){
+			if (p.isQueried()) {
 				if (m.getChildren().get(p) != null) {
-					for (Match m2 : m.getChildren().get(p)) {// get the child matches
+					for (Match m2 : m.getChildren().get(p)) {// get the child
+																// matches
 						if (m2.getPre() != m.getPre())
-							sb.append(printRecursiveTableContent(m2));// call recursively
+							sb.append(printRecursiveTableContent(m2));// call
+																		// recursively
 					}
 				} else {
 					sb.append("null\t|");
@@ -102,7 +111,7 @@ public class ResultList {
 		}
 		return sb.toString();
 	}
-	
+
 	public void printNameFullTable(TPEStack rootStack) {
 		System.out.println("Table with Names");
 		System.out.println(printFullHeader(rootStack.getPatternNode()));
@@ -128,7 +137,7 @@ public class ResultList {
 		}
 		sb.append(name + "\t|");
 		for (PatternNode p : m.getSt().getPatternNode().getChildren()) {
-			if(p.isQueried()){
+			if (p.isQueried()) {
 				if (m.getChildren().get(p) != null) {
 					for (Match m2 : m.getChildren().get(p)) {
 						if (m2.getPre() != m.getPre())
@@ -157,8 +166,11 @@ public class ResultList {
 		StringBuilder sb = new StringBuilder();
 		Result r = this.getResult(m.getPre());
 
-		if (r != null && r.getName() != null && (r.isQueried() || (!r.isQueried() && r.getValue().length()==0))) {
-			sb.append(printIndent(r.getDepth()) + "<" + r.getName() + ">"); // opening tag
+		if (r != null
+				&& r.getName() != null
+				&& (r.isQueried() || (!r.isQueried() && r.getValue().length() == 0))) {
+			sb.append(printIndent(r.getDepth()) + "<" + r.getName() + ">"); // opening
+																			// tag
 			if (r.getValue().length() > 0) {
 				sb.append(r.getValue());
 			} else {
@@ -166,9 +178,11 @@ public class ResultList {
 			}
 			for (PatternNode p : m.getSt().getPatternNode().getChildren()) {
 				if (m.getChildren().get(p) != null) {
-					for (Match m2 : m.getChildren().get(p)) {// get the child matches
+					for (Match m2 : m.getChildren().get(p)) {// get the child
+																// matches
 						if (m2.getPre() != m.getPre())
-							sb.append(printXMLrecursively(m2));// call recursively
+							sb.append(printXMLrecursively(m2));// call
+																// recursively
 					}
 				}
 			}
@@ -180,7 +194,7 @@ public class ResultList {
 		return sb.toString();
 	}
 
-	//Prints out a result list in XML format
+	// Prints out a result list in XML format
 	public String printXMLfromResultList() {
 		StringBuilder sb = new StringBuilder();
 		Stack<String> tagStack = new Stack<String>();
@@ -199,10 +213,10 @@ public class ResultList {
 			diff = currentDepth - r.getDepth();
 			if (diff > 0) {
 				for (int j = 0; j < diff; j++) {
-					if(tagStack.isEmpty())
+					if (tagStack.isEmpty())
 						break;
 					else
-					sb.append(tagStack.pop());
+						sb.append(tagStack.pop());
 				}
 			}
 			currentDepth = r.getDepth();
@@ -219,9 +233,9 @@ public class ResultList {
 			}
 
 		}
-		
-		//Empty out tagstack after last element
-		while(!tagStack.isEmpty()){
+
+		// Empty out tagstack after last element
+		while (!tagStack.isEmpty()) {
 			sb.append(tagStack.pop());
 		}
 
@@ -230,6 +244,7 @@ public class ResultList {
 		return sb.toString();
 	}
 
+	// Returns a String with a number of tabs corresponding to depth
 	private static String printIndent(int depth) {
 		String str = "";
 		for (int i = 0; i < depth; i++) {
@@ -238,7 +253,7 @@ public class ResultList {
 		return str;
 	}
 
-	// Sorts the results arraylist by ascending ID
+	// Sorts the results ArrayList by ascending ID
 	public void sortByID() {
 		Collections.sort(results);
 	}

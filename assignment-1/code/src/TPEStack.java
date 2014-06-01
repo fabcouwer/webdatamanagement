@@ -36,6 +36,9 @@ public class TPEStack {
 
 	}
 
+	// Recursively go through the children of this stack's node and initialize
+	// their TPEStacks
+	// Called at initialization of a StackEval object
 	public void initializeTree() {
 		if (patternNode.getChildren().size() != 0) {
 
@@ -47,21 +50,23 @@ public class TPEStack {
 		}
 	}
 
-	// Add child stack
+	// Add child stack to this stack's childStacks
 	public void addChildStack(TPEStack child) {
 		childStacks.add(child);
 	}
 
+	// Create a TPEStack for node and add it to this stack's childStacks
 	public void addChildStack(PatternNode node) {
 		childStacks.add(new TPEStack(node, this));
 	}
 
-	// Stack operations
+	// Push a Match onto this stack
 	public void push(Match m) {
 		matches.push(m);
 	}
 
-	// Returns the top element of the Matches stack
+	// Returns the top element of the Matches stack: if matches is empty,
+	// returns null
 	public Match top() {
 		if (!matches.isEmpty()) {
 			return matches.peek();
@@ -70,6 +75,7 @@ public class TPEStack {
 	}
 
 	// Returns true if the top match in matches is not null and open
+	// Else returns false
 	public boolean verifyTopMatch() {
 		if (!matches.isEmpty())
 			return (matches.peek().getState() == 1);
@@ -77,11 +83,11 @@ public class TPEStack {
 			return false;
 	}
 
+	// Pop a Match from the stack
 	public Match pop() {
 		return matches.pop();
 	}
 
-	// Getters
 	public PatternNode getPatternNode() {
 		return patternNode;
 	}
