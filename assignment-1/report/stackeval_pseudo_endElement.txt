@@ -1,0 +1,68 @@
+endElement(String nameSpaceURI, String localName, String rawName) {
+// we need to find out if the element ending now corresponded
+	// to matches in some stacks
+	// first, get the pre number of the element that ends now:
+	int preOflastOpen = preOfOpenNodes.pop();
+
+	// set this element's parent
+	if (!preOfOpenNodes.isEmpty()) {
+		results.getResult(preOflastOpen).setParentId(preOfOpenNodes.peek());
+		results.getResult(preOflastOpen).setName(rawName);
+	}
+
+	// now look for Match objects having this pre number:
+	for (TPEStack s : rootStack.getDescendantStacks()) {
+		PatternNode p = s.getPatternNode();
+		// Only check last 2 if s.top() is not null
+		if ((p.getName().equals(rawName) || p.isWildcard())
+				&& s.verifyTopMatch() && s.top().getPre() == preOflastOpen) {
+			// all descendants of this Match have been traversed by now.
+			Match m = s.top();
+			Result r1 = results.getResult(m.getPre());
+			if (r1 != null) {
+				r1.setName(rawName);
+				if (p.isQueried()) {
+					r1.setQueried(true);
+				}
+			}
+			m.close();
+
+			// Check for the value of the node
+			String value = m.getSt().getPatternNode().getValue();
+			if (!value.isEmpty()
+					&& !value.equals(nodeStrings.get(m.getPre()))) {
+				resultsMap.remove(m.getPre());
+				remove(m, s);
+
+				if (r1 != null) {
+					r1.setQueried(false);
+				}
+				if (m.getParent() != null) {
+					m.getParent().removeChild(s.getPatternNode(), m);
+				}
+			}
+
+			// check if m has child matches for all children of its pattern
+			// node
+			for (PatternNode pChild : p.getChildren()) {
+				// pChild is a child of the query node for which m was
+				// created
+				if (!pChild.isOptional()
+						&& (m.getChildren().get(pChild) == null || m
+								.getChildren().get(pChild).size() == 0)) {
+					// m lacks a child Match for the pattern node pChild
+					// we remove m from its Stack, detach it from its parent
+					remove(m, s);
+					if (r1 != null) {
+						r1.setQueried(false);
+					}
+					resultsMap.remove(m.getPre());
+					if (m.getParent() != null) {
+						m.getParent().removeChild(s.getPatternNode(), m);
+					}
+				}
+			}
+			m.close();
+		}
+	}
+}

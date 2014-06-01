@@ -1,0 +1,45 @@
+
+startElement(String nameSpaceURI, String localName, String rawName, Attributes attributes){
+	for (TPEStack s : rootStack.getDescendantStacks()) {
+		PatternNode p = s.getPatternNode();
+		TPEStack spar = s.getSpar();
+		if (rawName.equals(p.getName()) || p.isWildcard()) {
+			if (spar == null) {
+				Match m = new Match(currentPre, null, s);
+				resultsMap.put(currentPre, m);
+				s.push(m);
+			} else if (spar.top() != null && spar.top().getState() == 1) {
+				Match m = new Match(currentPre, spar.top(), s);
+				spar.top().addChild(s.getPatternNode(), m);
+				// create a match satisfying the ancestor conditions of
+				// query node s.p
+				resultsMap.put(currentPre, m);
+				s.push(m);
+			}
+		}
+	}
+	// Attributes part
+	for (int i = 0; i < attributes.getLength(); i++) {
+		// similarly look for query nodes possibly matched
+		// by the attributes of the currently started element
+		for (TPEStack s : rootStack.getDescendantStacks()) {
+			PatternNode p = s.getPatternNode();
+			TPEStack spar = s.getSpar();
+			if (attributes.getLocalName(i).equals(p.getName())
+					&& (spar == null || spar.verifyTopMatch())) {
+				Match ma;
+				if (spar == null) {
+					ma = new Match(currentPre, null, s);
+				} else {
+					ma = new Match(currentPre, spar.top(), s);
+					spar.top().addChild(p, ma);
+				}
+				nodeStrings.put(currentPre, attributes.getValue(i));
+				ma.close();
+				s.push(ma);
+			}
+		}
+	}
+	preOfOpenNodes.push(currentPre);
+	currentPre++;
+}

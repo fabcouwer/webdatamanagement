@@ -1,0 +1,32 @@
+Main(String query, String fileName){
+	rootNode <- new InputHandler(query).parseQuery();
+	s <- new StackEval(rootNode);
+	XMLReader.parse(fileName) using s as ContentHandler;
+}
+StackEval{
+	int currentPre = 1;
+	Stack<Integer> preOfOpenNodes = new Stack<Integer>();
+	Map<Integer, String> nodeStrings = new HashMap<Integer, String>();
+	Map<Integer, Match> resultsMap = new HashMap<Integer, Match>();
+
+	StackEval(PatternNode root){
+		this.rootStack <- new TPEStack(root);
+		Initialize TPEStacks of descendants of root;
+	}
+
+	startDocument(){
+		//EMPTY: initializing the necessary stacks is performed in the constructor
+	}
+	...
+}
+
+TPEStack{
+	...
+	public boolean verifyTopMatch() {
+		if (!matches.isEmpty())
+			return (matches.peek().getState() == 1);
+		else
+			return false;
+	}
+	...
+}

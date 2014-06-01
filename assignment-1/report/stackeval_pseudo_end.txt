@@ -1,0 +1,20 @@
+endDocument(){
+
+	finalResults <- new ResultList();
+	
+		for(Integer i : resultsMap.keySet()){ 
+			if(results.get(i) exists and is Queried){
+				add results.get(i) to finalResults;
+			}
+		}
+		
+	finalResults.sortByID();
+	
+	print result of the query in the form of a table and/or XML file;
+
+}
+	
+	
+	
+
+
