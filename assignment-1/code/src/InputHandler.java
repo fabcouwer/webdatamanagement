@@ -42,7 +42,7 @@ public class InputHandler {
 			qIn = query.substring(indexIn + 1, indexWhere);
 			qWhere = query.substring(indexWhere + 1, indexReturn);
 		} else {
-			System.out.println("indexes " + indexIn + " " + indexReturn);
+			//System.out.println("indexes " + indexIn + " " + indexReturn);
 			qIn = query.substring(indexIn + 1, indexReturn);
 		}
 		qReturn = query.substring(indexReturn + 1);
@@ -83,7 +83,7 @@ public class InputHandler {
 			descendants = content.substring(delimiter).split("]");
 		}
 		root.setFullName(root.getName());
-		root.setQueried(true);
+		root.setQueried(false);
 		TPEStack rootStack = new TPEStack(root, null);
 		stacks.put(root.getName(), rootStack);
 		nodes.put(root.getName(), root);
@@ -207,9 +207,9 @@ public class InputHandler {
 
 	private void parseReturn() {
 		// Remove "return (" and ")"
-		qReturn = qReturn.substring(8, qReturn.length() - 2);
-		//qReturn = qReturn.replace(")", "");
-		//qReturn = qReturn.replace("(", "");
+		qReturn = qReturn.substring(8, qReturn.length() - 1);
+		qReturn = qReturn.replace(")", "");
+		qReturn = qReturn.replace("(", "");
 		//System.out.println("qReturn: " + qReturn);
 		// TODO handle <res></res> tags
 
@@ -219,8 +219,8 @@ public class InputHandler {
 
 			insertReturns(root, returns[i].substring(qFor.length()));
 		}
-		System.out.println("parent: ");
-		System.out.println(root.toXMLString());
+		//System.out.println("parent: ");
+		//System.out.println(root.toXMLString());
 
 	}
 
@@ -230,7 +230,7 @@ public class InputHandler {
 		} else {
 			String separator = "/";
 			String nextPart = remainingPath;
-			System.out.println("remaining: " + remainingPath);
+			//System.out.println("remaining: " + remainingPath);
 
 			if (remainingPath.startsWith("//")) {
 				separator += "/";
@@ -240,10 +240,10 @@ public class InputHandler {
 				nextPart = remainingPath.split("/")[1];
 			}
 
-			System.out.println("nextpart: " + nextPart);
+			//System.out.println("nextpart: " + nextPart);
 
 			String nextNode = parent.getFullName() + separator + nextPart;
-			System.out.println("nextnode: " + nextNode);
+			//System.out.println("nextnode: " + nextNode);
 			if (nodes.containsKey(nextNode)) {
 				nodes.get(nextNode).setQueried(true);
 				insertReturns(nodes.get(nextNode),
@@ -253,7 +253,6 @@ public class InputHandler {
 				newNode.setFullName(parent.getFullName() + separator + nextPart);
 				// Since the node has not been made yet, it is optional
 				newNode.setOptional(true);
-
 				newNode.setQueried(true);
 
 				nodes.put(newNode.getFullName(), newNode);
@@ -292,18 +291,10 @@ public class InputHandler {
 			System.out.println(XQueryString);
 			XQueryFileReader.close();
 			
-			
-			//String testQ = "for $p in //person[//last] where $p/email='m@home', $p//last='Jones' return ($p//first, $p//last)";
-			//System.out.println(testQ);
-
 			InputHandler ih = new InputHandler(XQueryString);
 			PatternNode root = ih.parseQuery();
 			TPEStack t = new TPEStack(root, null);
-
-			System.out.println(root.toString());
-			System.out.println(root.toXMLString());
-			System.out.println();
-
+			
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser parser = factory.newSAXParser();
 			XMLReader reader = parser.getXMLReader();

@@ -96,7 +96,6 @@ public class TPEStack {
 
 	@Override
 	public String toString() {
-		return "TPEStack [patternNode=" + patternNode.toString() + ", spar="
-				+ spar.toString() + "]";
+		return "TPEStack [patternNode=" + patternNode.toString() + "]";
 	}
 }

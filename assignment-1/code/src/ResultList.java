@@ -55,7 +55,6 @@ public class ResultList {
 
 	/**
 	 * public method of printing the header and the contents of the Full table
-	 * TODO: only print queried results
 	 * @param rootStack
 	 */
 	public void printFullTable(TPEStack rootStack) {
@@ -68,7 +67,7 @@ public class ResultList {
 		StringBuilder sb = new StringBuilder();
 		sb.append(p.getName() + "\t|");
 		for (PatternNode p1 : p.getChildren()) {
-			if (p1.getChildren() != null) {
+			if (p1.getChildren() != null && p1.isQueried()) {
 				sb.append(printFullHeader(p1));
 			}
 		}
@@ -90,19 +89,20 @@ public class ResultList {
 		StringBuilder sb = new StringBuilder();
 		sb.append(m.getPre() + "\t|"); // print the number
 		for (PatternNode p : m.getSt().getPatternNode().getChildren()) {
-			if (m.getChildren().get(p) != null) {
-				for (Match m2 : m.getChildren().get(p)) {// get the child matches
-					if (m2.getPre() != m.getPre())
-						sb.append(printRecursiveTableContent(m2));// call recursively
+			if(p.isQueried()){
+				if (m.getChildren().get(p) != null) {
+					for (Match m2 : m.getChildren().get(p)) {// get the child matches
+						if (m2.getPre() != m.getPre())
+							sb.append(printRecursiveTableContent(m2));// call recursively
+					}
+				} else {
+					sb.append("null\t|");
 				}
-			} else {
-				sb.append("null\t|");
 			}
 		}
 		return sb.toString();
 	}
-
-	//TODO: only print queried results
+	
 	public void printNameFullTable(TPEStack rootStack) {
 		System.out.println("Table with Names");
 		System.out.println(printFullHeader(rootStack.getPatternNode()));
@@ -123,18 +123,20 @@ public class ResultList {
 		StringBuilder sb = new StringBuilder();
 		Result r = this.getResult(m.getPre());
 		String name = "" + m.getPre();
-		if (r != null && r.getValue().length() > 0) {
+		if (r != null && r.getValue().length() > 0 && r.isQueried()) {
 			name = r.getValue();
 		}
 		sb.append(name + "\t|");
 		for (PatternNode p : m.getSt().getPatternNode().getChildren()) {
-			if (m.getChildren().get(p) != null) {
-				for (Match m2 : m.getChildren().get(p)) {
-					if (m2.getPre() != m.getPre())
-						sb.append(printNameRecursiveTableContent(m2));
+			if(p.isQueried()){
+				if (m.getChildren().get(p) != null) {
+					for (Match m2 : m.getChildren().get(p)) {
+						if (m2.getPre() != m.getPre())
+							sb.append(printNameRecursiveTableContent(m2));
+					}
+				} else {
+					sb.append("null\t|");
 				}
-			} else {
-				sb.append("null\t|");
 			}
 		}
 		return sb.toString();
@@ -155,7 +157,7 @@ public class ResultList {
 		StringBuilder sb = new StringBuilder();
 		Result r = this.getResult(m.getPre());
 
-		if (r != null && r.getName() != null) {
+		if (r != null && r.getName() != null && (r.isQueried() || (!r.isQueried() && r.getValue().length()==0))) {
 			sb.append(printIndent(r.getDepth()) + "<" + r.getName() + ">"); // opening tag
 			if (r.getValue().length() > 0) {
 				sb.append(r.getValue());
@@ -166,7 +168,7 @@ public class ResultList {
 				if (m.getChildren().get(p) != null) {
 					for (Match m2 : m.getChildren().get(p)) {// get the child matches
 						if (m2.getPre() != m.getPre())
-							sb.append(printXMLrecursively(m2));// call recursivly
+							sb.append(printXMLrecursively(m2));// call recursively
 					}
 				}
 			}

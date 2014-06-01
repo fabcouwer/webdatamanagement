@@ -83,7 +83,7 @@ public class Match {
 	@Override
 	public String toString() {
 		return "Match [state=" + state + ", pre=" + pre
-				+ ", parent=" + parent + ", children=" + children + ", st="
-				+ st + "]";
+				+ ", children=" + children + ", st="
+				+ "]";
 	}
 }

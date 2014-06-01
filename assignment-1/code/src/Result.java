@@ -65,7 +65,7 @@ public class Result implements Comparable<Result> {
 	@Override
 	public String toString() {
 		return "Result [id=" + id + ", parentId=" + parentId + ", name=" + name
-				+ ", value=" + value + ", depth=" + depth + "]";
+				+ ", value=" + value + ", depth=" + depth + ", queried=" + queried +"]";
 	}
 
 	@Override

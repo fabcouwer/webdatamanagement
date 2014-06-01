@@ -157,14 +157,16 @@ public class StackEval implements ContentHandler {
 
 		}
 		finalResults.sortByID();
-		finalResults.print();
-
+		//System.out.println("print:");
+		//finalResults.print();
+		
+		//System.out.println("table:");
 		finalResults.printFullTable(rootStack);// prints result as a table
 		finalResults.printNameFullTable(rootStack);// print result with names
-		System.out.println(finalResults.printXMLfromResultList());// print
+		//System.out.println(finalResults.printXMLfromResultList());// print
 																	// result as
 																	// XML
-		System.out.println(finalResults.printXML(rootStack));// print result as
+		System.out.println(results.printXML(rootStack));// print result as
 																// XML
 	}
 

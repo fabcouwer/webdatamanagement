@@ -94,7 +94,7 @@ public class PatternNode {
 	}
 
 	public String toXMLString() {
-		String str = "<" + name + ">\n" + value;
+		String str = "<" + name + " queried=" + queried + ">\n" + value;
 		for (PatternNode p : children) {
 			str += p.toXMLString();
 		}

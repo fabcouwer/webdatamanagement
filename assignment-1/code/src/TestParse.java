@@ -21,7 +21,7 @@ public class TestParse {
 			 * reader.parse("test.xml");
 			 */
 			System.out.println("---second test---");
-			TPEStack tpe2 = person2Stack();
+			TPEStack tpe2 = wildcardStack();
 			System.out.println(tpe2.getPatternNode().toXMLString());
 			StackEval eval = new StackEval(tpe2.getPatternNode());
 			reader.setContentHandler(eval);
@@ -66,6 +66,7 @@ public class TestParse {
 	public static TPEStack wildcardStack() {
 		PatternNode wc = new PatternNode("*");
 		wc.setWildcard(true);
+		wc.setQueried(true);
 		return new TPEStack(wc, null);
 	}
 
@@ -102,6 +103,8 @@ public class TestParse {
 		PatternNode email = new PatternNode("email");
 		PatternNode name = new PatternNode("name");
 		PatternNode last = new PatternNode("last");
+		email.setQueried(true);
+		last.setQueried(true);
 
 		TPEStack personStack = new TPEStack(person, null);
 		TPEStack nameStack = new TPEStack(name, personStack);
