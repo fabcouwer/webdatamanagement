@@ -3,9 +3,9 @@ import java.util.List;
 
 public class PatternNode {
 
-	private String name; // The name/label of the node (for example 'firstname')
+	private String name; // The label (for example 'firstname')
 	private String value; // The value (for example 'Bob'), empty if N/A
-	private String fullName; // The full path name of the node (for example 'person/name/first')
+	private String fullName; // The full name (for example 'person/name/first')
 	private boolean wildcard = false;
 	private boolean optional = false;
 	private boolean queried = false;
