@@ -15,19 +15,14 @@ In this report we will show how we implemented an algorithm for evaluating tree-
 Enclosed with this report are an executable jar file, as well as the source code of the jar.
 The parser we created takes as input a query and an XML file and can display the result of the query in various formats. Alternatively, users can also define their own query trees in Java.  An example query is given in Listing~\ref{lst:query1}, and an example XML file in Listing~\ref{lst:people}.
 
-\lstinputlisting[label=lst:query1,caption=Example Query,float=h]{query1.xquery}
 
 Given an XML file such as the one given in the book and in Listing~\ref{lst:people}, the query will return all email and last name nodes of the person nodes that have an email and last name node.
 The result is a table or an XML file with these values.
 
-\lstinputlisting[language=XML,label=lst:people,caption=people.XML,float=h]{people.XML}
-
-\newpage
 \section{The Structure of the Algorithm}
 The algorithm that we created has several parts. First there is the PatternNode class that represents a single node in a XML document, such as the node with a name "email". Each node can have a value such as "a@work".
 When executing a query a TPEStack is created. A TPEStack consists of a PatternNode and a list of child TPEStacks. The TPEStack for Listing~\ref{lst:query1} can be constructed with the Java code shown in Listing~\ref{lst:tpestackexample}. 
 
-\lstinputlisting[language=Java,label=lst:tpestackexample,caption=Construction of a TPEStack for Query 1,float=h]{personstack.java}
 
 The TPEStack is used by the StackEval algorithm to create a Match object when an elementname matches the
 name of the PatternNode. The most important methods of this StackEval algorithm are \lstinline{startElement}; which is called everytime a opening tag is encountered, \lstinline{endElement}; which is called everytime a closing tag is found and \lstinline{characters}; which is called when text nodes are found. 
@@ -36,7 +31,6 @@ These Match objects keep a record of the TPEStack that was matched against this 
 
 As tree nodes are processed, they are saved into Result objects. This object has an \lstinline{id, parentId, name, value} and \lstinline{depth} at which the element was found, and can be sorted by ID. When the XML file has been parsed entirely, the desired Results are saved into a ResultList object that is able to print out the results as a table or as XML. As such, the StackEval class corresponds to the first assignment from the book (evaluating C-TP tree patterns), and together with the ResultList class corresponds to the second assignment (computing result tuples in the form of tables or XML).
 
-\newpage
 \section{Wildcards, Optional Nodes and Value Predicates}
 We proceeded with extending the algorithm further by allowing wildcards into the queries. We gave the PatternNode boolean fields \lstinline{wildcard} and \lstinline{optional}, and apapted the \lstinline{startElement} and \lstinline{endElement} methods to take into account situations when a wildcard or optional node was found. The way the results had to be printed had to be altered, however, since we needed to retrieve the name of the node in case of printing it as XML or print it with a wildcard symbol *, when printing it in a table, and \lstinline{null} values had to be used with optional nodes where applicable.
 Matching on value predicates turned out to be relatively simple to implement: if the tree pattern Stack had a node with the required value, we could check the nodes  in the input to see if they matched, and if not, remove the corresponding Matches from the list.
@@ -44,21 +38,16 @@ Matching on value predicates turned out to be relatively simple to implement: if
 \section{The Final Algorithm}
 A somewhat simplified version of the algorithm's code is presented in Listings~\ref{lst:pseudoinit} through~\ref{lst:pseudoend}. 
 
-\lstinputlisting[language=Java, label=lst:pseudoinit, caption="Initialization", float=h]{stackeval_pseudo_initialization.txt}
 After the InputHandler parses the query into a tree pattern, the StackEval class is initialized as shown in Listing~\ref{lst:pseudoinit}. The helper method verifyTopMatch() will be used later: it verifies that a TPEStack has matches and that its top match has an `open' state.\\
 
-\lstinputlisting[language=Java, label=lst:pseudostartele, caption=" startElement", float=h]{stackeval_pseudo_startElement.txt}
 The \lstinline{startElement} method is shown in Listing~\ref{lst:pseudostartele}. Though it is similar to the pseudocode given in the book, we had to switch to using \emph{rawName} rather than \emph{localName}. Since spar is not always defined, and its top Match might not always be defined either, we had to add checks for this as well.
 
-\lstinputlisting[language=Java, label=lst:pseudochars, caption="characters", float=h]{stackeval_pseudo_characters.txt}
 The \lstinline{characters} method is shown in Listing~\ref{lst:pseudochars}. For each element, a Result object is created. 
 In the case that the node has a text value, this is put into the result object as well as into nodeStrings, which maps pre numbers to values (and was also used in startElement).
 The appending in case of multiple calls is also important: we found that without it, it was not possible to correctly handle Strings with newlines or tabs.
 
-\lstinputlisting[language=Java, label=lst:pseudoendele, caption="endElement", float=h]{stackeval_pseudo_endElement.txt}
 Listing~\ref{lst:pseudoendele} shows the \lstinline{endElement} method. Compared to the one in the book, it adds housekeeping of Result attributes, as well as the handling of optional nodes, value predicates and matches and stacks that might not be defined.
 
-\lstinputlisting[language=Java, label=lst:pseudoend, caption="Final Part", float=h]{stackeval_pseudo_end.txt}
 Finally, the results are collected, sorted and presented, as shown in Listing~\ref{lst:pseudoend}.
 
 \section{Input \& Output}
@@ -71,16 +60,16 @@ The InputParser is an object that is created from a query String and is able to 
 \section{Testing the Parser}
 Using several different XML files, we tested the parser with different queries. For example, the query shown in Listing \ref{lst:query1} was tested against the XML file shown in Listing \ref{lst:people}. The result can be shown using a table as was done in the book~\cite{abiteboul2012web} or as XML, shown in Listing~\ref{lst:resultXML}.
 
-\lstinputlisting[language=XML, label=lst:resultXML, caption=The result of running Query 1 on people.XML,float=h]{result.XML}
 
 As can be seen, only the values of email and last are printed out. Because the person with the last name "Lang" does not have an email adress, only the last name is printed out. In the table this would have resulted in a \lstinline{null} value. 
 
 To test our algorithm, we created two classes: \lstinline{TestParse.java}, in which tree patterns are constructed by hand to test the algorithm, and \lstinline{TestQueries.java}, which tests the five queries presented in the book, along with a few other queries, and outputs the results in table and XML form.
-\todo{TODO: explain results}
+Most of the queries we tested the algorithm with performed correctly, with one exception: query \emph{q5} from the book. We believe this is due to the wildcard node between two named nodes, \emph{person/*/last}. We were unfortunately unable to correct this error in time for the deadline.
 
 \section{Future Improvements}
 Though our parser is functional, we believe there is still room for improvement. Some examples of this are the following:
 \begin{itemize}
+\item \textbf{Wildcards}: As stated above, queries with wildcards currently do not work if they are embedded between named nodes, for example as \emph{person/*/last}.
 \item \textbf{Documentation}: Though we believe our code to be readable without too many problems, the StackEval algorithm is quite extensive: more comments and other documentation would certainly help make it more accessible.
 \item \textbf{Memory Use}: In developing the algorithm, we have not paid much attention to the memory use of the algorithm. For example, printing results is done with a recursive method, which could very well cause problems as input size increases.
 \item \textbf{Input Parsing}: input queries are currently not checked for correctness. Checking the queries for correctness could help detect and correct common typos or mistakes.
@@ -88,10 +77,29 @@ Though our parser is functional, we believe there is still room for improvement.
 \item \textbf{XML Formatting}: XML indentation is now done based on the depth of elements in the original tree. This can lead to elements being indented several tabs ahead of the element above them in the result.
 \end{itemize}
 
-\newpage
-\lstlistoflistings
-
 \bibliographystyle{plain}
 \bibliography{references}
+
+\lstlistoflistings
+
+
+\lstinputlisting[label=lst:query1,caption=Example Query,float=h]{query1.xquery}
+\lstinputlisting[language=XML,label=lst:people,caption=people.XML,float=h]{people.XML}
+
+\lstinputlisting[language=Java,label=lst:tpestackexample,caption=Construction of a TPEStack for Query 1,float=h]{personstack.java}
+
+\lstinputlisting[language=Java, label=lst:pseudoinit, caption="Initialization", float=h]{stackeval_pseudo_initialization.txt}
+
+\lstinputlisting[language=Java, label=lst:pseudostartele, caption=" startElement", float=h]{stackeval_pseudo_startElement.txt}
+
+\lstinputlisting[language=Java, label=lst:pseudochars, caption="characters", float=h]{stackeval_pseudo_characters.txt}
+
+\lstinputlisting[language=Java, label=lst:pseudoendele, caption="endElement", float=h]{stackeval_pseudo_endElement.txt}
+
+\lstinputlisting[language=Java, label=lst:pseudoend, caption="Final Part", float=h]{stackeval_pseudo_end.txt}
+
+
+
+\lstinputlisting[language=XML, label=lst:resultXML, caption=The result of running Query 1 on people.XML,float=h]{result.XML}
 
 \end{document}
