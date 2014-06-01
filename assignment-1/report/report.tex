@@ -12,18 +12,19 @@
 \section{Introduction}
 In this report we will show how we implemented an algorithm for evaluating tree-pattern queries using SAX. SAX (Simple API for XML) is a way to parse XML documents using a stream of data, in contrast to DOM (Document Object Model), which is a complete representation of the XML file as a tree.
 
-The parser we created takes as input a query and an xml file and can display the result of the query in various formats. Alternatively, users can also define their own query trees in Java.  An example query is given in Listing~\ref{lst:query1}, and an example XML file in Listing~\ref{lst:people}.
+Enclosed with this report are an executable jar file, as well as the source code of the jar.
+The parser we created takes as input a query and an XML file and can display the result of the query in various formats. Alternatively, users can also define their own query trees in Java.  An example query is given in Listing~\ref{lst:query1}, and an example XML file in Listing~\ref{lst:people}.
 
 \lstinputlisting[label=lst:query1,caption=Example Query,float=h]{query1.xquery}
 
 Given an XML file such as the one given in the book and in Listing~\ref{lst:people}, the query will return all email and last name nodes of the person nodes that have an email and last name node.
 The result is a table or an XML file with these values.
 
-\lstinputlisting[language=XML,label=lst:people,caption=people.xml,float=h]{people.xml}
+\lstinputlisting[language=XML,label=lst:people,caption=people.XML,float=h]{people.XML}
 
 \newpage
 \section{The Structure of the Algorithm}
-The algorithm that we created has several parts. First there is the PatternNode class that represents a single node in a xml document, such as the node with a name "email". Each node can have a value such as "a@work".
+The algorithm that we created has several parts. First there is the PatternNode class that represents a single node in a XML document, such as the node with a name "email". Each node can have a value such as "a@work".
 When executing a query a TPEStack is created. A TPEStack consists of a PatternNode and a list of child TPEStacks. The TPEStack for Listing~\ref{lst:query1} can be constructed with the Java code shown in Listing~\ref{lst:tpestackexample}. 
 
 \lstinputlisting[language=Java,label=lst:tpestackexample,caption=Construction of a TPEStack for Query 1,float=h]{personstack.java}
@@ -62,28 +63,29 @@ Finally, the results are collected, sorted and presented, as shown in Listing~\r
 
 \section{Input \& Output}
 \subsection{Printing the result as XML}
-The result of the query can be printed out as valid XML. This is done by a method in the ResultList class, that encloses the result in results tags and then prints the opening tags in order and puts the closing stacks on a stack for later printing. When the next element to be examined has a lower depth than the current one, closing tags are popped from the stack and printed. The depth of each result is used to properly indent the text.
+The result of the query can be printed out as valid XML. This is done in the ResultList class: the elements' opening tags are printed in order and the closing tags are placed on a stack for later printing. When the next element to be examined has a lower depth than the current one, the closing tags are popped from the stack and printed. The depth of each result is used to properly indent the text.
 
 \subsection{Creating a TPEStack from a Query}
 The InputParser is an object that is created from a query String and is able to create a TPEStack corresponding to the query. Our parser does not support the Let clause, but the other clauses, For, In, Where, and Return, are supported. The InputHandler class of our code accepts a query String and separates it into these four clauses. Going through them in sequence, PatternNodes and TPEStacks are created to construct a tree pattern based on the input query. Finally, the root node of the generated tree pattern is returned.
 
 \section{Testing the Parser}
-\todo{Show that all the queries in the book work with our parser}
-Using several different XML files we tested the parser with different queries. The query which we showed in Listing \ref{lst:query1} and was tested against the XML file shown in Listing \ref{lst:people}. The result can be shown using a table as was done in the book~\cite{abiteboul2012web} or as valid XML as will be shown in Listing \ref{lst:resultxml}.
+Using several different XML files, we tested the parser with different queries. For example, the query shown in Listing \ref{lst:query1} was tested against the XML file shown in Listing \ref{lst:people}. The result can be shown using a table as was done in the book~\cite{abiteboul2012web} or as XML, shown in Listing~\ref{lst:resultXML}.
 
-\lstinputlisting[language=XML, label=lst:resultxml, caption=The result of running Query 1 on people.xml,float=h]{result.xml}
+\lstinputlisting[language=XML, label=lst:resultXML, caption=The result of running Query 1 on people.XML,float=h]{result.XML}
 
-As can be seen, only the values of email and last are printed out. Because the person with the last name "Lang" does not have a email adress, only his last name is printed out. In the table this would have resulted in a \lstinline{null} value. 
+As can be seen, only the values of email and last are printed out. Because the person with the last name "Lang" does not have an email adress, only the last name is printed out. In the table this would have resulted in a \lstinline{null} value. 
+
+To test our algorithm, we created two classes: \lstinline{TestParse.java}, in which tree patterns are constructed by hand to test the algorithm, and \lstinline{TestQueries.java}, which tests the five queries presented in the book, along with a few other queries, and outputs the results in table and XML form.
+\todo{TODO: explain results}
 
 \section{Future Improvements}
-Though our parser is functional, we believe there is still a lot of room for improvement. Some examples of this are the following:
-\todo{TODO: expand on this at the end}
+Though our parser is functional, we believe there is still room for improvement. Some examples of this are the following:
 \begin{itemize}
-\item Documentation: Though we believe our code is more or less presentable, the StackEval algorithm is quite extensive: therefore, the code could do with more comments and other documentation.
-\item Memory Use: In developing the algorithm, we have not paid much attention to the memory use of the algorithm. For example, printing results is done with a recursive method, which could very well cause problems as input size increases.
-\item Input Parsing: input queries are currently not checked for correctness. Checking the queries for correctness could help detect and correct common typos or mistakes.
-\item Error Handling: There is only limited error handling in this implementation, which reduces user-friendliness.
-\item XML Presentation: XML indentation is now done based on the depth of elements in the original tree. This can lead to elements being indented several tabs ahead of their parent element in the result. This could be fixed in the future.
+\item \textbf{Documentation}: Though we believe our code to be readable without too many problems, the StackEval algorithm is quite extensive: more comments and other documentation would certainly help make it more accessible.
+\item \textbf{Memory Use}: In developing the algorithm, we have not paid much attention to the memory use of the algorithm. For example, printing results is done with a recursive method, which could very well cause problems as input size increases.
+\item \textbf{Input Parsing}: input queries are currently not checked for correctness. Checking the queries for correctness could help detect and correct common typos or mistakes.
+\item \textbf{Error Handling}: There is only limited error handling in this implementation, which reduces user-friendliness.
+\item \textbf{XML Formatting}: XML indentation is now done based on the depth of elements in the original tree. This can lead to elements being indented several tabs ahead of the element above them in the result.
 \end{itemize}
 
 \newpage
