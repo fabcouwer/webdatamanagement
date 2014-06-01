@@ -179,7 +179,6 @@ public class ResultList {
 	}
 
 	//Prints out a result list in XML format
-	//TODO not working the same as printXML yet
 	public String printXMLfromResultList() {
 		StringBuilder sb = new StringBuilder();
 		Stack<String> tagStack = new Stack<String>();

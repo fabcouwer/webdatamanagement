@@ -9,7 +9,6 @@ public class PatternNode {
 	private boolean wildcard = false;
 	private boolean optional = false;
 	private boolean queried = false;
-	private int id;
 	private ArrayList<PatternNode> children;
 
 	// Constructor without value given
@@ -88,19 +87,15 @@ public class PatternNode {
 		this.fullName += s;
 	}
 
-	public int getId() {
-		return id;
-	}
-
 	@Override
 	public String toString() {
-		return "PatternNode [name=" + name + ", value=" + value + ", id=" + id
-				+ ", children=" + children.toString() + "]";
+		return "PatternNode [name=" + name + ", value=" + value + ", children="
+				+ children.toString() + "]";
 	}
-	
-	public String toXMLString(){
-		String str =  "<"+ name + ">\n" + value;
-		for(PatternNode p : children){
+
+	public String toXMLString() {
+		String str = "<" + name + ">\n" + value;
+		for (PatternNode p : children) {
 			str += p.toXMLString();
 		}
 		str += "</" + name + ">";

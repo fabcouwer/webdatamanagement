@@ -170,7 +170,7 @@ public class InputHandler {
 			} else {
 				PatternNode newNode = new PatternNode(nextPart);
 				newNode.setFullName(parent.getFullName() + "/" + nextPart);
-				
+
 				nodes.put(newNode.getFullName(), newNode);
 
 				TPEStack nodeStack = new TPEStack(newNode, stacks.get(parent
@@ -193,8 +193,8 @@ public class InputHandler {
 		// Remove "return (" and ")"
 		qReturn = qReturn.substring(8, qReturn.length() - 1);
 
-		//TODO handle <res></res> tags
-		
+		// TODO handle <res></res> tags
+
 		String[] returns = qReturn.split(",");
 		for (int i = 0; i < returns.length; i++) {
 			returns[i] = returns[i].trim();
@@ -218,16 +218,16 @@ public class InputHandler {
 			}
 			String nextNode = parent.getFullName() + "/" + nextPart;
 			if (nodes.containsKey(nextNode)) {
-				//TODO setqueried
+				nodes.get(nextNode).setQueried(true);
 				insertReturns(nodes.get(nextNode),
 						remainingPath.substring(nextPart.length() + 1));
 			} else {
 				PatternNode newNode = new PatternNode(nextPart);
 				newNode.setFullName(parent.getFullName() + "/" + nextPart);
-				//Since the node has not been made yet, it is optional
+				// Since the node has not been made yet, it is optional
 				newNode.setOptional(true);
-				
-				//TODO setqueried
+
+				newNode.setQueried(true);
 
 				nodes.put(newNode.getFullName(), newNode);
 
@@ -246,20 +246,21 @@ public class InputHandler {
 		}
 	}
 
-	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
+	public static void main(String[] args) throws ParserConfigurationException,
+			SAXException, IOException {
 		String testQ = "for $p in //person[name/last] where $p/email='m@home' , $p//last='Jones' return ($p/name/first, $p/name/last)";
-		
+
 		InputHandler ih = new InputHandler(testQ);
 		PatternNode root = ih.parseQuery();
 		TPEStack t = new TPEStack(root, null);
 		System.out.println(root.toString());
 		System.out.println(root.toXMLString());
 		System.out.println();
-		
+
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		SAXParser parser = factory.newSAXParser();
 		XMLReader reader = parser.getXMLReader();
-		
+
 		StackEval eval = new StackEval(t.getPatternNode());
 		reader.setContentHandler(eval);
 		reader.parse("people.xml");

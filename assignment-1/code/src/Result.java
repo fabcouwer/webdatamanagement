@@ -1,10 +1,10 @@
-public class Result implements Comparable<Result>{
+public class Result implements Comparable<Result> {
 	int id;
 	int parentId;
 	String name;
 	String value;
 	int depth;
-	//TODO keep track of whether related node was queried
+	boolean queried = false;
 
 	public Result(int id, int parentId, String name, String value, int depth) {
 		this.id = id;
@@ -54,6 +54,14 @@ public class Result implements Comparable<Result>{
 		this.depth = depth;
 	}
 
+	public boolean isQueried() {
+		return queried;
+	}
+
+	public void setQueried(boolean bool) {
+		this.queried = bool;
+	}
+
 	@Override
 	public String toString() {
 		return "Result [id=" + id + ", parentId=" + parentId + ", name=" + name
@@ -62,7 +70,7 @@ public class Result implements Comparable<Result>{
 
 	@Override
 	public int compareTo(Result other) {
-		//Sort Results in order of ascending ID
+		// Sort Results in order of ascending ID
 		return (this.getId() - other.getId());
 	}
 
