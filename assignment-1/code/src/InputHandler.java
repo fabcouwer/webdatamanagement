@@ -74,6 +74,7 @@ public class InputHandler {
 			descendants = content.substring(delimiter).split("]");
 		}
 		root.setFullName(root.getName());
+		root.setQueried(true);
 		TPEStack rootStack = new TPEStack(root, null);
 		stacks.put(root.getName(), rootStack);
 		nodes.put(root.getName(), root);
@@ -90,35 +91,38 @@ public class InputHandler {
 	}
 
 	private void parseDescendants(PatternNode parent, String remaining) {
+		int startNewName = 0;
+		String separator = "/";
 		if (remaining.startsWith("//")) {
-			// TODO handle ancestors
-		} else {
-			// check if we need to go deeper
-			int loc = remaining.indexOf("/");
-			PatternNode newNode;
-
-			if (loc > 0) {
-				newNode = new PatternNode(remaining.substring(0, loc));
-			} else {
-				newNode = new PatternNode(remaining);
-			}
-
-			newNode.setFullName((parent.getFullName() + "/" + newNode.getName()));
-			if (newNode.getName().equals("*")) {
-				newNode.setWildcard(true);
-			}
-			nodes.put(newNode.getFullName(), newNode);
-
-			TPEStack nodeStack = new TPEStack(newNode, stacks.get(parent
-					.getFullName()));
-			stacks.put(newNode.getFullName(), nodeStack);
-			stacks.get(parent.getFullName()).addChildStack(nodeStack);
-			parent.addChild(newNode);
-
-			if (loc > 0)
-				parseDescendants(newNode, remaining.substring(loc + 1));
-
+			startNewName = 2;
+			separator += "/";
 		}
+		// check if we need to go deeper
+		int loc = remaining.indexOf("/");
+		PatternNode newNode;
+
+		if (loc > 0) {
+			newNode = new PatternNode(remaining.substring(startNewName, loc));
+		} else {
+			newNode = new PatternNode(remaining.substring(startNewName));
+		}
+
+		newNode.setFullName((parent.getFullName() + separator + newNode
+				.getName()));
+		if (newNode.getName().equals("*")) {
+			newNode.setWildcard(true);
+		}
+		nodes.put(newNode.getFullName(), newNode);
+
+		TPEStack nodeStack = new TPEStack(newNode, stacks.get(parent
+				.getFullName()));
+		stacks.put(newNode.getFullName(), nodeStack);
+		stacks.get(parent.getFullName()).addChildStack(nodeStack);
+		parent.addChild(newNode);
+
+		if (loc > 0)
+			parseDescendants(newNode, remaining.substring(loc + 1));
+
 	}
 
 	private void parseWhere() {
@@ -128,27 +132,23 @@ public class InputHandler {
 		for (int i = 0; i < conditions.length; i++) {
 			conditions[i] = conditions[i].trim().substring(forLength);
 
-			if (conditions[i].startsWith("//")) {
-				// TODO
+			// Get full path for the condition
+			String conditionPath = conditions[i].substring(0,
+					conditions[i].indexOf("="));
+
+			// Get the required value
+			String conditionValue = conditions[i].substring(
+					conditions[i].indexOf("=") + 2, conditions[i].length() - 1);
+
+			// Insert value if node exists, otherwise go through the tree to
+			// create the node
+			if (nodes.containsKey(root.getFullName() + conditionPath)) {
+				nodes.get(root.getFullName() + conditionPath).setValue(
+						conditionValue);
 			} else {
-				// Get full path for the condition
-				String conditionPath = conditions[i].substring(0,
-						conditions[i].indexOf("="));
-
-				// Get the required value
-				String conditionValue = conditions[i].substring(
-						conditions[i].indexOf("=") + 2,
-						conditions[i].length() - 1);
-
-				// Insert value if node exists, otherwise go through the tree to
-				// create the node
-				if (nodes.containsKey(conditionPath)) {
-					nodes.get(conditionPath).setValue(conditionValue);
-				} else {
-					insertConditions(root, conditionPath, conditionValue);
-				}
-
+				insertConditions(root, conditionPath, conditionValue);
 			}
+
 		}
 	}
 
@@ -157,19 +157,26 @@ public class InputHandler {
 		if (remainingPath.isEmpty()) {
 			parent.setValue(conditionValue);
 		} else {
+			String separator = "/";
 			String nextPart = remainingPath;
+
+			if (remainingPath.startsWith("//")) {
+				separator += "/";
+				remainingPath = remainingPath.substring(1);
+			}
 			if (remainingPath.contains("/")) {
 				nextPart = remainingPath.split("/")[1];
 			}
 
-			String nextNode = parent.getFullName() + "/" + nextPart;
+			String nextNode = parent.getFullName() + separator + nextPart;
+
 			if (nodes.containsKey(nextNode)) {
 				insertConditions(nodes.get(nextNode),
 						remainingPath.substring(nextPart.length() + 1),
 						conditionValue);
 			} else {
 				PatternNode newNode = new PatternNode(nextPart);
-				newNode.setFullName(parent.getFullName() + "/" + nextPart);
+				newNode.setFullName(parent.getFullName() + separator + nextPart);
 
 				nodes.put(newNode.getFullName(), newNode);
 
@@ -199,11 +206,7 @@ public class InputHandler {
 		for (int i = 0; i < returns.length; i++) {
 			returns[i] = returns[i].trim();
 
-			if (returns[i].startsWith(qFor + "//")) {
-				// TODO ancestor
-			} else {
-				insertReturns(root, returns[i].substring(qFor.length()));
-			}
+			insertReturns(root, returns[i].substring(qFor.length()));
 		}
 
 	}
@@ -212,18 +215,29 @@ public class InputHandler {
 		if (remainingPath.isEmpty()) {
 			parent.setQueried(true);
 		} else {
+			String separator = "/";
 			String nextPart = remainingPath;
+			System.out.println("remaining: " + remainingPath);
+
+			if (remainingPath.startsWith("//")) {
+				separator += "/";
+				remainingPath = remainingPath.substring(1);
+			}
 			if (remainingPath.contains("/")) {
 				nextPart = remainingPath.split("/")[1];
 			}
-			String nextNode = parent.getFullName() + "/" + nextPart;
+
+			System.out.println("nextpart: " + nextPart);
+
+			String nextNode = parent.getFullName() + separator + nextPart;
+			System.out.println("nextnode: " + nextNode);
 			if (nodes.containsKey(nextNode)) {
 				nodes.get(nextNode).setQueried(true);
 				insertReturns(nodes.get(nextNode),
 						remainingPath.substring(nextPart.length() + 1));
 			} else {
 				PatternNode newNode = new PatternNode(nextPart);
-				newNode.setFullName(parent.getFullName() + "/" + nextPart);
+				newNode.setFullName(parent.getFullName() + separator + nextPart);
 				// Since the node has not been made yet, it is optional
 				newNode.setOptional(true);
 
@@ -248,11 +262,13 @@ public class InputHandler {
 
 	public static void main(String[] args) throws ParserConfigurationException,
 			SAXException, IOException {
-		String testQ = "for $p in //person[name/last] where $p/email='m@home' , $p//last='Jones' return ($p/name/first, $p/name/last)";
+		String testQ = "for $p in //person[//last] where $p/email='m@home', $p//last='Jones' return ($p//first, $p//last)";
+		System.out.println(testQ);
 
 		InputHandler ih = new InputHandler(testQ);
 		PatternNode root = ih.parseQuery();
 		TPEStack t = new TPEStack(root, null);
+
 		System.out.println(root.toString());
 		System.out.println(root.toXMLString());
 		System.out.println();
@@ -264,6 +280,7 @@ public class InputHandler {
 		StackEval eval = new StackEval(t.getPatternNode());
 		reader.setContentHandler(eval);
 		reader.parse("people.xml");
+
 	}
 
 }

@@ -105,6 +105,10 @@ public class StackEval implements ContentHandler {
 						&& !value.equals(nodeStrings.get(m.getPre()))) {
 					resultsMap.remove(m.getPre());
 					remove(m, s);
+
+					if (r1 != null) {
+						r1.setQueried(false);
+					}
 					if (m.getParent() != null) {
 						m.getParent().removeChild(s.getPatternNode(), m);
 					}
@@ -121,6 +125,9 @@ public class StackEval implements ContentHandler {
 						// m lacks a child Match for the pattern node pChild
 						// we remove m from its Stack, detach it from its parent
 						remove(m, s);
+						if (r1 != null) {
+							r1.setQueried(false);
+						}
 						resultsMap.remove(m.getPre());
 						if (m.getParent() != null) {
 							m.getParent().removeChild(s.getPatternNode(), m);
@@ -144,7 +151,7 @@ public class StackEval implements ContentHandler {
 		ResultList finalResults = new ResultList();
 		for (Integer i : resultsMap.keySet()) {
 			Result addToFinal = results.getResult(i);
-			if (addToFinal != null &&addToFinal.isQueried()){
+			if (addToFinal != null && addToFinal.isQueried()) {
 				finalResults.add(addToFinal);
 			}
 
