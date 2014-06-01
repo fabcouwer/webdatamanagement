@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -39,6 +42,7 @@ public class InputHandler {
 			qIn = query.substring(indexIn + 1, indexWhere);
 			qWhere = query.substring(indexWhere + 1, indexReturn);
 		} else {
+			System.out.println("indexes " + indexIn + " " + indexReturn);
 			qIn = query.substring(indexIn + 1, indexReturn);
 		}
 		qReturn = query.substring(indexReturn + 1);
@@ -46,10 +50,15 @@ public class InputHandler {
 	}
 
 	public PatternNode parseQuery() {
-
+		//System.out.println("for: "+ qFor);
+		//System.out.println("in: " + qIn);
+		//System.out.println("where: " + qWhere + qWhere.length());
+		//System.out.println("return: " + qReturn);
 		parseFor();
 		parseIn();
-		parseWhere();
+		if(qWhere.length()>0){//where is Optional
+			parseWhere();
+		}
 		parseReturn();
 
 		return root;
@@ -198,8 +207,10 @@ public class InputHandler {
 
 	private void parseReturn() {
 		// Remove "return (" and ")"
-		qReturn = qReturn.substring(8, qReturn.length() - 1);
-
+		qReturn = qReturn.substring(8, qReturn.length() - 2);
+		//qReturn = qReturn.replace(")", "");
+		//qReturn = qReturn.replace("(", "");
+		//System.out.println("qReturn: " + qReturn);
 		// TODO handle <res></res> tags
 
 		String[] returns = qReturn.split(",");
@@ -208,6 +219,8 @@ public class InputHandler {
 
 			insertReturns(root, returns[i].substring(qFor.length()));
 		}
+		System.out.println("parent: ");
+		System.out.println(root.toXMLString());
 
 	}
 
@@ -262,25 +275,43 @@ public class InputHandler {
 
 	public static void main(String[] args) throws ParserConfigurationException,
 			SAXException, IOException {
-		String testQ = "for $p in //person[//last] where $p/email='m@home', $p//last='Jones' return ($p//first, $p//last)";
-		System.out.println(testQ);
+		if(args.length<2){
+			System.out.println("two arguments needed:");
+			System.out.println("InputHandler <xquery file> <xml file>");
+		}
+		else{
+			File XQueryFile = new File(args[0]);
+			BufferedReader XQueryFileReader = new BufferedReader(new FileReader(XQueryFile));
+			
+			String XQueryString = "";
+			String line;
+			while((line = XQueryFileReader.readLine()) != null){
+				XQueryString += line + " ";
+			}
+			System.out.println("XQuery: ");
+			System.out.println(XQueryString);
+			XQueryFileReader.close();
+			
+			
+			//String testQ = "for $p in //person[//last] where $p/email='m@home', $p//last='Jones' return ($p//first, $p//last)";
+			//System.out.println(testQ);
 
-		InputHandler ih = new InputHandler(testQ);
-		PatternNode root = ih.parseQuery();
-		TPEStack t = new TPEStack(root, null);
+			InputHandler ih = new InputHandler(XQueryString);
+			PatternNode root = ih.parseQuery();
+			TPEStack t = new TPEStack(root, null);
 
-		System.out.println(root.toString());
-		System.out.println(root.toXMLString());
-		System.out.println();
+			System.out.println(root.toString());
+			System.out.println(root.toXMLString());
+			System.out.println();
 
-		SAXParserFactory factory = SAXParserFactory.newInstance();
-		SAXParser parser = factory.newSAXParser();
-		XMLReader reader = parser.getXMLReader();
+			SAXParserFactory factory = SAXParserFactory.newInstance();
+			SAXParser parser = factory.newSAXParser();
+			XMLReader reader = parser.getXMLReader();
 
-		StackEval eval = new StackEval(t.getPatternNode());
-		reader.setContentHandler(eval);
-		reader.parse("people.xml");
-
+			StackEval eval = new StackEval(t.getPatternNode());
+			reader.setContentHandler(eval);
+			reader.parse(args[1]);
+		}
 	}
 
 }
