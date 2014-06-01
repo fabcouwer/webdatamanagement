@@ -24,8 +24,6 @@ public class InputHandler {
 	private HashMap<String, PatternNode> nodes = new HashMap<String, PatternNode>();
 	private HashMap<String, TPEStack> stacks = new HashMap<String, TPEStack>();
 
-	// private ArrayList<String> requiredNodes = new ArrayList<String>();
-
 	public InputHandler(String q) {
 		this.query = q;
 
@@ -42,7 +40,6 @@ public class InputHandler {
 			qIn = query.substring(indexIn + 1, indexWhere);
 			qWhere = query.substring(indexWhere + 1, indexReturn);
 		} else {
-			//System.out.println("indexes " + indexIn + " " + indexReturn);
 			qIn = query.substring(indexIn + 1, indexReturn);
 		}
 		qReturn = query.substring(indexReturn + 1);
@@ -50,13 +47,9 @@ public class InputHandler {
 	}
 
 	public PatternNode parseQuery() {
-		//System.out.println("for: "+ qFor);
-		//System.out.println("in: " + qIn);
-		//System.out.println("where: " + qWhere + qWhere.length());
-		//System.out.println("return: " + qReturn);
 		parseFor();
 		parseIn();
-		if(qWhere.length()>0){//where is Optional
+		if (qWhere.length() > 0) {// where is optional
 			parseWhere();
 		}
 		parseReturn();
@@ -73,8 +66,8 @@ public class InputHandler {
 		String content = qIn.substring(3);
 		int delimiter = content.indexOf("[");
 		String[] descendants = new String[0];
-		
-		if(content.startsWith("*")){
+
+		if (content.startsWith("*")) {
 			root = new PatternNode("*");
 			root.setWildcard(true);
 		}
@@ -94,12 +87,10 @@ public class InputHandler {
 		for (int i = 0; i < descendants.length; i++) {
 			// Remove the [ from descendant names
 			descendants[i] = descendants[i].substring(1);
-			// System.out.println(descendants[i]);
 
 			// parse descendants for new nodes
 			parseDescendants(root, descendants[i]);
 		}
-
 	}
 
 	private void parseDescendants(PatternNode parent, String remaining) {
@@ -119,15 +110,13 @@ public class InputHandler {
 			newNode = new PatternNode(remaining.substring(startNewName));
 		}
 
-		newNode.setFullName((parent.getFullName() + separator + newNode
-				.getName()));
+		newNode.setFullName((parent.getFullName() + separator + newNode.getName()));
 		if (newNode.getName().equals("*")) {
 			newNode.setWildcard(true);
 		}
 		nodes.put(newNode.getFullName(), newNode);
 
-		TPEStack nodeStack = new TPEStack(newNode, stacks.get(parent
-				.getFullName()));
+		TPEStack nodeStack = new TPEStack(newNode, stacks.get(parent.getFullName()));
 		stacks.put(newNode.getFullName(), nodeStack);
 		stacks.get(parent.getFullName()).addChildStack(nodeStack);
 		parent.addChild(newNode);
@@ -145,18 +134,15 @@ public class InputHandler {
 			conditions[i] = conditions[i].trim().substring(forLength);
 
 			// Get full path for the condition
-			String conditionPath = conditions[i].substring(0,
-					conditions[i].indexOf("="));
+			String conditionPath = conditions[i].substring(0, conditions[i].indexOf("="));
 
 			// Get the required value
-			String conditionValue = conditions[i].substring(
-					conditions[i].indexOf("=") + 2, conditions[i].length() - 1);
+			String conditionValue = conditions[i].substring(conditions[i].indexOf("=") + 2, conditions[i].length() - 1);
 
 			// Insert value if node exists, otherwise go through the tree to
 			// create the node
 			if (nodes.containsKey(root.getFullName() + conditionPath)) {
-				nodes.get(root.getFullName() + conditionPath).setValue(
-						conditionValue);
+				nodes.get(root.getFullName() + conditionPath).setValue(conditionValue);
 			} else {
 				insertConditions(root, conditionPath, conditionValue);
 			}
@@ -164,8 +150,7 @@ public class InputHandler {
 		}
 	}
 
-	private void insertConditions(PatternNode parent, String remainingPath,
-			String conditionValue) {
+	private void insertConditions(PatternNode parent, String remainingPath, String conditionValue) {
 		if (remainingPath.isEmpty()) {
 			parent.setValue(conditionValue);
 		} else {
@@ -183,17 +168,14 @@ public class InputHandler {
 			String nextNode = parent.getFullName() + separator + nextPart;
 
 			if (nodes.containsKey(nextNode)) {
-				insertConditions(nodes.get(nextNode),
-						remainingPath.substring(nextPart.length() + 1),
-						conditionValue);
+				insertConditions(nodes.get(nextNode), remainingPath.substring(nextPart.length() + 1), conditionValue);
 			} else {
 				PatternNode newNode = new PatternNode(nextPart);
 				newNode.setFullName(parent.getFullName() + separator + nextPart);
 
 				nodes.put(newNode.getFullName(), newNode);
 
-				TPEStack nodeStack = new TPEStack(newNode, stacks.get(parent
-						.getFullName()));
+				TPEStack nodeStack = new TPEStack(newNode, stacks.get(parent.getFullName()));
 				stacks.put(newNode.getFullName(), nodeStack);
 				stacks.get(parent.getFullName()).addChildStack(nodeStack);
 				parent.addChild(newNode);
@@ -201,9 +183,7 @@ public class InputHandler {
 				if (newNode.getName().equals("*"))
 					newNode.setWildcard(true);
 
-				insertConditions(newNode,
-						remainingPath.substring(nextPart.length() + 1),
-						conditionValue);
+				insertConditions(newNode, remainingPath.substring(nextPart.length() + 1), conditionValue);
 			}
 		}
 	}
@@ -213,17 +193,13 @@ public class InputHandler {
 		qReturn = qReturn.substring(7, qReturn.length() - 1);
 		qReturn = qReturn.replace(")", "");
 		qReturn = qReturn.replace("(", "");
-		//System.out.println("qReturn: " + qReturn);
 		// TODO handle <res></res> tags
 
 		String[] returns = qReturn.split(",");
 		for (int i = 0; i < returns.length; i++) {
 			returns[i] = returns[i].trim();
-			System.out.println(returns[i]);
 			insertReturns(root, returns[i].substring(qFor.length()));
 		}
-		//System.out.println("parent: ");
-		//System.out.println(root.toXMLString());
 
 	}
 
@@ -233,8 +209,6 @@ public class InputHandler {
 		} else {
 			String separator = "/";
 			String nextPart = remainingPath;
-			//System.out.println("remaining: " + remainingPath);
-
 			if (remainingPath.startsWith("//")) {
 				separator += "/";
 				remainingPath = remainingPath.substring(1);
@@ -243,14 +217,10 @@ public class InputHandler {
 				nextPart = remainingPath.split("/")[1];
 			}
 
-			//System.out.println("nextpart: " + nextPart);
-
 			String nextNode = parent.getFullName() + separator + nextPart;
-			//System.out.println("nextnode: " + nextNode);
 			if (nodes.containsKey(nextNode)) {
 				nodes.get(nextNode).setQueried(true);
-				insertReturns(nodes.get(nextNode),
-						remainingPath.substring(nextPart.length() + 1));
+				insertReturns(nodes.get(nextNode), remainingPath.substring(nextPart.length() + 1));
 			} else {
 				PatternNode newNode = new PatternNode(nextPart);
 				newNode.setFullName(parent.getFullName() + separator + nextPart);
@@ -260,8 +230,7 @@ public class InputHandler {
 
 				nodes.put(newNode.getFullName(), newNode);
 
-				TPEStack nodeStack = new TPEStack(newNode, stacks.get(parent
-						.getFullName()));
+				TPEStack nodeStack = new TPEStack(newNode, stacks.get(parent.getFullName()));
 				stacks.put(newNode.getFullName(), nodeStack);
 				stacks.get(parent.getFullName()).addChildStack(nodeStack);
 				parent.addChild(newNode);
@@ -269,35 +238,30 @@ public class InputHandler {
 				if (newNode.getName().equals("*"))
 					newNode.setWildcard(true);
 
-				insertReturns(newNode,
-						remainingPath.substring(nextPart.length() + 1));
+				insertReturns(newNode, remainingPath.substring(nextPart.length() + 1));
 			}
 		}
 	}
 
-	public static void main(String[] args) throws ParserConfigurationException,
-			SAXException, IOException {
-		if(args.length<2){
+	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
+		if (args.length < 2) {
 			System.out.println("two arguments needed:");
 			System.out.println("InputHandler <xquery file> <xml file>");
-		}
-		else{
+		} else {
 			File XQueryFile = new File(args[0]);
 			BufferedReader XQueryFileReader = new BufferedReader(new FileReader(XQueryFile));
-			
+
 			String XQueryString = "";
 			String line;
-			while((line = XQueryFileReader.readLine()) != null){
+			while ((line = XQueryFileReader.readLine()) != null) {
 				XQueryString += line + " ";
 			}
-			System.out.println("XQuery: ");
-			System.out.println(XQueryString);
 			XQueryFileReader.close();
-			
+
 			InputHandler ih = new InputHandler(XQueryString);
 			PatternNode root = ih.parseQuery();
 			TPEStack t = new TPEStack(root, null);
-			
+
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser parser = factory.newSAXParser();
 			XMLReader reader = parser.getXMLReader();

@@ -171,10 +171,7 @@ public class ResultList {
 	private String printXMLrecursively(Match m) {
 		StringBuilder sb = new StringBuilder();
 		Result r = this.getResult(m.getPre());
-
-		if (r != null
-				&& r.getName() != null
-				&& (r.isQueried() || (!r.isQueried() && r.getValue().length() == 0))) {
+		if (r != null && r.getName() != null && (r.isQueried() || (!r.isQueried() && r.getValue().length() == 0))) {
 			sb.append(printIndent(r.getDepth()) + "<" + r.getName() + ">"); // opening
 																			// tag
 			if (r.getValue().length() > 0) {
@@ -219,10 +216,9 @@ public class ResultList {
 			diff = currentDepth - r.getDepth();
 			if (diff > 0) {
 				for (int j = 0; j < diff; j++) {
-					if (tagStack.isEmpty()){
+					if (tagStack.isEmpty()) {
 						break;
-					}
-					else if (!tagStack.peek().equals("null")){
+					} else if (!tagStack.peek().equals("null")) {
 						sb.append(tagStack.pop());
 					}
 				}
@@ -232,23 +228,19 @@ public class ResultList {
 			// Print <name>value</name> if value exists
 			// Else open a tag and put the closing tag on the stack for later
 			if (r.getValue().length() > 0) {
-				sb.append(printIndent(r.getDepth()) + "<" + r.getName() + ">"
-						+ r.getValue() + "</" + r.getName() + ">\n");
-			} else if(r.getName()!=null){
-				sb.append(printIndent(r.getDepth()) + "<" + r.getName() + ">\n");
-				tagStack.push(printIndent(r.getDepth()) + "</" + r.getName()
+				sb.append(printIndent(r.getDepth()) + "<" + r.getName() + ">" + r.getValue() + "</" + r.getName()
 						+ ">\n");
+			} else if (r.getName() != null) {
+				sb.append(printIndent(r.getDepth()) + "<" + r.getName() + ">\n");
+				tagStack.push(printIndent(r.getDepth()) + "</" + r.getName() + ">\n");
 			}
-
 		}
 
 		// Empty out tagstack after last element
 		while (!tagStack.isEmpty()) {
 			sb.append(tagStack.pop());
 		}
-
 		sb.append("</results>\n");
-
 		return sb.toString();
 	}
 
