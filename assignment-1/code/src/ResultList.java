@@ -151,15 +151,21 @@ public class ResultList {
 		return sb.toString();
 	}
 
+	// XML Methods
 	public String printXML(TPEStack t) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-		sb.append("<results>\n");// enclose results in results node
-		for (Match m : t.getMatches()) {
-			sb.append(printXMLrecursively(m));
+		if (t.getPatternNode().getName().equals("*")) {
+			// If the rootnode is a wildcard the results are not printed correctly recursively
+			return printXMLfromResultList();
+		} else {
+			StringBuilder sb = new StringBuilder();
+			sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+			sb.append("<results>\n");// enclose results in results node
+			for (Match m : t.getMatches()) {
+				sb.append(printXMLrecursively(m));
+			}
+			sb.append("</results>\n");
+			return sb.toString();
 		}
-		sb.append("</results>\n");
-		return sb.toString();
 	}
 
 	private String printXMLrecursively(Match m) {
@@ -213,10 +219,12 @@ public class ResultList {
 			diff = currentDepth - r.getDepth();
 			if (diff > 0) {
 				for (int j = 0; j < diff; j++) {
-					if (tagStack.isEmpty())
+					if (tagStack.isEmpty()){
 						break;
-					else
+					}
+					else if (!tagStack.peek().equals("null")){
 						sb.append(tagStack.pop());
+					}
 				}
 			}
 			currentDepth = r.getDepth();
@@ -226,7 +234,7 @@ public class ResultList {
 			if (r.getValue().length() > 0) {
 				sb.append(printIndent(r.getDepth()) + "<" + r.getName() + ">"
 						+ r.getValue() + "</" + r.getName() + ">\n");
-			} else {
+			} else if(r.getName()!=null){
 				sb.append(printIndent(r.getDepth()) + "<" + r.getName() + ">\n");
 				tagStack.push(printIndent(r.getDepth()) + "</" + r.getName()
 						+ ">\n");
