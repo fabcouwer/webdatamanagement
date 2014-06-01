@@ -22,7 +22,7 @@ The result is a table or an XML file with these values.
 \lstinputlisting[label=lst:people,caption=people.xml,float=h]{people.xml}
 
 \newpage
-\section{The structure of the algorithm}
+\section{The Structure of the Algorithm}
 The algorithm that we created has several parts. First there is the PatternNode class that represents a single node in a xml document, such as the node with a name "email". Each node can have a value such as "a@work".
 When executing a query a TPEStack is created. A TPEStack consists of a PatternNode and a list of child TPEStacks. The TPEStack for Listing \ref{lst:query1} can be constructed with the Java code shown in Listing \ref{lst:tpestackexample}. 
 
@@ -46,6 +46,11 @@ We proceeded with extending the algorithm further by allowing wildcards into the
 The result of the query can be printed out as valid XML. This is done by a method in the ResultList class, that encloses the result in results tags and then prints the opening tags in order and puts the closing stacks on a stack for later printing. When there are no more results the closing tags are popped from the stack and printed. The depth of each result is used to indent the text.
 
 \subsection{Creating a TPEStack from a Query}
+The InputParser is an object that is created from a XQuery String and is able to create a TPEStack from this String. An XQuery is a FLWOR expression that consists of several parts, some of them optional. In our parser we didn't add the support for the Let clause, but the other parts are supported.
+The for-clause and in-clause selects from which variable the parser should iterate. For example in Listing \ref{lst:query1} line 1, we are only interested in descendants of the person node, that have an email and name/last descendant. 
+In
+Where
+Return
 \todo{TODO: explain how the InputParser works}
 
 \newpage
