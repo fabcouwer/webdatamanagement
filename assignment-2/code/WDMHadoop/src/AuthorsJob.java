@@ -13,7 +13,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 /**
- * The follozing class implements the Job submission, based on 
+ * The following class implements the Job submission, based on 
  * the Mapper (AuthorsMapper) and the Reducer (CountReducer)
  */
 public class AuthorsJob {
@@ -21,7 +21,7 @@ public class AuthorsJob {
   public static void main(String[] args) throws Exception {
 
 	/*
-	 * Load the Haddop configuration. IMPORTANT: the 
+	 * Load the Hadoop configuration. IMPORTANT: the 
 	 * $HADOOP_HOME/conf directory must be in the CLASSPATH
 	 */
 	Configuration conf = new Configuration();
@@ -34,11 +34,13 @@ public class AuthorsJob {
 	}
 
 	/* Allright, define and submit the job */
+	@SuppressWarnings("deprecation")
 	Job job = new Job(conf, "Authors count");
 
 	/* Define the Mapper and the Reducer */
-	job.setMapperClass(Authors.AuthorsMapper.class);
-	job.setReducerClass(Authors.CountReducer.class);
+	job.setMapperClass(AuthorsMapper.class);
+	job.setCombinerClass(AuthorsCombiner.class);
+	job.setReducerClass(AuthorsReducer.class);
 
 	/* Define the output type */
 	job.setOutputKeyClass(Text.class);
