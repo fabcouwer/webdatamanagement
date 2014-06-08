@@ -25,10 +25,10 @@ public class MoviesReducer extends
 		for (Text value : values) {
 			if (key.get() == 1) {
 				// Write to title-actor
-				outputs.write("title-and-actor", NullWritable.get(), value);
+				outputs.write("titleAndActor", NullWritable.get(), value);
 			} else if (key.get() == 2) {
 				// Write to director-title
-				outputs.write("director-and-title", NullWritable.get(), value);
+				outputs.write("directorAndTitle", NullWritable.get(), value);
 			}
 		}
 	}

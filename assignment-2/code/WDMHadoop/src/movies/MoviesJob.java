@@ -25,12 +25,13 @@ public class MoviesJob {
 		conf.set("xmlinput.end", "</movie>");
 
 		if (args.length != 2) {
-			System.err.println("Usage: MoviesJob <in> <out>");
+			System.err.println("Usage: <in> <out>");
 			System.exit(2);
 		}
 
 		@SuppressWarnings("deprecation")
 		Job job = new Job(conf, "Movie title-actor-director");
+		job.setJarByClass(MoviesJob.class);
 
 		/* Define the Mapper and the Reducer */
 		job.setMapperClass(MoviesMapper.class);
@@ -47,9 +48,9 @@ public class MoviesJob {
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
 		/* Set multiple outputs (2 files in this case) */
-		MultipleOutputs.addNamedOutput(job, "title-and-actor",
+		MultipleOutputs.addNamedOutput(job, "titleAndActor",
 				TextOutputFormat.class, NullWritable.class, Text.class);
-		MultipleOutputs.addNamedOutput(job, "director-and-title",
+		MultipleOutputs.addNamedOutput(job, "directorAndTitle",
 				TextOutputFormat.class, NullWritable.class, Text.class);
 
 		/* Do it! */
