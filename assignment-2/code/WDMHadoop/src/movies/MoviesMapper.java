@@ -1,6 +1,7 @@
 package movies;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.List;
 
 import org.apache.hadoop.io.IntWritable;
@@ -27,7 +28,7 @@ public class MoviesMapper extends Mapper<LongWritable, Text, IntWritable, Text> 
 		SAXBuilder builder = new SAXBuilder();
 
 		try {
-			Document d = builder.build(value.toString());
+			Document d = builder.build(new StringReader(value.toString()));
 			Element movie = d.getRootElement();
 
 			// Get movie information
