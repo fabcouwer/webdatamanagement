@@ -1,0 +1,64 @@
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{fullpage}
+\usepackage{color}
+\usepackage{caption}
+\usepackage{todonotes}
+\usepackage{listings}
+\usepackage{courier}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[]{natbib}
+
+%eclipse colors
+\definecolor{sh_comment}{rgb}{0.12, 0.38, 0.18}
+\definecolor{sh_keyword}{rgb}{0.37, 0.08, 0.25}
+\definecolor{sh_string}{rgb}{0.06, 0.10, 0.98}
+
+\lstdefinelanguage{PIG}{
+    morecomment=[l]{--},
+    morekeywords={
+        LOAD,
+        FOREACH,
+        GENERATE,
+        GROUP,
+        COGROUP,
+        AS,
+        BY,
+        DUMP
+        },
+    morestring=[b]',
+    sensitive=false
+}
+
+\lstset{
+    language=Java,
+    basicstyle=\footnotesize\ttfamily,
+    numbers=left,
+    numberstyle=\tiny,
+    stepnumber=1,
+    numbersep=5pt,
+    tabsize=2,
+    extendedchars=true,
+    breaklines=true,
+	frame=b,         
+    stringstyle=\color{sh_string},
+    keywordstyle=\color{sh_keyword}\bfseries,
+    commentstyle=\color{sh_comment}\itshape,
+    showspaces=false,
+    showtabs=false,
+    xleftmargin=17pt,
+    framexleftmargin=17pt,
+    framexrightmargin=5pt,
+    framexbottommargin=4pt,
+    showstringspaces=false    
+ }
+ \lstloadlanguages{
+         XML,
+         PIG,
+         Java
+ }
+
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35,0.01}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
