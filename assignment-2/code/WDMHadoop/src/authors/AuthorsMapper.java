@@ -1,3 +1,5 @@
+package authors;
+
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -18,5 +20,6 @@ public class AuthorsMapper extends Mapper<Object, Text, Text, IntWritable> {
 	  line.useDelimiter("\t");
 	  author.set(line.next());
 	  context.write(author, one);
+	  line.close();
 	}
   }

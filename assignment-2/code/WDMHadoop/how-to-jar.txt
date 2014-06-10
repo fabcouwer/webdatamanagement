@@ -1,0 +1,3 @@
+1. Use correct pom.xml
+2. Go to project directory
+3. Run command "mvn assembly:assembly -DdescriptorId=jar-with-dependencies"

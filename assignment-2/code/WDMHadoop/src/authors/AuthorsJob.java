@@ -1,3 +1,4 @@
+package authors;
 /**
  * Example of a simple MapReduce job: it reads 
  * file containing authors and publications, and 
@@ -33,7 +34,7 @@ public class AuthorsJob {
 	  System.exit(2);
 	}
 
-	/* Allright, define and submit the job */
+	/* Alright, define and submit the job */
 	@SuppressWarnings("deprecation")
 	Job job = new Job(conf, "Authors count");
 
