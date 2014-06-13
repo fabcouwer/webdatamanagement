@@ -20,7 +20,6 @@ public class IFDocFrequencyMapper extends Mapper<LongWritable, Text, Text, IntWr
 
 		SAXBuilder builder = new SAXBuilder();
 		Text word = new Text();
-		// TODO get all text from the summary, not just the first word
 		try {
 			Document d = builder.build(new StringReader(value.toString()));
 			Element movie = d.getRootElement();
@@ -35,7 +34,7 @@ public class IFDocFrequencyMapper extends Mapper<LongWritable, Text, Text, IntWr
 				//line.useDelimiter(" ");
 				// TODO should we do this in a loop???
 				while(m.find()){
-					word.set(movieTitle + "\t" + m.group().toLowerCase());
+					word.set(movieTitle + "@" + m.group().toLowerCase());
 					context.write(word, new IntWritable(1));
 				}
 			}
