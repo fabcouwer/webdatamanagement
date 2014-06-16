@@ -1,0 +1,7 @@
+-- Load title-and-actor.txt and group on the title. The actors (along with their roles)
+-- should appear as a nested bag.
+titles = LOAD 'title-and-actor.txt'
+as (title:chararray, actor:chararray, year:int, role:chararray);
+titlegroup = group titles by title;
+titleactor = foreach titlegroup generate group, titles.actor;
+STORE titleactor INTO 'result1';

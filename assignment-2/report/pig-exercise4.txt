@@ -1,0 +1,16 @@
+-- Write a PIG program that retrieves the actors that are also director of some movie: output a tuple
+-- for each artist, with two nested bags, one with the movies s/he played a role in, and one with the
+-- movies s/he directed.
+
+-- title and actor
+titlesfile = LOAD 'title-and-actor.txt'
+as (title:chararray, actor:chararray, year:int, role:chararray);
+
+-- director and title
+directorsfile = LOAD 'director-and-title.txt'
+as (director:chararray, title:chararray, year:int);
+
+-- apply cogroup
+grouped = COGROUP titlesfile BY actor INNER, directorsfile BY director INNER;
+filtered = FOREACH grouped GENERATE $0, $1.title, $2.title;
+STORE filtered INTO 'result4';

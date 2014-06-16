@@ -1,0 +1,15 @@
+-- write a modified version that looks for artists that were 
+-- both actors and director of a same movie.
+
+-- title and actor
+titlesfile = LOAD 'title-and-actor.txt'
+as (title:chararray, actor:chararray, year:int, role:chararray);
+
+-- director and title
+directorsfile = LOAD 'director-and-title.txt'
+as (director:chararray, title:chararray, year:int);
+
+-- apply join and filter
+grouped = JOIN titlesfile BY title, directorsfile BY title;
+filtered = FILTER grouped BY $1 == $4;
+STORE filtered INTO 'result5';

@@ -1,0 +1,14 @@
+-- Apply the cogroup operator to associate a movie, its director and its actors from both sources.
+
+-- title and actor
+titlesfile = LOAD 'title-and-actor.txt'
+as (title:chararray, actor:chararray, year:int, role:chararray);
+
+-- director and title
+directorsfile = LOAD 'director-and-title.txt'
+as (director:chararray, title:chararray, year:int);
+
+-- apply cogroup
+grouped = COGROUP titlesfile BY title, directorsfile BY title;
+filtered = FOREACH grouped GENERATE $0, $1.actor, $2.director;
+STORE filtered INTO 'result3';
