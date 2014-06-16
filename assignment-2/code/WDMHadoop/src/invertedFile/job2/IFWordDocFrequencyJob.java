@@ -13,8 +13,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
  * 
  * @input key:<title>@<word> value:<wordcount>
  * @output key:<title> value:<totalwordcount>
- *
- */
+ * */
 public class IFWordDocFrequencyJob {
 	private static final String INPUT_DIR = "output1";
 	private static final String OUTPUT_DIR = "output2";
