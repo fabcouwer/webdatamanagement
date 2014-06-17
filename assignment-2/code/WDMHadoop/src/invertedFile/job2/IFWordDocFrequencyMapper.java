@@ -14,7 +14,5 @@ public class IFWordDocFrequencyMapper extends Mapper<LongWritable, Text, Text, T
         String word = wordAndDoc[0];
         String doc = wordAndDoc[1];
         context.write(new Text(doc), new Text(word + "=" + counter));
-
 	}
-
 }
