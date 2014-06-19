@@ -13,7 +13,13 @@ public class IFWordDocFrequencyReducer extends Reducer<Text, Text, Text, Text>{
 		int totalWordInDocument = 0;
 		Map<String, Integer> wordFreq= new HashMap<>();
 		for(Text value : values){
-			int count = Integer.parseInt(value.toString().split("=")[1]);
+			int count;
+			try{
+				count = Integer.parseInt(value.toString().split("=")[1]);
+			}
+			catch(NumberFormatException e){
+				count = 0;
+			}
 			totalWordInDocument += count;
 			wordFreq.put(value.toString().split("=")[0], count);
 		}

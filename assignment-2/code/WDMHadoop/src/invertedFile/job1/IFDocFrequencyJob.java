@@ -25,8 +25,8 @@ public class IFDocFrequencyJob{
 
 		// Load the Hadoop configuration.
 		Configuration conf = new Configuration();
-		conf.set("xmlinput.start", "<movie>");
-		conf.set("xmlinput.end", "</movie>");
+		conf.set("xmlinput.start", "<page>");
+		conf.set("xmlinput.end", "</page>");
 
 		if (args.length != 1) {
 			System.err.println("Usage: <in>");

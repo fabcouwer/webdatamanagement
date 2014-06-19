@@ -25,11 +25,12 @@ public class IFJob{
 	
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws Exception {
+		long start = System.currentTimeMillis();
 		// ** Job1 ***
 		// Load the Hadoop configuration.
 		Configuration conf = new Configuration();
-		conf.set("xmlinput.start", "<movie>");
-		conf.set("xmlinput.end", "</movie>");
+		conf.set("xmlinput.start", "<page>");
+		conf.set("xmlinput.end", "</page>");
 
 		if (args.length != 2) {
 			System.err.println("Usage: <in> <out>");
@@ -51,10 +52,10 @@ public class IFJob{
 		/* Set the input and the output */
 		FileInputFormat.addInputPath(job1, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job1, new Path(TEMP_DIR1));
-		job1.waitForCompletion(true);
 		
 		/* Do it! */
-		job1.submit();
+		job1.waitForCompletion(true);
+		//job1.submit();
 		
 		// ** Job2 ***
 		Configuration conf2 = new Configuration();
@@ -75,9 +76,9 @@ public class IFJob{
 		FileInputFormat.addInputPath(job2, new Path(TEMP_DIR1));
 		FileOutputFormat.setOutputPath(job2, new Path(TEMP_DIR2));
 		
-		job1.waitForCompletion(true);
 		/* Do it! */
-		job2.submit();
+		job2.waitForCompletion(true);
+		//job2.submit();
 		
 		// *** job 3 ***
 		Configuration conf3 = new Configuration();
@@ -98,7 +99,9 @@ public class IFJob{
 		FileOutputFormat.setOutputPath(job3, new Path(args[1]));
 		
 		/* Do it! */
-		job3.submit();
-		
+		job3.waitForCompletion(true);
+		//job3.submit();
+		long end = System.currentTimeMillis();
+		System.out.println("time in seconds: " + (end - start)/1000);
 	}
 }

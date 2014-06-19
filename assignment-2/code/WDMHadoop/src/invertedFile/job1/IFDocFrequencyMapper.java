@@ -19,23 +19,22 @@ public class IFDocFrequencyMapper extends Mapper<LongWritable, Text, Text, IntWr
 			throws IOException, InterruptedException {
 
 		SAXBuilder builder = new SAXBuilder();
-		Text word = new Text();
 		try {
 			Document d = builder.build(new StringReader(value.toString()));
-			Element movie = d.getRootElement();
+			Element el = d.getRootElement();
 
 			// Get movie information
-			String movieTitle = movie.getChildText("title");
-			String movieSummary = movie.getChildText("summary");
-			if(movieSummary!=null){
+			String title = el.getChildText("title");
+			String text = el.getChild("revision").getChildText("text");
+			if(text!=null){
 				Pattern p = Pattern.compile("\\w+");
-		        Matcher m = p.matcher(movieSummary.toString());
-				//Scanner line = new Scanner(movieSummary);
-				//line.useDelimiter(" ");
+		        Matcher m = p.matcher(text.toString());
 				// TODO should we do this in a loop???
 				while(m.find()){
-					word.set(movieTitle + "@" + m.group().toLowerCase());
-					context.write(word, new IntWritable(1));
+					String word = m.group().toLowerCase();
+					if(word.length()>3){
+						context.write(new Text(title + "@" + word), new IntWritable(1));
+					}
 				}
 			}
 		} catch (JDOMException e) {
