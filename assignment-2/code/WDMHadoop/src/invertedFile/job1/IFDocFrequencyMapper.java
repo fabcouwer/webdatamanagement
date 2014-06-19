@@ -14,7 +14,8 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
-public class IFDocFrequencyMapper extends Mapper<LongWritable, Text, Text, IntWritable>{
+public class IFDocFrequencyMapper extends
+		Mapper<LongWritable, Text, Text, IntWritable> {
 	public void map(LongWritable key, Text value, Context context)
 			throws IOException, InterruptedException {
 
@@ -26,15 +27,14 @@ public class IFDocFrequencyMapper extends Mapper<LongWritable, Text, Text, IntWr
 			// Get movie information
 			String title = el.getChildText("title");
 			String text = el.getChild("revision").getChildText("text");
-			if(text!=null){
+			if (text != null) {
 				Pattern p = Pattern.compile("\\w+");
-		        Matcher m = p.matcher(text.toString());
+				Matcher m = p.matcher(text.toString());
 				// TODO should we do this in a loop???
-				while(m.find()){
+				while (m.find()) {
 					String word = m.group().toLowerCase();
-					if(word.length()>3){
-						context.write(new Text(title + "@" + word), new IntWritable(1));
-					}
+					context.write(new Text(title + "@" + word),
+							new IntWritable(1));
 				}
 			}
 		} catch (JDOMException e) {

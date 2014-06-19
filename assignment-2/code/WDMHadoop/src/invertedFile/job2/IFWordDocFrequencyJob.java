@@ -17,12 +17,13 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 public class IFWordDocFrequencyJob {
 	private static final String INPUT_DIR = "output1";
 	private static final String OUTPUT_DIR = "output2";
+
 	/**
 	 * @param args
-	 * @throws IOException 
-	 * @throws IllegalArgumentException 
-	 * @throws InterruptedException 
-	 * @throws ClassNotFoundException 
+	 * @throws IOException
+	 * @throws IllegalArgumentException
+	 * @throws InterruptedException
+	 * @throws ClassNotFoundException
 	 */
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
@@ -35,7 +36,7 @@ public class IFWordDocFrequencyJob {
 		job.setReducerClass(IFWordDocFrequencyReducer.class);
 
 		/* Define the input and output types */
-		//job.setInputFormatClass(XmlInputFormat.class);
+		// job.setInputFormatClass(XmlInputFormat.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(Text.class);
 

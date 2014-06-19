@@ -12,12 +12,13 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 public class IDFJob {
 	private static final String INPUT_DIR = "output2";
 	private static final String OUTPUT_DIR = "output3";
+
 	/**
 	 * @param args
-	 * @throws IOException 
-	 * @throws IllegalArgumentException 
-	 * @throws InterruptedException 
-	 * @throws ClassNotFoundException 
+	 * @throws IOException
+	 * @throws IllegalArgumentException
+	 * @throws InterruptedException
+	 * @throws ClassNotFoundException
 	 */
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();

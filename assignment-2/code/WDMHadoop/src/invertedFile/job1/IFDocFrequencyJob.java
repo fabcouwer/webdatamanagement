@@ -11,16 +11,17 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 /**
- * This job should get a movie xml file as input and gives as output the amount of times a word was found in the summary
+ * This job should get a movie xml file as input and gives as output the amount
+ * of times a word was found in the summary
  * 
  * @input movies.xml
  * @output key:<title>@<word> value:<wordcount>
- *
+ * 
  */
-public class IFDocFrequencyJob{
-	
+public class IFDocFrequencyJob {
+
 	private static final String OUTPUT_DIR = "output1";
-	
+
 	public static void main(String[] args) throws Exception {
 
 		// Load the Hadoop configuration.
@@ -39,7 +40,9 @@ public class IFDocFrequencyJob{
 
 		/* Define the Mapper and the Reducer */
 		job.setMapperClass(IFDocFrequencyMapper.class);
-		job.setCombinerClass(IFDocFrequencyReducer.class);//Combiner is the same as the reducer
+		job.setCombinerClass(IFDocFrequencyReducer.class);// Combiner is the
+															// same as the
+															// reducer
 		job.setReducerClass(IFDocFrequencyReducer.class);
 
 		/* Define the input and output types */

@@ -8,24 +8,25 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 //<title> <word><frq> -> 
-public class IFWordDocFrequencyReducer extends Reducer<Text, Text, Text, Text>{
-	public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException{
+public class IFWordDocFrequencyReducer extends Reducer<Text, Text, Text, Text> {
+	public void reduce(Text key, Iterable<Text> values, Context context)
+			throws IOException, InterruptedException {
 		int totalWordInDocument = 0;
-		Map<String, Integer> wordFreq= new HashMap<>();
-		for(Text value : values){
+		Map<String, Integer> wordFreq = new HashMap<>();
+		for (Text value : values) {
 			int count;
-			try{
+			try {
 				count = Integer.parseInt(value.toString().split("=")[1]);
-			}
-			catch(NumberFormatException e){
+			} catch (NumberFormatException e) {
 				count = 0;
 			}
 			totalWordInDocument += count;
 			wordFreq.put(value.toString().split("=")[0], count);
 		}
-		for(String word : wordFreq.keySet()){
+		for (String word : wordFreq.keySet()) {
 			int i = wordFreq.get(word);
-			context.write(new Text(word + "@" + key), new Text("" + i + "/" + totalWordInDocument));
+			context.write(new Text(word + "@" + key), new Text("" + i + "/"
+					+ totalWordInDocument));
 		}
 	}
 }
