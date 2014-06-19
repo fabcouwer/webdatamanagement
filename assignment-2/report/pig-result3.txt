@@ -1,0 +1,7 @@
+Heat	{(Robert De Niro),(Jon Voight),(Val Kilmer),(Al Pacino)}	{(Michael Mann)}
+Spider-Man	{(Tobey Maguire),(Kirsten Dunst),(Willem Dafoe)}	{(Sam Raimi)}
+Unforgiven	{(Gene Hackman),(Morgan Freeman),(Clint Eastwood)}	{(Clint Eastwood)}
+Match Point	{(Jonathan Rhys Meyers),(Scarlett  Johansson)}	{(Woody Allen)}
+Marie Antoinette	{(Kirsten Dunst),(Jason  Schwartzman)}	{(Sofia Coppola)}
+Lost in Translation	{(Scarlett  Johansson),(Bill Murray)}	{(Sofia Coppola)}
+A History of Violence	{(Maria Bello),(Ed Harris),(William Hurt),(Vigo Mortensen)}	{(David Cronenberg)}
