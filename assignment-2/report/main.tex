@@ -25,17 +25,18 @@ In our Mapper, this is first done for general movie information, then for inform
 The scripts we used can be found in Listings~\ref{lst:pig-ex1} through~\ref{lst:pig-ex5}.
 
 \section{Inverted File}
-For the inverted file project, we based our own solution on the tf-idf for Hadoop tutorial by Marcello de Sales~\footnote{\url{https://code.google.com/p/hadoop-clusternet/wiki/RunningMapReduceExampleTFIDF}}. To obtain our final result, we split the entire task up into 3 Hadoop jobs, which are started from the file \lstinline{IFJob.java}.
+For the inverted file project, we based our own solution on the tf-idf for Hadoop tutorial by Marcello de Sales~\footnote{\url{https://code.google.com/p/hadoop-clusternet/wiki/RunningMapReduceExampleTFIDF}}. To obtain our final result, we split the entire task up into 3 Hadoop jobs, which are run in sequence from the file \lstinline{IFJob.java}.
 
 \begin{itemize}
 
-\item \textbf{Job 1: Term Frequency - } In this job, the Mapper goes through all of the files in the input directory, and for each term $x$ writes a pair of the form $<x, 1>$ to output. There is currently no check to ignore useless input terms, such as single letters or words like "the". Simply filtering by length is not enough: requiring terms be at least length 4 would filter "the" and "an", but also "UTP" and "CD". A future improvement could therefore be implementing a set of checks that prevent terms that are likely to be irrelevant from being processed by the algorithm.
+\item \textbf{Job 1: Term Frequency -} In this job, the Mapper goes through all of the files in the input directory, and for each term $x$ writes a pair of the form $<x, 1>$ to output. There is currently no check to ignore useless input terms, such as single letters or words like "the". Simply filtering by length is not enough: requiring terms be at least length 4 would filter "the" and "an", but also "UTP" and "CD". A future improvement could therefore be implementing a set of checks that prevent terms that are likely to be irrelevant from being processed by the algorithm.
 The Reducer here is the same as the reducer for the Authors exercise: it simply aggregates the values into a single total count result per term.
-\item \textbf{Job 2:}
-\item \textbf{Job 3:}
-
+\item \textbf{Job 2: Word Count -} The purpose of this job is to count the total number of terms in each document. The Mapper receives as its input the output for the first job as $<title><word>,<frequency>$, and maps this to $<title>, <word><frequency>$. The Reducer then TODO.
+\item \textbf{Job 3: TF-IDF -} This job finalises the entire task by calculating and outputting the required values. The Mapper TODO. Finally, the Reducer TODO
 \end{itemize}
 
+\todo{TODO finish this and maybe add some stuff about what was difficult or what could be improved.}
+\todo{TODO Add stuff about our tests (wikipedia)}
 
 
 

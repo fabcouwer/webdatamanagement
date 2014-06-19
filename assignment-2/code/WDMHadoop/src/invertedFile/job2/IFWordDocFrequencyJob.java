@@ -27,6 +27,7 @@ public class IFWordDocFrequencyJob {
 	 */
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
+		@SuppressWarnings("deprecation")
 		Job job = new Job(conf, "TF - IDF 2");
 		job.setJarByClass(IFWordDocFrequencyJob.class);
 

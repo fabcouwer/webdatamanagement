@@ -22,6 +22,7 @@ public class IDFJob {
 	 */
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
+		@SuppressWarnings("deprecation")
 		Job job = new Job(conf, "TF - IDF 3");
 		job.setJarByClass(IDFJob.class);
 

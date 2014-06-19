@@ -29,19 +29,23 @@ public class IDFReducer extends Reducer<Text, Text, Text, DoubleWritable> {
 			int doccount = Integer.parseInt(frequencies.get(doc).split("/")[0]);
 			int total = Integer.parseInt(frequencies.get(doc).split("/")[1]);
 
+			//Calculate TF-IDF
 			double tf = calculateTF(doccount, total);
 			double idf = calculateIDF(filecount, totalcount);
 			double tfidf = tf * idf;
 
+			//Write results to output
 			context.write(new Text(key + " - " + doc),
 					new DoubleWritable(tfidf));
 		}
 	}
 
+	// Calculate TF by dividing number of times term occurs by number of terms
 	public double calculateTF(int term, int count) {
 		return Double.valueOf(term) / Double.valueOf(count);
 	}
 
+	// Calculate IDF by dividing 
 	public double calculateIDF(int filecount, int count) {
 		double a = (double) filecount;
 		double b;
