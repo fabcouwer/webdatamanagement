@@ -1,7 +1,5 @@
 package invertedFile.job3;
 
-import java.io.IOException;
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
@@ -10,25 +8,17 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 public class IDFJob {
-	private static final String INPUT_DIR = "output2";
-	private static final String OUTPUT_DIR = "output3";
-
-	/**
-	 * @param args
-	 * @throws IOException
-	 * @throws IllegalArgumentException
-	 * @throws InterruptedException
-	 * @throws ClassNotFoundException
-	 */
+	private static final String INPUT_DIR = "temp2";
+	private static final String OUTPUT_DIR = "output";
+	
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
-		@SuppressWarnings("deprecation")
 		Job job = new Job(conf, "TF - IDF 3");
 		job.setJarByClass(IDFJob.class);
 
 		/* Define the Mapper and the Reducer */
 		job.setMapperClass(IDFMapper.class);
-		// job.setCombinerClass(IFDocFrequencyReducer.class);
 		job.setReducerClass(IDFReducer.class);
 
 		/* Define the input and output types */

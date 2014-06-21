@@ -25,7 +25,6 @@ public class IFJob{
 	
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws Exception {
-		long start = System.currentTimeMillis();
 		// ** Job1 ***
 		// Load the Hadoop configuration.
 		Configuration conf = new Configuration();
@@ -64,11 +63,9 @@ public class IFJob{
 
 		/* Define the Mapper and the Reducer */
 		job2.setMapperClass(IFWordDocFrequencyMapper.class);
-		// job.setCombinerClass(IFDocFrequencyReducer.class);
 		job2.setReducerClass(IFWordDocFrequencyReducer.class);
 
 		/* Define the input and output types */
-		//job.setInputFormatClass(XmlInputFormat.class);
 		job2.setOutputKeyClass(Text.class);
 		job2.setOutputValueClass(Text.class);
 
@@ -87,7 +84,6 @@ public class IFJob{
 
 		/* Define the Mapper and the Reducer */
 		job3.setMapperClass(IDFMapper.class);
-		// job.setCombinerClass(IFDocFrequencyReducer.class);
 		job3.setReducerClass(IDFReducer.class);
 
 		/* Define the input and output types */
@@ -101,7 +97,5 @@ public class IFJob{
 		/* Do it! */
 		job3.waitForCompletion(true);
 		//job3.submit();
-		long end = System.currentTimeMillis();
-		System.out.println("time in seconds: " + (end - start)/1000);
 	}
 }

@@ -9,8 +9,10 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 public class IDFReducer extends Reducer<Text, Text, Text, DoubleWritable> {
-
-	private final static int filecount = 6;
+	//retrieved from first map reduce phase
+	//private final static int filecount = 2553589;
+	//for test wiki file
+	private final static int filecount = 1000;
 
 	public void reduce(Text key, Iterable<Text> values, Context context)
 			throws IOException, InterruptedException {

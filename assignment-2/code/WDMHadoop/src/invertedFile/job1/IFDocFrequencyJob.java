@@ -20,11 +20,12 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
  */
 public class IFDocFrequencyJob {
 
-	private static final String OUTPUT_DIR = "output1";
+	private static final String OUTPUT_DIR = "temp1";
 
 	public static void main(String[] args) throws Exception {
 
 		// Load the Hadoop configuration.
+		// each map is over one page in the wikipedia file
 		Configuration conf = new Configuration();
 		conf.set("xmlinput.start", "<page>");
 		conf.set("xmlinput.end", "</page>");
@@ -38,11 +39,9 @@ public class IFDocFrequencyJob {
 		Job job = new Job(conf, "TF - IDF 1");
 		job.setJarByClass(IFDocFrequencyJob.class);
 
-		/* Define the Mapper and the Reducer */
+		/* Define the Mapper, Combiner and the Reducer */
 		job.setMapperClass(IFDocFrequencyMapper.class);
-		job.setCombinerClass(IFDocFrequencyReducer.class);// Combiner is the
-															// same as the
-															// reducer
+		job.setCombinerClass(IFDocFrequencyReducer.class);
 		job.setReducerClass(IFDocFrequencyReducer.class);
 
 		/* Define the input and output types */

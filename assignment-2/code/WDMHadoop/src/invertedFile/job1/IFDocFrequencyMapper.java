@@ -28,9 +28,9 @@ public class IFDocFrequencyMapper extends
 			String title = el.getChildText("title");
 			String text = el.getChild("revision").getChildText("text");
 			if (text != null) {
-				Pattern p = Pattern.compile("\\w+");
+				Pattern p = Pattern.compile("\\w+");//only words[a-zA-Z]+
 				Matcher m = p.matcher(text.toString());
-				// TODO should we do this in a loop???
+				// while we find words map them to <title>, <word><1>
 				while (m.find()) {
 					String word = m.group().toLowerCase();
 					context.write(new Text(title + "@" + word),
