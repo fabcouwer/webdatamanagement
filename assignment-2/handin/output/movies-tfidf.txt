@@ -1,0 +1,435 @@
+a - Heat	0.008797916227513868
+a - Match Point	0.008797916227513868
+a - A History of Violence	0.017595832455027736
+a - Spider-Man	0.013196874341270802
+a - Unforgiven	0.03079270679629854
+about - Marie Antoinette	0.7781512503836436
+abused - Marie Antoinette	0.7781512503836436
+after - Spider-Man	0.7781512503836436
+aging - Unforgiven	0.7781512503836436
+ago - Heat	0.7781512503836436
+all - A History of Violence	0.7781512503836436
+an - Match Point	0.7781512503836436
+and - Marie Antoinette	0.0
+and - Heat	0.0
+and - Match Point	0.0
+and - Spider-Man	0.0
+and - A History of Violence	0.0
+and - Unforgiven	0.0
+antoinette - Marie Antoinette	0.7781512503836436
+antonia - Marie Antoinette	0.7781512503836436
+anyone - A History of Violence	0.7781512503836436
+anything - Heat	0.7781512503836436
+archduchess - Marie Antoinette	0.7781512503836436
+are - Heat	0.7781512503836436
+armored - Heat	0.7781512503836436
+around - Heat	0.7781512503836436
+as - Heat	0.015836249209524964
+as - Match Point	0.015836249209524964
+as - A History of Violence	0.015836249209524964
+as - Spider-Man	0.015836249209524964
+as - Unforgiven	0.015836249209524964
+at - Heat	0.04402281476392031
+at - Match Point	0.04402281476392031
+at - A History of Violence	0.04402281476392031
+at - Unforgiven	0.04402281476392031
+attracts - Unforgiven	0.7781512503836436
+aunt - Spider-Man	0.7781512503836436
+austria - Marie Antoinette	0.7781512503836436
+banks - Heat	0.7781512503836436
+based - Marie Antoinette	0.7781512503836436
+be - Match Point	0.7781512503836436
+been - Unforgiven	0.7781512503836436
+between - Match Point	0.23856062735983122
+between - Unforgiven	0.23856062735983122
+big - Heat	0.3180808364797749
+big - Unforgiven	0.15904041823988746
+bill - Unforgiven	0.7781512503836436
+billing - Unforgiven	0.7781512503836436
+birth - Marie Antoinette	0.7781512503836436
+bitten - Spider-Man	0.7781512503836436
+blurring - Unforgiven	0.7781512503836436
+book - Marie Antoinette	0.7781512503836436
+botched - Heat	0.7781512503836436
+both - Match Point	0.7781512503836436
+bounty - Unforgiven	0.7781512503836436
+boy - Match Point	0.7781512503836436
+build - Unforgiven	0.7781512503836436
+business - A History of Violence	0.7781512503836436
+but - Match Point	0.08804562952784062
+but - A History of Violence	0.029348543175946873
+but - Spider-Man	0.029348543175946873
+but - Unforgiven	0.029348543175946873
+by - Heat	0.1505149978319906
+by - Spider-Man	0.0752574989159953
+by - Unforgiven	0.0752574989159953
+calls - Unforgiven	0.7781512503836436
+can - Heat	0.7781512503836436
+cars - Heat	0.7781512503836436
+chagrin - A History of Violence	0.7781512503836436
+characters - A History of Violence	0.7781512503836436
+children - Unforgiven	0.7781512503836436
+chloe - Match Point	0.7781512503836436
+choose - Match Point	0.7781512503836436
+chris - Match Point	0.7781512503836436
+city - Spider-Man	0.7781512503836436
+coming - Heat	0.7781512503836436
+compromising - A History of Violence	0.7781512503836436
+concerning - A History of Violence	0.7781512503836436
+confronted - A History of Violence	0.7781512503836436
+cops - Heat	0.7781512503836436
+corner - Heat	0.7781512503836436
+could - Match Point	0.7781512503836436
+couple - Unforgiven	0.7781512503836436
+cowboys - Unforgiven	0.7781512503836436
+crew - Heat	0.7781512503836436
+crime - A History of Violence	0.7781512503836436
+criminal - Heat	0.7781512503836436
+crops - Unforgiven	0.7781512503836436
+crucial - Heat	0.7781512503836436
+cut - Unforgiven	0.7781512503836436
+dafoe - Spider-Man	0.7781512503836436
+death - Spider-Man	0.7781512503836436
+decides - Spider-Man	0.7781512503836436
+dictum - Heat	0.7781512503836436
+disobeys - Heat	0.7781512503836436
+dispose - Spider-Man	0.7781512503836436
+division - Heat	0.7781512503836436
+dunst - Spider-Man	0.7781512503836436
+e - Match Point	0.7781512503836436
+else - A History of Violence	0.23856062735983122
+else - Spider-Man	0.23856062735983122
+ending - Heat	0.7781512503836436
+even - Spider-Man	0.7781512503836436
+every - A History of Violence	0.7781512503836436
+evil - Spider-Man	0.7781512503836436
+existence - A History of Violence	0.7781512503836436
+eyes - Match Point	0.7781512503836436
+falls - Heat	0.23856062735983122
+falls - Match Point	0.23856062735983122
+family - A History of Violence	0.7781512503836436
+farm - Unforgiven	0.7781512503836436
+fated - Marie Antoinette	0.7781512503836436
+fianc - Match Point	0.7781512503836436
+field - Spider-Man	0.7781512503836436
+find - Match Point	0.7781512503836436
+flat - Heat	0.7781512503836436
+foils - A History of Violence	0.7781512503836436
+follow - A History of Violence	0.7781512503836436
+following - A History of Violence	0.7781512503836436
+for - Heat	0.04402281476392031
+for - Spider-Man	0.04402281476392031
+for - A History of Violence	0.04402281476392031
+for - Unforgiven	0.04402281476392031
+former - Match Point	0.23856062735983122
+former - A History of Violence	0.23856062735983122
+france - Marie Antoinette	0.7781512503836436
+fraser - Marie Antoinette	0.7781512503836436
+from - Marie Antoinette	0.23856062735983122
+from - A History of Violence	0.23856062735983122
+fulfilling - A History of Violence	0.7781512503836436
+full - Unforgiven	0.7781512503836436
+genetically - Spider-Man	0.7781512503836436
+get - Unforgiven	0.7781512503836436
+girl - Spider-Man	0.7781512503836436
+goblin - Spider-Man	0.7781512503836436
+gone - Unforgiven	0.7781512503836436
+good - Unforgiven	0.7781512503836436
+green - Spider-Man	0.7781512503836436
+gun - Unforgiven	0.7781512503836436
+handed - Unforgiven	0.7781512503836436
+hanna - Heat	0.7781512503836436
+hard - Unforgiven	0.7781512503836436
+harris - Spider-Man	0.7781512503836436
+has - Match Point	0.0752574989159953
+has - Spider-Man	0.1505149978319906
+has - Unforgiven	0.0752574989159953
+have - Heat	0.23856062735983122
+have - A History of Violence	0.23856062735983122
+he - Heat	0.029348543175946873
+he - Match Point	0.058697086351893746
+he - Spider-Man	0.058697086351893746
+he - Unforgiven	0.029348543175946873
+heat - Heat	0.7781512503836436
+heavy - Unforgiven	0.7781512503836436
+her - Marie Antoinette	0.7781512503836436
+heroics - A History of Violence	0.7781512503836436
+heroism - Unforgiven	0.7781512503836436
+hewett - Match Point	0.7781512503836436
+him - Heat	0.23856062735983122
+him - Spider-Man	0.23856062735983122
+himself - Unforgiven	0.7781512503836436
+his - Heat	0.021114998946033286
+his - Match Point	0.0052787497365083215
+his - A History of Violence	0.021114998946033286
+his - Spider-Man	0.010557499473016643
+his - Unforgiven	0.021114998946033286
+history - Marie Antoinette	0.7781512503836436
+homicide - Heat	0.7781512503836436
+house - Unforgiven	0.7781512503836436
+humble - A History of Violence	0.7781512503836436
+hunt - Heat	0.7781512503836436
+hunted - Heat	0.7781512503836436
+hunters - Heat	0.7781512503836436
+if - Heat	0.23856062735983122
+if - Spider-Man	0.23856062735983122
+ill - Marie Antoinette	0.7781512503836436
+imperial - Marie Antoinette	0.7781512503836436
+in - Marie Antoinette	0.0
+in - Heat	0.0
+in - Match Point	0.0
+in - A History of Violence	0.0
+in - Spider-Man	0.0
+in - Unforgiven	0.0
+including - Heat	0.7781512503836436
+incredible - Spider-Man	0.7781512503836436
+instructor - Match Point	0.7781512503836436
+is - Heat	0.008797916227513868
+is - Match Point	0.008797916227513868
+is - A History of Violence	0.017595832455027736
+is - Spider-Man	0.008797916227513868
+is - Unforgiven	0.03519166491005547
+it - Match Point	0.10034333188799373
+it - Spider-Man	0.10034333188799373
+it - Unforgiven	0.10034333188799373
+job - Heat	0.7781512503836436
+juggle - Match Point	0.7781512503836436
+just - Unforgiven	0.7781512503836436
+justice - Unforgiven	0.7781512503836436
+keep - Unforgiven	0.7781512503836436
+kid - Unforgiven	0.7781512503836436
+kill - Unforgiven	0.7781512503836436
+killer - Unforgiven	0.7781512503836436
+know - Match Point	0.7781512503836436
+last - Heat	0.7781512503836436
+later - Marie Antoinette	0.7781512503836436
+lead - Unforgiven	0.7781512503836436
+life - Marie Antoinette	0.0752574989159953
+life - Heat	0.1505149978319906
+life - Unforgiven	0.0752574989159953
+lines - Unforgiven	0.7781512503836436
+little - Unforgiven	0.7781512503836436
+lives - Heat	0.10034333188799373
+lives - A History of Violence	0.10034333188799373
+lives - Unforgiven	0.10034333188799373
+living - Unforgiven	0.7781512503836436
+long - Heat	0.7781512503836436
+looking - Match Point	0.7781512503836436
+love - Heat	0.15904041823988746
+love - Match Point	0.3180808364797749
+lt - Heat	0.7781512503836436
+lurks - A History of Violence	0.7781512503836436
+luscious - Match Point	0.7781512503836436
+maguire - Spider-Man	0.7781512503836436
+main - A History of Violence	0.7781512503836436
+make - Unforgiven	0.7781512503836436
+man - A History of Violence	0.10034333188799373
+man - Spider-Man	0.10034333188799373
+man - Unforgiven	0.10034333188799373
+many - Heat	0.7781512503836436
+marie - Marie Antoinette	0.7781512503836436
+marriage - A History of Violence	0.7781512503836436
+means - Spider-Man	0.7781512503836436
+meets - Match Point	0.7781512503836436
+mentor - Heat	0.7781512503836436
+midwest - A History of Violence	0.7781512503836436
+misunderstood - Marie Antoinette	0.7781512503836436
+modified - Spider-Man	0.7781512503836436
+moment - Heat	0.7781512503836436
+money - Heat	0.7781512503836436
+more - Match Point	0.0752574989159953
+more - A History of Violence	0.1505149978319906
+more - Unforgiven	0.0752574989159953
+morning - Spider-Man	0.7781512503836436
+most - Marie Antoinette	0.7781512503836436
+move - A History of Violence	0.7781512503836436
+munny - Unforgiven	0.7781512503836436
+must - Match Point	0.23856062735983122
+must - Spider-Man	0.23856062735983122
+mysterious - A History of Violence	0.7781512503836436
+myth - Unforgiven	0.7781512503836436
+nag - Unforgiven	0.7781512503836436
+ned - Unforgiven	0.7781512503836436
+neighborhood - A History of Violence	0.7781512503836436
+neil - Heat	0.7781512503836436
+never - Heat	0.7781512503836436
+new - Spider-Man	0.7781512503836436
+news - A History of Violence	0.7781512503836436
+next - Spider-Man	0.7781512503836436
+night - A History of Violence	0.7781512503836436
+no - Unforgiven	0.7781512503836436
+nola - Match Point	0.7781512503836436
+normal - Unforgiven	0.7781512503836436
+occurrences - A History of Violence	0.7781512503836436
+of - Marie Antoinette	0.019795311511906204
+of - Heat	0.006598437170635401
+of - Spider-Man	0.019795311511906204
+of - A History of Violence	0.013196874341270802
+of - Unforgiven	0.019795311511906204
+off - Match Point	0.23856062735983122
+off - Unforgiven	0.23856062735983122
+old - Unforgiven	0.7781512503836436
+on - Marie Antoinette	0.015836249209524964
+on - Heat	0.015836249209524964
+on - Match Point	0.015836249209524964
+on - Spider-Man	0.015836249209524964
+on - Unforgiven	0.015836249209524964
+one - Heat	0.10034333188799373
+one - A History of Violence	0.10034333188799373
+one - Unforgiven	0.10034333188799373
+onto - Heat	0.7781512503836436
+order - Spider-Man	0.23856062735983122
+order - Unforgiven	0.23856062735983122
+ornery - Unforgiven	0.7781512503836436
+other - Spider-Man	0.7781512503836436
+out - Heat	0.23856062735983122
+out - A History of Violence	0.23856062735983122
+over - A History of Violence	0.7781512503836436
+owner - A History of Violence	0.7781512503836436
+parker - Spider-Man	0.7781512503836436
+parkers - Spider-Man	0.7781512503836436
+partner - Unforgiven	0.7781512503836436
+peace - Unforgiven	0.7781512503836436
+people - A History of Violence	0.23856062735983122
+people - Unforgiven	0.23856062735983122
+personal - Heat	0.7781512503836436
+peter - Spider-Man	0.7781512503836436
+pines - Spider-Man	0.7781512503836436
+place - A History of Violence	0.7781512503836436
+plans - Spider-Man	0.7781512503836436
+plastered - A History of Violence	0.7781512503836436
+point - Match Point	0.7781512503836436
+police - Heat	0.7781512503836436
+popular - A History of Violence	0.7781512503836436
+powers - Spider-Man	0.7781512503836436
+pretty - Match Point	0.7781512503836436
+prey - Heat	0.7781512503836436
+pro - Match Point	0.7781512503836436
+process - A History of Violence	0.7781512503836436
+professional - Heat	0.7781512503836436
+prostitutes - Unforgiven	0.7781512503836436
+put - Heat	0.10034333188799373
+put - Spider-Man	0.10034333188799373
+put - Unforgiven	0.10034333188799373
+puts - Heat	0.7781512503836436
+queen - Marie Antoinette	0.7781512503836436
+quiet - A History of Violence	0.23856062735983122
+quiet - Unforgiven	0.23856062735983122
+raising - Unforgiven	0.7781512503836436
+reformed - Unforgiven	0.7781512503836436
+regroup - Heat	0.7781512503836436
+relations - A History of Violence	0.7781512503836436
+relationship - A History of Violence	0.7781512503836436
+restaurant - A History of Violence	0.7781512503836436
+retirement - Heat	0.7781512503836436
+rid - Spider-Man	0.7781512503836436
+rides - Unforgiven	0.7781512503836436
+right - Match Point	0.7781512503836436
+robbery - Heat	0.7781512503836436
+robertson - Spider-Man	0.7781512503836436
+s - Marie Antoinette	0.029348543175946873
+s - Match Point	0.08804562952784062
+s - Spider-Man	0.029348543175946873
+s - Unforgiven	0.029348543175946873
+saddles - Unforgiven	0.7781512503836436
+schofield - Unforgiven	0.7781512503836436
+school - Spider-Man	0.7781512503836436
+score - Heat	0.7781512503836436
+seconds - Heat	0.7781512503836436
+secretly - Spider-Man	0.7781512503836436
+sees - Spider-Man	0.7781512503836436
+set - Heat	0.7781512503836436
+sheriff - Unforgiven	0.7781512503836436
+similar - Heat	0.7781512503836436
+sister - Match Point	0.7781512503836436
+situation - A History of Violence	0.7781512503836436
+skills - Spider-Man	0.7781512503836436
+so - Unforgiven	0.7781512503836436
+some - Match Point	0.7781512503836436
+someone - Spider-Man	0.7781512503836436
+spider - Spider-Man	0.7781512503836436
+spot - Heat	0.7781512503836436
+stage - Heat	0.7781512503836436
+stall - A History of Violence	0.7781512503836436
+stalls - A History of Violence	0.7781512503836436
+stemmed - A History of Violence	0.7781512503836436
+story - Marie Antoinette	0.7781512503836436
+suspenseful - Heat	0.7781512503836436
+t - Heat	0.7781512503836436
+target - Spider-Man	0.7781512503836436
+targets - Heat	0.7781512503836436
+taught - Heat	0.7781512503836436
+team - Heat	0.7781512503836436
+tells - Marie Antoinette	0.7781512503836436
+tennis - Match Point	0.7781512503836436
+than - Match Point	0.23856062735983122
+than - A History of Violence	0.23856062735983122
+that - Heat	0.7781512503836436
+the - Marie Antoinette	0.0
+the - Heat	0.0
+the - Match Point	0.0
+the - A History of Violence	0.0
+the - Spider-Man	0.0
+the - Unforgiven	0.0
+their - Heat	0.7781512503836436
+them - Match Point	0.7781512503836436
+then - Unforgiven	0.7781512503836436
+these - A History of Violence	0.7781512503836436
+they - Heat	0.7781512503836436
+thirty - Heat	0.7781512503836436
+this - A History of Violence	0.7781512503836436
+threat - Spider-Man	0.7781512503836436
+thus - Heat	0.7781512503836436
+time - Unforgiven	0.7781512503836436
+to - Marie Antoinette	0.0
+to - Heat	0.0
+to - Match Point	0.0
+to - A History of Violence	0.0
+to - Spider-Man	0.0
+to - Unforgiven	0.0
+together - Heat	0.7781512503836436
+tom - Match Point	0.23856062735983122
+tom - A History of Violence	0.23856062735983122
+town - Unforgiven	0.7781512503836436
+trail - Heat	0.7781512503836436
+tries - Match Point	0.23856062735983122
+tries - Unforgiven	0.23856062735983122
+trip - Spider-Man	0.7781512503836436
+troubled - Heat	0.7781512503836436
+try - Heat	0.15904041823988746
+try - Unforgiven	0.3180808364797749
+trying - Unforgiven	0.7781512503836436
+turn - Heat	0.7781512503836436
+two - Unforgiven	0.7781512503836436
+uncle - Spider-Man	0.7781512503836436
+unsatisfied - Unforgiven	0.7781512503836436
+up - Spider-Man	0.23856062735983122
+up - Unforgiven	0.23856062735983122
+use - Spider-Man	0.7781512503836436
+vaults - Heat	0.7781512503836436
+villainy - Unforgiven	0.7781512503836436
+vincent - Heat	0.7781512503836436
+wakes - Spider-Man	0.7781512503836436
+walk - Heat	0.7781512503836436
+ways - Heat	0.7781512503836436
+well - Match Point	0.7781512503836436
+what - Match Point	0.7781512503836436
+where - A History of Violence	0.7781512503836436
+while - Heat	0.7781512503836436
+whisky - Unforgiven	0.7781512503836436
+whore - Unforgiven	0.7781512503836436
+whores - Unforgiven	0.7781512503836436
+wife - Unforgiven	0.7781512503836436
+william - Unforgiven	0.7781512503836436
+wilton - Match Point	0.7781512503836436
+with - Match Point	0.10034333188799373
+with - Spider-Man	0.10034333188799373
+with - Unforgiven	0.10034333188799373
+witnessing - Spider-Man	0.7781512503836436
+woman - Marie Antoinette	0.7781512503836436
+women - Match Point	0.7781512503836436
+work - Match Point	0.7781512503836436
+wrong - Match Point	0.7781512503836436
+you - Heat	0.7781512503836436
+young - Unforgiven	0.7781512503836436
+your - Heat	0.7781512503836436
