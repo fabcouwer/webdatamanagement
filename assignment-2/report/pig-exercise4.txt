@@ -1,6 +1,6 @@
--- Write a PIG program that retrieves the actors that are also director of some movie: output a tuple
--- for each artist, with two nested bags, one with the movies s/he played a role in, and one with the
--- movies s/he directed.
+-- Write a PIG program that retrieves the actors that are also director of some 
+-- movie: output a tuple for each artist, with two nested bags, one with the 
+-- movies s/he played a role in, and one with the movies s/he directed.
 
 -- title and actor
 titlesfile = LOAD 'title-and-actor.txt'
