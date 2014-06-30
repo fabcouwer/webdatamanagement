@@ -239,11 +239,11 @@ public class StackEval implements ContentHandler {
 	}
 	
 	public static void main(String[] args) throws Exception{
-		if(args.length>0 && args[0].equals("testrun")){
+		if(args.length>0 && args[1].equals("testrun")){
 			TestQueries.main(null);
 		}
-		else if(args.length==2){
-			InputHandler.main(null);
+		else if(args.length==3){
+			InputHandler.main(args);
 		}
 		else{
 			System.out.println("To do a testrun call:\nStackEval testrun");

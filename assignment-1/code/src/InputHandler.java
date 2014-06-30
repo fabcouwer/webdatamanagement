@@ -250,11 +250,11 @@ public class InputHandler {
 	}
 
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
-		if (args.length < 2) {
+		if (args.length < 3) {
 			System.out.println("two arguments needed:");
 			System.out.println("InputHandler <xquery file> <xml file>");
 		} else {
-			File XQueryFile = new File(args[0]);
+			File XQueryFile = new File(args[1]);
 			BufferedReader XQueryFileReader = new BufferedReader(new FileReader(XQueryFile));
 
 			String XQueryString = "";
@@ -274,7 +274,7 @@ public class InputHandler {
 
 			StackEval eval = new StackEval(t.getPatternNode());
 			reader.setContentHandler(eval);
-			reader.parse(args[1]);
+			reader.parse(args[2]);
 		}
 	}
 
